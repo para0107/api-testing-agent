@@ -1,16 +1,15 @@
 """
 LLM integration module for test generation
 """
-
+from .agents.data_generator import DataGeneratorAgent
+from .agents.edge_case_agent import EdgeCaseAgent
+from .agents.report_writer import ReportWriterAgent
+from .agents.test_designer import TestDesignerAgent
 from .llama_client import LlamaClient
-from .agents import (
-    AnalyzerAgent,
-    TestDesignerAgent,
-    EdgeCaseAgent,
-    DataGeneratorAgent,
-    ReportWriterAgent
-)
-from .prompts import PromptBuilder, PromptTemplates
+from agents import AnalyzerAgent, data_generator, test_designer, report_writer
+from prompts import prompt_builder, prompt_templates
+from .prompts.prompt_builder import PromptBuilder
+from .prompts.prompt_templates import PromptTemplates
 from .response_parser import ResponseParser
 
 

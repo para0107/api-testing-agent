@@ -27,23 +27,17 @@ class SpecificationBuilder:
         """
         logger.info("Building API specification")
 
-        specification = {
-            'openapi': self.spec_version,
-            'info': self.build_info(parsed_data),
-            'servers': self.build_servers(parsed_data),
-            'paths': self.build_paths(parsed_data),
-            'components': self.build_components(parsed_data),
-            'security': self.build_security(parsed_data),
-            'tags': self.build_tags(parsed_data)
-        }
+        specification = {'openapi': self.spec_version, 'info': self.build_info(parsed_data),
+                         'servers': self.build_servers(parsed_data), 'paths': self.build_paths(parsed_data),
+                         'components': self.build_components(parsed_data), 'security': self.build_security(parsed_data),
+                         'tags': self.build_tags(parsed_data), 'x-test-metadata': {
+                'services': parsed_data.get('services', []),
+                'validators': parsed_data.get('validators', []),
+                'dependencies': parsed_data.get('dependencies', []),
+                'business_logic': self.extract_business_logic(parsed_data)
+            }}
 
         # Add custom extensions for testing
-        specification['x-test-metadata'] = {
-            'services': parsed_data.get('services', []),
-            'validators': parsed_data.get('validators', []),
-            'dependencies': parsed_data.get('dependencies', []),
-            'business_logic': self.extract_business_logic(parsed_data)
-        }
 
         return specification
 

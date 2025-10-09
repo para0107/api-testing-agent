@@ -9,11 +9,11 @@ import json
 from typing import Dict, Any, Optional, List
 from tenacity import retry, stop_after_attempt, wait_exponential
 
-from config import llama_config
+from config import LlamaConfig
 
 logger = logging.getLogger(__name__)
 
-
+llama_config = LlamaConfig()
 class LlamaClient:
     """Client for interacting with Llama 3.2 via LM Studio"""
 

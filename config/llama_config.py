@@ -72,3 +72,4 @@ class LlamaConfig:
 
 # Global instance
 llama_config = LlamaConfig()
+print(llama_config.top_k)
