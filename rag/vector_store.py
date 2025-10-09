@@ -11,7 +11,7 @@ from pathlib import Path
 import json
 
 from config import rag_config, paths
-
+rag_config = rag_config.RAGConfig()
 logger = logging.getLogger(__name__)
 
 

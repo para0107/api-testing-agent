@@ -8,7 +8,7 @@ import torch.nn.functional as F
 
 from config import rl_config
 
-
+rl_config=rl_config.RLConfig()
 class ValueNetwork(nn.Module):
     """Neural network for value function (state evaluation)"""
 

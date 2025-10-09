@@ -11,6 +11,7 @@ from dataclasses import dataclass
 import torch
 
 from config import rl_config
+rl_config = rl_config.RLConfig()
 
 logger = logging.getLogger(__name__)
 
@@ -92,54 +93,54 @@ class ExperienceBuffer:
         return batch
 
 # python
-def _prioritized_sample(self, batch_size: int) -> List[Experience]:
-    """Prioritized experience replay sampling"""
-    if len(self.buffer) == 0:
-        return []
+    def _prioritized_sample(self, batch_size: int) -> List[Experience]:
+        """Prioritized experience replay sampling"""
+        if len(self.buffer) == 0:
+            return []
 
-    batch_size = min(batch_size, len(self.buffer))
+        batch_size = min(batch_size, len(self.buffer))
 
-    # Calculate sampling probabilities
-    priorities = np.asarray(self.priorities, dtype=np.float64) + self.epsilon
-    probs = priorities ** self.alpha
-    probs = probs / probs.sum()
+        # Calculate sampling probabilities
+        priorities = np.asarray(self.priorities, dtype=np.float64) + self.epsilon
+        probs = priorities ** self.alpha
+        probs = probs / probs.sum()
 
-    # Sample indices (without replacement)
-    indices = np.random.choice(
-        len(self.buffer),
-        size=batch_size,
-        replace=False,
-        p=probs
-    )
+        # Sample indices (without replacement)
+        indices = np.random.choice(
+            len(self.buffer),
+            size=batch_size,
+            replace=False,
+            p=probs
+        )
 
-    batch = [self.buffer[i] for i in indices]
+        batch = [self.buffer[i] for i in indices]
 
-    self.total_sampled += len(batch)
-    return batch
+        self.total_sampled += len(batch)
+        return batch
 
-def update_priorities(self, indices: List[int], td_errors) -> None:
-    """
-    Update priorities for prioritized replay.
+    def update_priorities(self, indices: List[int], td_errors) -> None:
+        """
+        Update priorities for prioritized replay.
 
-    Args:
-        indices: Indices of sampled experiences.
-        td_errors: TD-error per sampled experience (tensor, list or ndarray).
-    """
-    if isinstance(td_errors, torch.Tensor):
-        td_errors = td_errors.detach().cpu().numpy()
-    td_errors = np.asarray(td_errors, dtype=np.float64)
+        Args:
+            indices: Indices of sampled experiences.
+            td_errors: TD-error per sampled experience (tensor, list or ndarray).
+        """
+        if isinstance(td_errors, torch.Tensor):
+            td_errors = td_errors.detach().cpu().numpy()
+        td_errors = np.asarray(td_errors, dtype=np.float64)
 
-    new_priorities = np.abs(td_errors) + self.epsilon
+        new_priorities = np.abs(td_errors) + self.epsilon
 
-    for idx, p in zip(indices, new_priorities):
-        p = float(p if np.isfinite(p) and p > 0 else self.epsilon)
-        # Update backing priority store
-        self.priorities[idx] = p
-        # Keep the Experience's priority in sync (optional)
-        try:
-            self.buffer[idx].priority = p
-        except IndexError:
-            pass
+        for idx, p in zip(indices, new_priorities):
+            p = float(p if np.isfinite(p) and p > 0 else self.epsilon)
+            # Update backing priority store
+            self.priorities[idx] = p
+            # Keep the Experience's priority in sync (optional)
+            try:
+                self.buffer[idx].priority = p
+            except IndexError:
+                pass
 
-def __len__(self) -> int:
-    return len(self.buffer)
+    def __len__(self) -> int:
+        return len(self.buffer)

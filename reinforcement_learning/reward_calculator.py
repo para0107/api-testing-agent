@@ -7,7 +7,7 @@ from typing import Dict, Any, List
 import numpy as np
 
 from config import rl_config
-
+rl_config = rl_config.RLConfig()
 logger = logging.getLogger(__name__)
 
 

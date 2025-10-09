@@ -17,7 +17,7 @@ from .experience_buffer import ExperienceBuffer
 from .reward_calculator import RewardCalculator
 
 logger = logging.getLogger(__name__)
-
+rl_config = rl_config.RLConfig()
 @dataclass
 class State:
     """RL state representation"""
@@ -206,7 +206,7 @@ class RLOptimizer:
 
         # Complexity score
         avg_assertions = np.mean([len(t.get('assertions', [])) for t in test_cases])
-        features[1] = avg_assertions / 10.0
+        features[1] = avg_assertions / 10
 
         # Priority score
         priority_scores = {'authentication': 1.0, 'validation': 0.8, 'happy_path': 0.6}

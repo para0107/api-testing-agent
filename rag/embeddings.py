@@ -14,7 +14,10 @@ from pathlib import Path
 
 from config import rag_config, paths
 
+rag_config = rag_config.RAGConfig()
+
 logger = logging.getLogger(__name__)
+
 
 
 class EmbeddingManager:
