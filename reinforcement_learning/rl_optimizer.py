@@ -11,10 +11,10 @@ from typing import Dict, List, Any, Tuple, Optional
 from dataclasses import dataclass
 
 from config import rl_config
-from .policy_network import PolicyNetwork
-from .value_network import ValueNetwork
-from .experience_buffer import ExperienceBuffer
-from .reward_calculator import RewardCalculator
+from reinforcement_learning.policy_network import PolicyNetwork
+from reinforcement_learning.value_network import ValueNetwork
+from reinforcement_learning.experience_buffer import ExperienceBuffer
+from reinforcement_learning.reward_calculator import RewardCalculator
 
 logger = logging.getLogger(__name__)
 rl_config = rl_config.RLConfig()
