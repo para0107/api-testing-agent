@@ -2774,7 +2774,7 @@ Expected ReportGenerator class would:
 
 ---
 
-## Data Flow & Processing Pipeline
+# Data Flow & Processing Pipeline
 
 ### Complete System Flow:
 
