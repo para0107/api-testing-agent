@@ -10,7 +10,7 @@ import json
 
 from config import settings
 from core.engine import CoreEngine
-from utils.validators import validate_api_spec, validate_test_case
+from utils.validators import is_valid_test_case, is_valid_api_spec
 
 logger = logging.getLogger(__name__)
 
@@ -151,7 +151,7 @@ class TestGenerationPipeline:
         api_spec = self.stage_results.get('parsing', {})
 
         # Validate API specification
-        if not validate_api_spec(api_spec):
+        if not is_valid_api_spec(api_spec):
             raise ValueError("Invalid API specification")
 
         return api_spec
@@ -171,7 +171,7 @@ class TestGenerationPipeline:
         # Validate generated tests
         valid_tests = []
         for test in test_cases:
-            if validate_test_case(test):
+            if is_valid_test_case(test):
                 valid_tests.append(test)
             else:
                 logger.warning(f"Invalid test case generated: {test.get('name', 'unknown')}")
