@@ -1,0 +1,3263 @@
+{
+  "id": 37,
+  "title": "Role enforcement(T)(for users)-DONE",
+  "description": null,
+  "preconditions": null,
+  "suites": [
+    {
+      "id": 40,
+      "title": "Logged in",
+      "description": null,
+      "preconditions": null,
+      "suites": [
+        {
+          "id": 42,
+          "title": "Logged in as admin-positive",
+          "description": null,
+          "preconditions": null,
+          "suites": [
+          ],
+          "cases": [
+            {
+              "id": 232,
+              "title": "Get all keys-successful",
+              "description": "Getting all keys is an operation only for an admin",
+              "preconditions": "Admin is logged in and there is at least one key in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/keys",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 233,
+              "title": "Create key-successful",
+              "description": "Creating a key only possible for an admin",
+              "preconditions": "Admin is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a POST request to /api/keys",
+                  "expected_result": "",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 234,
+              "title": "Search key by ID--successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one key in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/keys/{keyId}",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 235,
+              "title": "Update the serial number of a key-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one key in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PUT request to /api/keys/{keyId}",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 236,
+              "title": "Delete key-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one key in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a DEL request to /api/keys/{keyId}",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 237,
+              "title": "Get all users-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one user in the db",
+              "postconditions": "send a GET request to /api/users",
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 238,
+              "title": "Create user-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a POST request to /api/users",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 239,
+              "title": "Get user by Id-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/users/{userId}",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 240,
+              "title": "Delete user-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a DEL request to /api/users/{userId}",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 241,
+              "title": "Update user by first-name-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to }/api/users/:userid/first-name",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 242,
+              "title": "Update user by last-name-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to }/api/users/:userid/last-name",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 243,
+              "title": "Update user by license plate-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to }/api/users/:userid/license-plate",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 244,
+              "title": "Update user by password-successful",
+              "description": "Operation only possible for an admin",
+              "preconditions": "Admin is logged in and there is at least one user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to }/api/users/:userid/password",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            }
+          ]
+        },
+        {
+          "id": 43,
+          "title": "Logged in as user-negative",
+          "description": null,
+          "preconditions": null,
+          "suites": [
+          ],
+          "cases": [
+            {
+              "id": 245,
+              "title": "Get all keys-successful",
+              "description": "User only should not be able to see all keys",
+              "preconditions": "The user is logged in and there is at least one key and one different user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/keys",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 246,
+              "title": "Create key-successful",
+              "description": "User only should not be able to create a key",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a POST request to /api/keys",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 247,
+              "title": "Search key by ID-successful",
+              "description": "User should not be able to return any key",
+              "preconditions": "There should be a key in the db and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/keys/keyId",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 248,
+              "title": "Update the serial number of a key-successful",
+              "description": "User should not be able to update a key",
+              "preconditions": "there is at least one key and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PUT request to /api/keys/keyId",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 249,
+              "title": "Delete key-successful",
+              "description": "USer should not be able to delete a key",
+              "preconditions": "There is at least one key in the database and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a DEL request to /api/keys/keyId",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 250,
+              "title": "Get all users-successful",
+              "description": "user should not be able to return(see) all other users",
+              "preconditions": "There are at least to users in the database and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/users",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 251,
+              "title": "Create user-successful",
+              "description": "user should not be able to create new users",
+              "preconditions": null,
+              "postconditions": "user is logged in",
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PUT request to /api/users",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 252,
+              "title": "Get other user by Id-successful",
+              "description": "user should not be able to see any other user",
+              "preconditions": "there are at least 2 users in the db and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/users/:userid",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 254,
+              "title": "Update other user by first-name-successful",
+              "description": "user should not be able to update other user",
+              "preconditions": "There are 2 users in the db and one user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userid/first-name",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 255,
+              "title": "Update other user by last-name-successful",
+              "description": "user should not be able to update other user",
+              "preconditions": "There are at least 2 users in the db and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userId/last-name",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 256,
+              "title": "Update other user by license plate-successful",
+              "description": "user should not be able to update other user",
+              "preconditions": "There are at least 2 users in the db and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userId/license-plate",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 257,
+              "title": "Update other user by password-successful",
+              "description": "user should not be able to update other user",
+              "preconditions": "There are at least 2 users in the db and user is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userId/password",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 370,
+              "title": "Delete user-successful",
+              "description": "User should not be able to delete any user",
+              "preconditions": "There are at least 2 users in the db and one is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a DELETE request to /api/users/userId",
+                  "expected_result": "403 Forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+                {
+                  "title": "userId",
+                  "values": [
+                    "-"
+                  ]
+                }
+              ],
+              "is_muted": "no"
+            }
+          ]
+        },
+        {
+          "id": 47,
+          "title": "Logged in as user-positive",
+          "description": null,
+          "preconditions": null,
+          "suites": [
+          ],
+          "cases": [
+            {
+              "id": 295,
+              "title": "Get itself by id-successful",
+              "description": "User should be able to only see its attributes",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/users/:userId",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 297,
+              "title": "Update itself by first-name-successful",
+              "description": "USer should only be able to update itself",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userId/first-name",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 298,
+              "title": "Update itself by last-name-successful",
+              "description": "User should only be able to update itself",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userId/last-name",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 299,
+              "title": "Update itself by license plate-successful",
+              "description": "User should only be able to update itself",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userId/licence-plate",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 300,
+              "title": "Update user by password-successful",
+              "description": "User should only be able to update itself",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a PATCH request to /api/users/:userId/password",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            }
+          ]
+        }
+      ],
+      "cases": [
+      ]
+    },
+    {
+      "id": 41,
+      "title": "Not logged in",
+      "description": null,
+      "preconditions": null,
+      "suites": [
+      ],
+      "cases": [
+        {
+          "id": 258,
+          "title": "Log in-positive-successful",
+          "description": "a non-logged in user should only be able to log in",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a POST request to /api/auth/login",
+              "expected_result": "200OK\nResponse body: a token to login",
+              "data": "",
+              "steps": [
+              ]
+            },
+            {
+              "position": 2,
+              "action": "send an Authorize request with the JWT token",
+              "expected_result": "User should be logged in",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 272,
+          "title": "Get all keys-negative-successful",
+          "description": "a user that is not logged in should not be able to get all keys",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a GET request to /api/keys",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 273,
+          "title": "Create key-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to create keys",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a POST request to /api/keys",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 274,
+          "title": "Search key by ID-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to return a key",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a GET request to /api/keys/keyId",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 275,
+          "title": "Update the serial number of a key-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to update a key",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a PUT request to /api/keys/keyId",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 276,
+          "title": "Delete key-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to delete a key",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a DEL request to /api/keys/keyId",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 277,
+          "title": "Get all users-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to see all users",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a GET request to /api/users",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 278,
+          "title": "Create user-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to create new users",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a POST request to /api/users",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 279,
+          "title": "Get user by Id-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to see any user",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a GET request to /api/users/userId",
+              "expected_result": "401 unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 280,
+          "title": "Delete user-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to delete any user",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a DEL request to /api/users/userId",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 281,
+          "title": "Update user by first-name-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to update any user",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a PATCH request to /api/users/userId/first-name",
+              "expected_result": "401 Unaothorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 282,
+          "title": "Update user by last-name-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to update any user",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a PATCH request to /api/users/userId/last-name",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 283,
+          "title": "Update user by license plate-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to update any user",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a PATCH request to /api/users/userId/licence-plate",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        },
+        {
+          "id": 284,
+          "title": "Update user by password-negative-successful",
+          "description": "a user/admin that is not logged in should not be able to update any user",
+          "preconditions": "user is not logged in",
+          "postconditions": null,
+          "priority": "undefined",
+          "severity": "normal",
+          "type": "other",
+          "behavior": "undefined",
+          "automation": "is-not-automated",
+          "status": "actual",
+          "is_flaky": "no",
+          "layer": "unknown",
+          "milestone": null,
+          "custom_fields": [
+          ],
+          "steps_type": "classic",
+          "steps": [
+            {
+              "position": 1,
+              "action": "send a PATCH request to /api/users/userId/password",
+              "expected_result": "401 Unauthorized",
+              "data": "",
+              "steps": [
+              ]
+            }
+          ],
+          "tags": [
+          ],
+          "params": [
+          ],
+          "is_muted": "no"
+        }
+      ]
+    }
+  ],
+  "cases": [
+  ]
+},
+        {
+          "id": 45,
+          "title": "Scheduling reservation methods(T)-DONE",
+          "description": null,
+          "preconditions": null,
+          "suites": [
+          ],
+          "cases": [
+            {
+              "id": 442,
+              "title": "Create a reservation-admin-positive-successful",
+              "description": "Create a reservation as admin",
+              "preconditions": "Admin is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a POST request to /api/Reservation/schedule/:userId",
+                  "expected_result": "200 OK\nThe created reservation",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 443,
+              "title": "Create a reservation-user-positive-successful",
+              "description": "Create a reservation as user",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a POST request to /api/Reservation/schedule/:userId",
+                  "expected_result": "200OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 444,
+              "title": "Create multiple reservations on same date-admin-positive-successful",
+              "description": "Create multiple(less than 24) reservations on same dates",
+              "preconditions": "Admin is logged in nd there is at least one reservation in db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send multiple POST request to /api/Reservation/schedule/:userId",
+                  "expected_result": "200OK\nEach reservation is displayed after each request",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 445,
+              "title": "Create multiple reservations on same date-user-negative-successful",
+              "description": "Create at least 2 reservations as user",
+              "preconditions": "User is logged in and there is at least one reservation for that user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send multiple POST request to /api/Reservation/schedule/:userId",
+                  "expected_result": "400 Bad Request",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 446,
+              "title": "Create a reservation on dates that include full days-split-positive-successful",
+              "description": "Create a reservation on a date that include dates that are already booked(user) or full(admin and user)- there should be done separate reservations or one valid reservation, shorter than the initial one",
+              "preconditions": "User is logged in and there is at least one reservation for that user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a POST request to send multiple POST request to /api/Reservation/schedule/:userId",
+                  "expected_result": "200OK\nEach reservation is displayed in this request",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 447,
+              "title": "Get avaliable dates for himself-admin- positive-successful",
+              "description": "Get all avaliable dates for the admin(not full)",
+              "preconditions": "Admin is logged in nd there is at least one reservation in db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/Reservation/get-available-dates/:userId",
+                  "expected_result": "200OK\nA list of all reservations",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 448,
+              "title": "Get avaliable dates for himself-user-positive-successful",
+              "description": "Get al avaliable dates for user(not full or not booked)",
+              "preconditions": "User is logged in and there is at least one reservation for that user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/Reservation/get-available-dates/:userId",
+                  "expected_result": "200OK\nA list of all available dates",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 449,
+              "title": "Get avaliable dates for other user-admin-positive-successful",
+              "description": "Admin should be able to see avaliable dates for other users",
+              "preconditions": "Admin is logged in nd there is at least one reservation in db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/Reservation/get-available-dates/:userId",
+                  "expected_result": "200OK\nA list of available dates",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 450,
+              "title": "Get avaliable dates for other user-user-negative-successful",
+              "description": "User should not be able to see avaliable dates of other users",
+              "preconditions": "User is logged in and there is at least one reservation for that user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/Reservation/get-available-dates/:userId",
+                  "expected_result": "403 forbidden",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 451,
+              "title": "Get avaliable dates if one period is reserved and other period is full-user-positive-successful",
+              "description": "Testing if a user correctly gets his avaliable dates if there are both a full period and a booked period",
+              "preconditions": "User is logged in and there is at least one reservation for that user in the db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/Reservation/get-available-dates/:userId",
+                  "expected_result": "200OK\nA list of all available dates",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 452,
+              "title": "Get avaliable dates if multiple dates are full - admin- positive-successful",
+              "description": "Testing if the method correctly jumps over the fully booked periods",
+              "preconditions": "Admin is logged in nd there is at least one reservation in db",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "send a GET request to /api/Reservation/get-available-dates/:userId",
+                  "expected_result": "200OK\nA list of all available dates",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            }
+          ]
+        },
+        {
+          "id": 48,
+          "title": "User Reservations(T/A)-DONE",
+          "description": null,
+          "preconditions": null,
+          "suites": [
+          ],
+          "cases": [
+            {
+              "id": 32,
+              "title": "Get Reservations of user-positive-task Alexandra-successful",
+              "description": "Return a list of all reservations associated to a single user for the past or future",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "GET /reservations /{user_id}",
+                  "expected_result": "Get all reservations for a user, 200 OK",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+                {
+                  "title": "user_id",
+                  "values": [
+                    "integer"
+                  ]
+                }
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 453,
+              "title": "Reservation dates have proper format-successful",
+              "description": "Reservations have the format \"YYYY-MM-DD\"",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "GET /reservations /{start_date} /{end_date}",
+                  "expected_result": "They have the proper format",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 454,
+              "title": "Reservations grouped by month-successful",
+              "description": "Ensure user reservations are retrieved grouped by month",
+              "preconditions": "User is logged in",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "GET /reservations /{start_date} /{end_date}",
+                  "expected_result": "Reservations are grouped by month",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            },
+            {
+              "id": 455,
+              "title": "Get reservations for user without reservations(A)-successful",
+              "description": "No reservations should appear",
+              "preconditions": "User is logged in and has no reservations created",
+              "postconditions": null,
+              "priority": "undefined",
+              "severity": "normal",
+              "type": "other",
+              "behavior": "undefined",
+              "automation": "is-not-automated",
+              "status": "actual",
+              "is_flaky": "no",
+              "layer": "unknown",
+              "milestone": null,
+              "custom_fields": [
+              ],
+              "steps_type": "classic",
+              "steps": [
+                {
+                  "position": 1,
+                  "action": "Try to get reservations for user",
+                  "expected_result": "200 OK, empty list",
+                  "data": "",
+                  "steps": [
+                  ]
+                }
+              ],
+              "tags": [
+              ],
+              "params": [
+              ],
+              "is_muted": "no"
+            }
+          ]
+        },
+        {
+          "id": 55,
+          "title": "Reservation role enforcement(T)-DONE",
+          "description": null,
+          "preconditions": null,
+          "suites": [
+            {
+              "id": 56,
+              "title": "Log in as admin-positive-DONE",
+              "description": null,
+              "preconditions": null,
+              "suites": [
+              ],
+              "cases": [
+                {
+                  "id": 378,
+                  "title": "See all reservations-successful",
+                  "description": "Admin can see all reservations",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation",
+                      "expected_result": "200OK\nA list with all the reservations",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 379,
+                  "title": "Create a valid reservation for himself-successful",
+                  "description": "Admin can create a reservation for himself",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a POST request to /api/Reservation",
+                      "expected_result": "200OK\nThe new reservation is displayed",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 380,
+                  "title": "See his reservation by id-successful",
+                  "description": "Admin can see all reservations that belong to him",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "Send a GET request to /api/Reservation/:id",
+                      "expected_result": "200OK\nA list of reservations",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userId",
+                      "values": [
+                        "id of the admin"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 381,
+                  "title": "Update a reservation's dates that belongs to himself-successful",
+                  "description": "An admin can update any of his reservations",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a PUT request to /api/Reservation/:id",
+                      "expected_result": "200OK\nThe updated reservation is displayed",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userId",
+                      "values": [
+                        "id's of the admin"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 382,
+                  "title": "Delete his own reservation by id-successful",
+                  "description": "An admin can delete any of his reservations",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a DELETE request to /api/Reservation/:id",
+                      "expected_result": "200OK",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userId",
+                      "values": [
+                        "id of the user"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 383,
+                  "title": "Get all reservations made by himself-successful",
+                  "description": "An admin can see all of his reservaitons",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-all-reservations/:userId",
+                      "expected_result": "200OK\nList of reservations",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userId",
+                      "values": [
+                        "Id of the admin"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 384,
+                  "title": "Get all avaliable dates for any user-successful",
+                  "description": "An admin can see all possible dates that are available for any user",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-possible-dates/:userId",
+                      "expected_result": "200OK\nList of all avaliable dates",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userId",
+                      "values": [
+                        "other user's ID"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 403,
+                  "title": "Create a valid reservation for other user-successful",
+                  "description": "An admin can create a reservation for any other user(or guest)",
+                  "preconditions": "Admin is logged in",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a POST request to /api/Reservation",
+                      "expected_result": "200OK\nThe created reservation",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userId",
+                      "values": [
+                        "-"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 404,
+                  "title": "Get all reservations from other user-successful",
+                  "description": "An admin can see all reservations",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-all-reservations/:userId",
+                      "expected_result": "200OK\nList of reservations from other user",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userID",
+                      "values": [
+                        "other user's id"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 410,
+                  "title": "Delete another user's reservation-successful",
+                  "description": "An admin can delete any reservation",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a DELETE request to api/Reservation/:id",
+                      "expected_result": "200OK",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userID",
+                      "values": [
+                        "id of other user"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 411,
+                  "title": "Update a reservation that belong to other user-successful",
+                  "description": "An admin can update any reservation",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a PUT request to /api/Reservation/:id",
+                      "expected_result": "200OK\nThe updated reservation is displayed",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "id",
+                      "values": [
+                        "other user's id"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 412,
+                  "title": "Get all available dates for himself-successful",
+                  "description": "An admin can see all available dates for himself",
+                  "preconditions": "Admin is logged in and there is at least one reservation in the database",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-possible-dates/:userId",
+                      "expected_result": "200OK\nList of all avaliable dates for himself",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                    {
+                      "title": "userId",
+                      "values": [
+                        "admin's ID"
+                      ]
+                    }
+                  ],
+                  "is_muted": "no"
+                }
+              ]
+            },
+            {
+              "id": 57,
+              "title": "Log in as user-positive-DONE",
+              "description": null,
+              "preconditions": null,
+              "suites": [
+              ],
+              "cases": [
+                {
+                  "id": 385,
+                  "title": "Create a valid reservation-successful",
+                  "description": "A user should be able to create a reservation for himself",
+                  "preconditions": "User is logged in",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a POST request to /api/Reservation",
+                      "expected_result": "200OK\nThe new reservation",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 386,
+                  "title": "Delete his own reservation-successful",
+                  "description": "A user should be able to delete a reservation for himself",
+                  "preconditions": "User is logged in and there is at least one reservation that belong to that user",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a DELETE request to api/Reservation",
+                      "expected_result": "200OK",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 387,
+                  "title": "Get his own reservations-successful",
+                  "description": "A user should be able to get all reservations for himself",
+                  "preconditions": "User is logged in and there is at least one reservation that belong to that user",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-all-reservations/:userId",
+                      "expected_result": "200OK\nList of reservations",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 388,
+                  "title": "Get all aviable dates for himself-successful",
+                  "description": "A user should be able to see all the avaliable dates when he can create a reservation",
+                  "preconditions": "User is logged in",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-possible-dates/:userId",
+                      "expected_result": "200OK\nA list of dates",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 395,
+                  "title": "Update his own reservation-successful",
+                  "description": "A user should be able to update a reservation for himself",
+                  "preconditions": "User is logged in and there is at least one reservation that belong to that user",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a PUT request to /api/Reservation/:id",
+                      "expected_result": "200OK\nThe modified reservation",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                }
+              ]
+            },
+            {
+              "id": 58,
+              "title": "Log in as user-negative-DONE",
+              "description": null,
+              "preconditions": null,
+              "suites": [
+              ],
+              "cases": [
+                {
+                  "id": 389,
+                  "title": "Get all reservations-successful",
+                  "description": "User should not be able to see all reservations",
+                  "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation",
+                      "expected_result": "403 forbidden",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 390,
+                  "title": "Create a reservation that is not for himself-successful",
+                  "description": "User should not be able to create a reservation for anyone else",
+                  "preconditions": "User is logged in",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a POST request to /api/Reservation",
+                      "expected_result": "403 forbidden",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 391,
+                  "title": "Get any reservation by id-successful",
+                  "description": "User should not be able to see a reservation that it is not his",
+                  "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/:id",
+                      "expected_result": "403 forbidden",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 392,
+                  "title": "Update any reservation(not his)(found by id)-successful",
+                  "description": "User should not be able to update a reservation that it is not his",
+                  "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a PUT request to /api/Reservation/:id",
+                      "expected_result": "403 forbidden",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 393,
+                  "title": "Get all reservations from any other user-successful",
+                  "description": "User should not be able to see reservations of another user",
+                  "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-all-reservations/:userId",
+                      "expected_result": "403 forbbiden",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 394,
+                  "title": "Get all avaliable dates from any user-successful",
+                  "description": "User should not be able to see avaliable dates from other user",
+                  "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-possible-dates/:userId",
+                      "expected_result": "403 forbbiden",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                }
+              ]
+            },
+            {
+              "id": 59,
+              "title": "Not logged in-negative-DONE",
+              "description": null,
+              "preconditions": null,
+              "suites": [
+              ],
+              "cases": [
+                {
+                  "id": 396,
+                  "title": "Get all reservations-successful",
+                  "description": "Someone who is not logged in should not be able to get all reservations",
+                  "preconditions": "User is not logged in and there is at least one reservation is on db",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation",
+                      "expected_result": "401 unauthorized",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 397,
+                  "title": "Create a reservation-successful",
+                  "description": "Someone who is not logged in should not be able to create a reservation",
+                  "preconditions": "User is not logged in",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a POST request to /api/Reservation",
+                      "expected_result": "401 unauthorized",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 398,
+                  "title": "Get any reservation by id-successful",
+                  "description": "Someone who is not logged in should not be able to see any specific reservation",
+                  "preconditions": "User is not logged in and there is at least one reservation is on db",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/id",
+                      "expected_result": "401 unauthorized",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 399,
+                  "title": "Update any reservations-successful",
+                  "description": "Someone who is not logged in should not be able to update any reservation",
+                  "preconditions": "User is not logged in and there is at least one reservation is on db",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a PUT request to /api/Reservation/:id",
+                      "expected_result": "401 unauthorized",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 400,
+                  "title": "Delete any reservation-successful",
+                  "description": "Someone who is not logged in should not be able to delete any reservation",
+                  "preconditions": "User is not logged in and there is at least one reservation is on db",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a DELETE request to /api/Reservation/:id",
+                      "expected_result": "401 unauthorized",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 401,
+                  "title": "Get all reservations from any user-successful",
+                  "description": "Someone who is not logged in should not be able to see all reservations from any user",
+                  "preconditions": "User is not logged in and there is at least one reservation is on db",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a GET request to /api/Reservation/get-all-reservations/:userId",
+                      "expected_result": "401 unauthorized",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                },
+                {
+                  "id": 402,
+                  "title": "Get all available dates from any user-successful",
+                  "description": "Someone who is not logged in should not be able to see dates of any user",
+                  "preconditions": "User is not logged in and there is at least one reservation is on db",
+                  "postconditions": null,
+                  "priority": "undefined",
+                  "severity": "normal",
+                  "type": "other",
+                  "behavior": "undefined",
+                  "automation": "is-not-automated",
+                  "status": "actual",
+                  "is_flaky": "no",
+                  "layer": "unknown",
+                  "milestone": null,
+                  "custom_fields": [
+                  ],
+                  "steps_type": "classic",
+                  "steps": [
+                    {
+                      "position": 1,
+                      "action": "send a PUT request to /api/Reservation/get-possible-dates/:userId",
+                      "expected_result": "401 unauthorized",
+                      "data": "",
+                      "steps": [
+                      ]
+                    }
+                  ],
+                  "tags": [
+                  ],
+                  "params": [
+                  ],
+                  "is_muted": "no"
+                }
+              ]
+            }
+          ],
+          "cases": [
+          ]
+        },
+       
