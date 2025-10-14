@@ -199,7 +199,7 @@ class JavaParser(BaseParser):
 
         for model_name in model_classes:
             # Extract class body
-            class_pattern = f'class\s+{model_name}.*?{{(.*?)}}'
+            class_pattern = rf'class\s+{model_name}.*?{{(.*?)}}'
             class_match = re.search(class_pattern, code, re.DOTALL)
 
             if class_match:
@@ -264,7 +264,7 @@ class JavaParser(BaseParser):
         fields = []
 
         # Find class body
-        class_pattern = f'class\s+{class_name}.*?{{(.*?)}}'
+        class_pattern = rf'class\s+{class_name}.*?{{(.*?)}}'
         class_match = re.search(class_pattern, code, re.DOTALL)
 
         if class_match:

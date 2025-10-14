@@ -2,9 +2,9 @@
 Core orchestration module for API Testing Agent
 """
 
-from .engine import CoreEngine
-from .agent_manager import AgentManager
-from .pipeline import TestGenerationPipeline
+from core.engine import CoreEngine
+from core.agent_manager import AgentManager
+from core.pipeline import TestGenerationPipeline
 
 __all__ = [
     'CoreEngine',

@@ -242,7 +242,7 @@ class CppParser(BaseParser):
         }
 
         # Find class body
-        class_pattern = f'class\s+{class_name}.*?{{(.*?)}};'
+        class_pattern = rf'class\s+{class_name}.*?{{(.*?)}};'
         class_match = re.search(class_pattern, code, re.DOTALL)
 
         if class_match:
@@ -297,7 +297,7 @@ class CppParser(BaseParser):
         members = []
 
         # Find struct body
-        struct_pattern = f'struct\s+{struct_name}.*?{{(.*?)}};'
+        struct_pattern = rf'struct\s+{struct_name}.*?{{(.*?)}};'
         struct_match = re.search(struct_pattern, code, re.DOTALL)
 
         if struct_match:

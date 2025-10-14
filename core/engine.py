@@ -11,11 +11,11 @@ from datetime import datetime
 from config import settings, llama_config, rag_config, rl_config
 from input_processing import InputProcessor
 from rag import RAGSystem
-from llm import LlamaOrchestrator
+from llm.llama_client import LlamaConfig, LlamaClient
 from reinforcement_learning import RLOptimizer
-from test_execution import TestExecutor
-from feedback import FeedbackLoop
-from output import ReportGenerator
+from test_execution.executor import TestExecutor
+from feedback.feedback_loop import FeedbackLoop
+from output.report_generator import ReportGenerator
 
 logger = logging.getLogger(__name__)
 
