@@ -4,7 +4,7 @@ Input processing module for parsing and analyzing API code
 
 from .parser_factory import ParserFactory
 from .endpoint_extractor import EndpointExtractor
-from .sepcification_builder import SpecificationBuilder
+from .specification_builder import SpecificationBuilder
 from .validator_extractor import ValidatorExtractor
 
 
