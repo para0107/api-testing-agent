@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Happy Path Testing",
+    "description": "Test with valid inputs and expected behavior",
+    "applicable_to": [
+      "GET",
+      "POST",
+      "PUT",
+      "DELETE"
+    ],
+    "test_data": {
+      "strategy": "Use realistic, valid data",
+      "examples": [
+        "Valid IDs",
+        "Complete objects",
+        "Proper formats"
+      ]
+    }
+  },
+  {
+    "name": "Null/Empty Testing",
+    "description": "Test with null, empty, or missing values",
+    "applicable_to": [
+      "POST",
+      "PUT"
+    ],
+    "test_data": {
+      "strategy": "Test each field with null/empty",
+      "examples": [
+        "null",
+        "\"\"",
+        "{}",
+        "[]",
+        "undefined"
+      ]
+    }
+  },
+  {
+    "name": "Boundary Testing",
+    "description": "Test at limits of acceptable values",
+    "applicable_to": [
+      "All"
+    ],
+    "test_data": {
+      "strategy": "Test min, max, and edge values",
+      "examples": [
+        "MIN_INT",
+        "MAX_INT",
+        "0",
+        "-1",
+        "MAX_LENGTH"
+      ]
+    }
+  },
+  {
+    "name": "Authentication Testing",
+    "description": "Test authentication and authorization",
+    "applicable_to": [
+      "All"
+    ],
+    "test_data": {
+      "strategy": "Test with various auth states",
+      "examples": [
+        "No token",
+        "Invalid token",
+        "Expired token",
+        "Wrong permissions"
+      ]
+    }
+  },
+  {
+    "name": "Concurrent Access Testing",
+    "description": "Test concurrent requests to same resource",
+    "applicable_to": [
+      "PUT",
+      "DELETE"
+    ],
+    "test_data": {
+      "strategy": "Send multiple simultaneous requests",
+      "examples": [
+        "Race conditions",
+        "Deadlocks",
+        "Data consistency"
+      ]
+    }
+  }
+]

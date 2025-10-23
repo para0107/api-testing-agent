@@ -3,6 +3,8 @@ Embedding generation and management
 """
 
 import logging
+import os
+
 import numpy as np
 from typing import Dict, List, Any, Union
 from sentence_transformers import SentenceTransformer
@@ -18,37 +20,61 @@ rag_config = rag_config.RAGConfig()
 
 logger = logging.getLogger(__name__)
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 
 class EmbeddingManager:
-    """Manages embedding generation for different types of content"""
-
-    def __init__(self):
+    def __init__(self, hf_token: str = None):
         logger.info("Initializing Embedding Manager")
 
-        # Load models
-        self.text_model = SentenceTransformer(rag_config.text_embedding_model)
+        # Resolve token: explicit arg -> standard env var -> project-specific HG_TOKEN -> HF_TOKEN -> None
+        self.hf_token = hf_token or os.getenv("HUGGINGFACE_HUB_TOKEN") or os.getenv("HG_TOKEN") or os.getenv("HF_TOKEN")
+        if self.hf_token:
+            logger.info("Using Hugging Face token from environment/argument")
+        else:
+            logger.info("No Hugging Face token found; attempting anonymous access")
+
+        # Use canonical model id (note the exact casing)
+        text_model_id = getattr(rag_config, "text_embedding_model", None) or "sentence-transformers/all-MiniLM-L6-v2"
+
+        # Try to load the SentenceTransformer model (pass token for private/gated models)
+        try:
+            self.text_model = SentenceTransformer(text_model_id, use_auth_token=self.hf_token)
+            try:
+                self.text_dim = int(self.text_model.get_sentence_embedding_dimension())
+            except Exception:
+                self.text_dim = rag_config.embedding_dimension
+            logger.info("Loaded text embedding model: %s", text_model_id)
+        except Exception as e:
+            logger.warning(
+                "Failed to load text embedding model '%s': %s\n"
+                " - Confirm the model id is correct (use exact casing)\n"
+                " - Ensure your token is valid and has access (HUGGINGFACE_HUB_TOKEN / HG_TOKEN / HF_TOKEN)\n"
+                " - You can run `hf auth login` or set the env var in PowerShell: setx HUGGINGFACE_HUB_TOKEN \"hf_xxx\"",
+                text_model_id, e
+            )
+            self.text_model = None
+            self.text_dim = rag_config.embedding_dimension
+
+        # Load code model (pass token to both tokenizer and model)
         self.code_model = self._load_code_model()
 
-        # Cache for embeddings
+        # Cache and dims
         self.cache_dir = paths.VECTOR_STORE_DIR / "embedding_cache"
         self.cache_dir.mkdir(exist_ok=True)
         self.cache = {}
-
-        # Model dimensions
-        self.text_dim = rag_config.embedding_dimension
         self.code_dim = rag_config.embedding_dimension
 
     def _load_code_model(self):
-        """Load code embedding model"""
         try:
-            tokenizer = AutoTokenizer.from_pretrained(rag_config.code_embedding_model)
-            model = AutoModel.from_pretrained(rag_config.code_embedding_model)
-            return {'tokenizer': tokenizer, 'model': model}
+            tokenizer = AutoTokenizer.from_pretrained(rag_config.code_embedding_model, use_auth_token=self.hf_token)
+            model = AutoModel.from_pretrained(rag_config.code_embedding_model, use_auth_token=self.hf_token)
+            return {"tokenizer": tokenizer, "model": model}
         except Exception as e:
             logger.warning(f"Failed to load code model: {e}. Using text model for code.")
             return None
-
     async def generate_embeddings(self, data: Union[str, Dict, List]) -> np.ndarray:
         """
         Generate embeddings for various data types
