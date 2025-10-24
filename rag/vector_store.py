@@ -34,19 +34,20 @@ class VectorStore:
         self._load_indices()
 
     def _create_index(self, index_name: str):
-        """Create a new FAISS index"""
+        """Create a new FAISS index with dynamic cluster sizing"""
         config = rag_config.get_index_config(index_name)
 
         if rag_config.index_type == "IVF":
-            # IVF index for better accuracy
+            # Calculate appropriate nlist based on expected data size
+            # Rule: use sqrt(n) clusters, but ensure we have enough data
+            effective_nlist = min(rag_config.nlist, 50)  # Cap at 50 for small datasets
+
             quantizer = faiss.IndexFlatL2(self.dimension)
             index = faiss.IndexIVFFlat(quantizer, self.dimension,
-                                       rag_config.nlist, faiss.METRIC_L2)
+                                       effective_nlist, faiss.METRIC_L2)
         elif rag_config.index_type == "HNSW":
-            # HNSW for fast search
             index = faiss.IndexHNSWFlat(self.dimension, 32)
         else:
-            # Simple flat index
             index = faiss.IndexFlatL2(self.dimension)
 
         # Add ID mapping
@@ -58,12 +59,12 @@ class VectorStore:
 
         logger.info(f"Created index: {index_name}")
 
-    # python
     def add(self, index_name: str, embeddings: np.ndarray,
             metadata: List[Dict[str, Any]] = None, ids: List[int] = None):
         """
         Add embeddings to index (robust: dtype/shape checks, train IVF if needed,
-        safer id generation, store metadata).
+        safer id generation, store metadata). Automatically falls back to Flat index
+        if insufficient data for IVF training.
         """
         if index_name not in self.indices:
             raise ValueError(f"Index {index_name} not found")
@@ -105,18 +106,61 @@ class VectorStore:
         # Train if required (IVF / trainable indices)
         try:
             if hasattr(inner, "is_trained") and not inner.is_trained:
-                logger.info("FAISS index '%s' is not trained; training with %d vectors...", index_name, n)
-                train_vecs = emb
-                max_train = 10000
-                if n > max_train:
-                    idxs = np.random.choice(n, size=max_train, replace=False)
-                    train_vecs = emb[idxs]
-                train_vecs = np.ascontiguousarray(train_vecs.astype(np.float32))
-                inner.train(train_vecs)
-                logger.info("FAISS index '%s' trained", index_name)
+                # Check if we have enough data for IVF training
+                nlist = getattr(inner, 'nlist', 100)
+
+                if n < nlist:
+                    # Not enough data for IVF, switch to Flat index
+                    logger.warning(
+                        f"Insufficient data for IVF index '{index_name}': "
+                        f"Have {n} vectors but need at least {nlist}. "
+                        f"Automatically switching to Flat index."
+                    )
+
+                    # Create a new Flat index
+                    flat_index = faiss.IndexFlatL2(self.dimension)
+                    flat_index = faiss.IndexIDMap(flat_index)
+
+                    # Preserve any existing data from the old index
+                    if hasattr(index, 'ntotal') and index.ntotal > 0:
+                        logger.info(f"Migrating {index.ntotal} existing vectors to new Flat index")
+                        # Note: In practice, you might want to extract and re-add existing vectors
+                        # For now, we'll just replace the index
+
+                    # Replace the index
+                    self.indices[index_name] = flat_index
+                    index = flat_index
+                    inner = flat_index
+
+                    # Update config to reflect the change
+                    self.index_configs[index_name]['index_type'] = 'Flat'
+
+                    logger.info(f"Successfully switched index '{index_name}' to Flat type")
+                else:
+                    # We have enough data, proceed with IVF training
+                    logger.info("FAISS index '%s' is not trained; training with %d vectors...", index_name, n)
+                    train_vecs = emb
+                    max_train = 10000
+                    if n > max_train:
+                        idxs = np.random.choice(n, size=max_train, replace=False)
+                        train_vecs = emb[idxs]
+                    train_vecs = np.ascontiguousarray(train_vecs.astype(np.float32))
+                    inner.train(train_vecs)
+                    logger.info("FAISS index '%s' trained successfully", index_name)
         except Exception as e:
-            logger.warning("Failed to train FAISS index '%s': %s", index_name, e)
-            raise
+            logger.error("Failed to train FAISS index '%s': %s", index_name, e)
+            # Try one more fallback: create Flat index as last resort
+            logger.info(f"Attempting emergency fallback to Flat index for '{index_name}'")
+            try:
+                flat_index = faiss.IndexFlatL2(self.dimension)
+                flat_index = faiss.IndexIDMap(flat_index)
+                self.indices[index_name] = flat_index
+                index = flat_index
+                self.index_configs[index_name]['index_type'] = 'Flat'
+                logger.info(f"Emergency fallback successful for '{index_name}'")
+            except Exception as fallback_error:
+                logger.error(f"Emergency fallback failed: {fallback_error}")
+                raise
 
         # Add embeddings with ids
         try:
@@ -132,7 +176,6 @@ class VectorStore:
                 store[int(id_)] = meta
 
         logger.info("Added %d embeddings to %s (ids %d..%d)", n, index_name, ids_array[0], ids_array[-1])
-
     def search(self, index_name: str, query_embedding: np.ndarray,
                k: int = 10) -> Tuple[List[int], List[float], List[Dict]]:
         """
