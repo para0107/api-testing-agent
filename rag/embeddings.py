@@ -23,10 +23,20 @@ logger = logging.getLogger(__name__)
 from dotenv import load_dotenv
 load_dotenv()
 
-
-
 class EmbeddingManager:
+    """
+    Embedding generation and management.
+
+    Async methods are provided so the class can be awaited from an async pipeline.
+    Synchronous model calls are executed with asyncio.to_thread to avoid blocking.
+    """
+
     def __init__(self, hf_token: str = None):
+        import asyncio
+        import os
+        import hashlib
+        from pathlib import Path
+
         logger.info("Initializing Embedding Manager")
 
         # Resolve token: explicit arg -> standard env var -> project-specific HG_TOKEN -> HF_TOKEN -> None
@@ -36,263 +46,268 @@ class EmbeddingManager:
         else:
             logger.info("No Hugging Face token found; attempting anonymous access")
 
-        # Use canonical model id (note the exact casing)
+        # canonical default id; can be overridden by rag_config
         text_model_id = getattr(rag_config, "text_embedding_model", None) or "sentence-transformers/all-MiniLM-L6-v2"
 
-        # Try to load the SentenceTransformer model (pass token for private/gated models)
+        # try loading SentenceTransformer (may raise)
         try:
+            # note: sentence-transformers historically accepts `use_auth_token`; newer versions accept `token`.
+            # keep `use_auth_token` for compatibility; if you upgrade, replace with `token=self.hf_token`.
             self.text_model = SentenceTransformer(text_model_id, use_auth_token=self.hf_token)
             try:
                 self.text_dim = int(self.text_model.get_sentence_embedding_dimension())
             except Exception:
-                self.text_dim = rag_config.embedding_dimension
-            logger.info("Loaded text embedding model: %s", text_model_id)
+                self.text_dim = int(getattr(rag_config, "embedding_dimension", 384))
+            logger.info("Loaded text embedding model: %s (dim=%s)", text_model_id, self.text_dim)
         except Exception as e:
             logger.warning(
                 "Failed to load text embedding model '%s': %s\n"
-                " - Confirm the model id is correct (use exact casing)\n"
-                " - Ensure your token is valid and has access (HUGGINGFACE_HUB_TOKEN / HG_TOKEN / HF_TOKEN)\n"
-                " - You can run `hf auth login` or set the env var in PowerShell: setx HUGGINGFACE_HUB_TOKEN \"hf_xxx\"",
+                " - Confirm the model id is correct (case-sensitive)\n"
+                " - Ensure your token is valid and has access (HUGGINGFACE_HUB_TOKEN / HG_TOKEN / HF_TOKEN)",
                 text_model_id, e
             )
             self.text_model = None
-            self.text_dim = rag_config.embedding_dimension
+            self.text_dim = int(getattr(rag_config, "embedding_dimension", 384))
 
-        # Load code model (pass token to both tokenizer and model)
+        # Load code model (token passed where supported)
         self.code_model = self._load_code_model()
 
         # Cache and dims
         self.cache_dir = paths.VECTOR_STORE_DIR / "embedding_cache"
-        self.cache_dir.mkdir(exist_ok=True)
-        self.cache = {}
-        self.code_dim = rag_config.embedding_dimension
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        self.cache: Dict[str, np.ndarray] = {}
+        self.code_dim = int(getattr(rag_config, "embedding_dimension", self.text_dim))
 
     def _load_code_model(self):
+        """Attempt to load a code embedding model (AutoTokenizer + AutoModel)."""
         try:
-            tokenizer = AutoTokenizer.from_pretrained(rag_config.code_embedding_model, use_auth_token=self.hf_token)
-            model = AutoModel.from_pretrained(rag_config.code_embedding_model, use_auth_token=self.hf_token)
+            # Transformers new arg is `token=...`; older versions accept `use_auth_token`.
+            # Using `token` which is the current recommended name.
+            tokenizer = AutoTokenizer.from_pretrained(rag_config.code_embedding_model, token=self.hf_token)
+            model = AutoModel.from_pretrained(rag_config.code_embedding_model, token=self.hf_token)
+            logger.info("Loaded code embedding model: %s", rag_config.code_embedding_model)
             return {"tokenizer": tokenizer, "model": model}
         except Exception as e:
-            logger.warning(f"Failed to load code model: {e}. Using text model for code.")
+            logger.warning("Failed to load code model '%s': %s. Falling back to text model for code embeddings.",
+                           getattr(rag_config, "code_embedding_model", "<unset>"), e)
             return None
+
     async def generate_embeddings(self, data: Union[str, Dict, List]) -> np.ndarray:
-        """
-        Generate embeddings for various data types
-
-        Args:
-            data: Input data (text, dict, or list)
-
-        Returns:
-            Embeddings as numpy array
-        """
+        """Dispatch to the appropriate embedding generator based on input type."""
         if isinstance(data, str):
             return await self.embed_text(data)
-        elif isinstance(data, dict):
+        if isinstance(data, dict):
             return await self.embed_structured(data)
-        elif isinstance(data, list):
+        if isinstance(data, list):
             return await self.embed_batch(data)
-        else:
-            raise ValueError(f"Unsupported data type: {type(data)}")
+        raise ValueError(f"Unsupported data type: {type(data)}")
 
     async def embed_text(self, text: str, use_cache: bool = True) -> np.ndarray:
-        """Generate embeddings for text"""
-        # Check cache
+        """Generate embedding for a single text (async)."""
+        import asyncio
+
+        if text is None:
+            text = ""
+
+        cache_key = self._get_cache_key(text)
         if use_cache:
-            cache_key = self._get_cache_key(text)
             if cache_key in self.cache:
                 return self.cache[cache_key]
-
             cached = self._load_from_cache(cache_key)
             if cached is not None:
                 self.cache[cache_key] = cached
                 return cached
 
-        # Generate embedding
-        embedding = self.text_model.encode(text, convert_to_numpy=True)
+        # If a SentenceTransformer model is available, encode via thread
+        embedding = None
+        if self.text_model is not None:
+            try:
+                embedding = await asyncio.to_thread(self.text_model.encode, text, convert_to_numpy=True)
+            except Exception as e:
+                logger.warning("Text model encode failed, using fallback embedding: %s", e)
 
-        # Normalize
-        embedding = self._normalize(embedding)
+        # Fallback deterministic embedding (uses sha256)
+        if embedding is None:
+            embedding = self._fallback_vector(text)
 
-        # Cache
+        embedding = self._normalize(np.asarray(embedding, dtype=np.float32))
+
         if use_cache:
             self.cache[cache_key] = embedding
             self._save_to_cache(cache_key, embedding)
 
         return embedding
 
+    async def embed_batch(self, texts: List[str], batch_size: int = 32) -> np.ndarray:
+        """Generate embeddings for multiple texts (async). Returns (n, dim) numpy array."""
+        import asyncio
+
+        if not texts:
+            return np.empty((0, self.text_dim), dtype=np.float32)
+
+        # If model available, try batch encode once for performance
+        if self.text_model is not None:
+            try:
+                # call model.encode in thread to avoid blocking
+                batch_embeddings = await asyncio.to_thread(self.text_model.encode, texts, convert_to_numpy=True)
+                batch_embeddings = np.asarray(batch_embeddings, dtype=np.float32)
+                # If returned shape is (dim,) for single item, expand
+                if batch_embeddings.ndim == 1:
+                    batch_embeddings = batch_embeddings.reshape(1, -1)
+                # Ensure column count matches text_dim; if not, truncate or pad with zeros
+                if batch_embeddings.shape[1] != self.text_dim:
+                    target = self.text_dim
+                    cur = batch_embeddings.shape[1]
+                    if cur > target:
+                        batch_embeddings = batch_embeddings[:, :target]
+                    else:
+                        pad = np.zeros((batch_embeddings.shape[0], target - cur), dtype=np.float32)
+                        batch_embeddings = np.hstack([batch_embeddings, pad])
+                # Normalize rows
+                norms = np.linalg.norm(batch_embeddings, axis=1, keepdims=True)
+                norms[norms == 0] = 1.0
+                batch_embeddings = batch_embeddings / norms
+                # Save per-item cache asynchronously (non-blocking)
+                for t, emb in zip(texts, batch_embeddings):
+                    key = self._get_cache_key(t)
+                    self.cache[key] = emb
+                    self._save_to_cache(key, emb)
+                return batch_embeddings
+            except Exception as e:
+                logger.warning("Batch encoding with text model failed, falling back to per-item encoding: %s", e)
+
+        # Fallback: encode items individually (uses embed_text which applies cache/fallback)
+        tasks = [self.embed_text(t) for t in texts]
+        results = await asyncio.gather(*tasks)
+        stacked = np.vstack(results).astype(np.float32)
+        # Ensure dimension
+        if stacked.shape[1] != self.text_dim:
+            if stacked.shape[1] > self.text_dim:
+                stacked = stacked[:, : self.text_dim]
+            else:
+                pad = np.zeros((stacked.shape[0], self.text_dim - stacked.shape[1]), dtype=np.float32)
+                stacked = np.hstack([stacked, pad])
+        return stacked
+
     async def embed_code(self, code: str, language: str = None) -> np.ndarray:
-        """Generate embeddings for code"""
+        """Generate embedding for code. Prefer code model, else fallback to text model."""
         if self.code_model:
-            return await self._embed_with_codebert(code)
-        else:
-            # Fallback to text embedding with code preprocessing
-            processed_code = self._preprocess_code(code, language)
-            return await self.embed_text(processed_code)
+            try:
+                return await self._embed_with_codebert(code)
+            except Exception as e:
+                logger.warning("Code model embedding failed, falling back to text embed: %s", e)
+
+        processed = self._preprocess_code(code, language)
+        return await self.embed_text(processed)
 
     async def _embed_with_codebert(self, code: str) -> np.ndarray:
-        """Generate embeddings using CodeBERT"""
-        tokenizer = self.code_model['tokenizer']
-        model = self.code_model['model']
+        """Embed using loaded AutoModel for code (sync operations executed in thread)."""
+        import asyncio
+        tokenizer = self.code_model["tokenizer"]
+        model = self.code_model["model"]
 
-        # Tokenize
-        inputs = tokenizer(code, return_tensors="pt", max_length=512,
-                           truncation=True, padding=True)
+        def _encode():
+            inputs = tokenizer(code, return_tensors="pt", max_length=512, truncation=True, padding=True)
+            with torch.no_grad():
+                outputs = model(**inputs)
+                # mean pool over sequence dimension
+                emb = outputs.last_hidden_state.mean(dim=1).cpu().numpy()
+                return emb.squeeze()
 
-        # Generate embeddings
-        with torch.no_grad():
-            outputs = model(**inputs)
-            # Use pooled output or mean of last hidden states
-            embeddings = outputs.last_hidden_state.mean(dim=1).numpy()
-
-        # Normalize
-        embeddings = self._normalize(embeddings.squeeze())
-
-        return embeddings
+        emb = await asyncio.to_thread(_encode)
+        emb = np.asarray(emb, dtype=np.float32)
+        emb = self._normalize(emb)
+        return emb
 
     async def embed_structured(self, data: Dict[str, Any]) -> np.ndarray:
-        """Generate embeddings for structured data (API specs, etc.)"""
-        # Convert structured data to text representation
-        text_parts = []
+        """Convert structured object to text and embed it."""
+        parts: List[str] = []
 
-        # Add endpoint information
-        if 'path' in data:
-            text_parts.append(f"Path: {data['path']}")
-        if 'method' in data:
-            text_parts.append(f"Method: {data['method']}")
+        # Common fields
+        if data.get("endpoint"):
+            parts.append(f"Endpoint: {data.get('endpoint')}")
+        if data.get("path"):
+            parts.append(f"Path: {data.get('path')}")
+        if data.get("method"):
+            parts.append(f"Method: {data.get('method')}")
+        if data.get("name"):
+            parts.append(f"Name: {data.get('name')}")
+        if data.get("description"):
+            parts.append(f"Description: {data.get('description')}")
 
-        # Add parameters
-        if 'parameters' in data:
-            for param in data['parameters']:
-                param_text = f"Parameter {param.get('name', '')}: {param.get('type', '')} " \
-                             f"({'required' if param.get('required') else 'optional'})"
-                text_parts.append(param_text)
+        # parameters or parameters-like
+        params = data.get("parameters") or data.get("params") or []
+        for p in params:
+            name = p.get("name") or p.get("title") or ""
+            vals = p.get("values") or p.get("example") or ""
+            parts.append(f"Param: {name} Values: {vals}")
 
-        # Add other fields
-        for key, value in data.items():
-            if key not in ['path', 'method', 'parameters']:
-                text_parts.append(f"{key}: {str(value)}")
+        # any other fields appended
+        for k, v in data.items():
+            if k not in {"endpoint", "path", "method", "name", "description", "parameters", "params"}:
+                parts.append(f"{k}: {v}")
 
-        # Combine and embed
-        combined_text = " | ".join(text_parts)
-        return await self.embed_text(combined_text)
+        combined = " | ".join([str(p) for p in parts if p])
+        return await self.embed_text(combined)
 
-    async def embed_batch(self, texts: List[str]) -> np.ndarray:
-        """Generate embeddings for multiple texts"""
-        embeddings = []
-
-        # Process in batches for efficiency
-        batch_size = 32
-        for i in range(0, len(texts), batch_size):
-            batch = texts[i:i + batch_size]
-            batch_embeddings = self.text_model.encode(batch, convert_to_numpy=True)
-
-            # Normalize each embedding
-            for j in range(len(batch_embeddings)):
-                batch_embeddings[j] = self._normalize(batch_embeddings[j])
-
-            embeddings.append(batch_embeddings)
-
-        return np.vstack(embeddings)
-
-    def combine_embeddings(self, embeddings: List[np.ndarray], weights: List[float] = None) -> np.ndarray:
-        """
-        Combine multiple embeddings with optional weighting
-
-        Args:
-            embeddings: List of embedding arrays
-            weights: Optional weights for each embedding
-
-        Returns:
-            Combined embedding
-        """
-        if not embeddings:
-            raise ValueError("No embeddings to combine")
-
-        if weights is None:
-            weights = [1.0] * len(embeddings)
-
-        if len(weights) != len(embeddings):
-            raise ValueError("Number of weights must match number of embeddings")
-
-        # Normalize weights
-        total_weight = sum(weights)
-        weights = [w / total_weight for w in weights]
-
-        # Weighted average
-        combined = np.zeros_like(embeddings[0])
-        for emb, weight in zip(embeddings, weights):
-            combined += emb * weight
-
-        # Normalize result
-        return self._normalize(combined)
-
-    def _normalize(self, embedding: np.ndarray) -> np.ndarray:
-        """Normalize embedding vector"""
-        norm = np.linalg.norm(embedding)
-        if norm > 0:
-            return embedding / norm
-        return embedding
-
-    def _preprocess_code(self, code: str, language: str = None) -> str:
-        """Preprocess code for embedding"""
-        # Remove comments based on language
-        if language == 'python':
-            code = self._remove_python_comments(code)
-        elif language == 'csharp' or language == 'java':
-            code = self._remove_c_style_comments(code)
-
-        # Normalize whitespace
-        import re
-        code = re.sub(r'\s+', ' ', code)
-
-        return code.strip()
-
-    def _remove_python_comments(self, code: str) -> str:
-        """Remove Python comments"""
-        import re
-        # Remove single-line comments
-        code = re.sub(r'#.*$', '', code, flags=re.MULTILINE)
-        # Remove docstrings
-        code = re.sub(r'""".*?"""', '', code, flags=re.DOTALL)
-        code = re.sub(r"'''.*?'''", '', code, flags=re.DOTALL)
-        return code
-
-    def _remove_c_style_comments(self, code: str) -> str:
-        """Remove C-style comments"""
-        import re
-        # Remove single-line comments
-        code = re.sub(r'//.*$', '', code, flags=re.MULTILINE)
-        # Remove multi-line comments
-        code = re.sub(r'/\*.*?\*/', '', code, flags=re.DOTALL)
-        return code
+    def _fallback_vector(self, text: str) -> np.ndarray:
+        """Deterministic fallback embedding from SHA256 digest expanded/padded to text_dim."""
+        if text is None:
+            text = ""
+        digest = hashlib.sha256(text.encode("utf-8")).digest()
+        # repeat digest bytes until we have enough bytes
+        repeats = (self.text_dim // len(digest)) + 1
+        data = (digest * repeats)[: self.text_dim]
+        arr = np.frombuffer(data, dtype=np.uint8).astype(np.float32)
+        # map 0..255 -> -1..1
+        arr = (arr / 127.5) - 1.0
+        return self._normalize(arr)
 
     def _get_cache_key(self, text: str) -> str:
-        """Generate cache key for text"""
-        return hashlib.md5(text.encode()).hexdigest()
+        """Short cache key for a text blob."""
+        if text is None:
+            text = ""
+        return hashlib.sha1(text.encode("utf-8")).hexdigest()
 
-    def _load_from_cache(self, cache_key: str):
-        """Load embedding from cache"""
-        cache_file = self.cache_dir / f"{cache_key}.pkl"
-        if cache_file.exists():
-            try:
-                with open(cache_file, 'rb') as f:
-                    return pickle.load(f)
-            except Exception as e:
-                logger.warning(f"Failed to load from cache: {e}")
-        return None
-
-    def _save_to_cache(self, cache_key: str, embedding: np.ndarray):
-        """Save embedding to cache"""
-        cache_file = self.cache_dir / f"{cache_key}.pkl"
+    def _save_to_cache(self, key: str, embedding: np.ndarray):
+        """Persist a single embedding to disk (best-effort)."""
         try:
-            with open(cache_file, 'wb') as f:
-                pickle.dump(embedding, f)
+            filename = self.cache_dir / f"{key}.pkl"
+            with open(filename, "wb") as f:
+                pickle.dump(embedding, f, protocol=pickle.HIGHEST_PROTOCOL)
         except Exception as e:
-            logger.warning(f"Failed to save to cache: {e}")
+            logger.debug("Could not save embedding cache %s: %s", key, e)
+
+    def _load_from_cache(self, key: str) -> Union[np.ndarray, None]:
+        """Load embedding from disk if present."""
+        try:
+            filename = self.cache_dir / f"{key}.pkl"
+            if not filename.exists():
+                return None
+            with open(filename, "rb") as f:
+                emb = pickle.load(f)
+                return np.asarray(emb, dtype=np.float32)
+        except Exception as e:
+            logger.debug("Could not load embedding cache %s: %s", key, e)
+            return None
+
+    def _normalize(self, embedding: np.ndarray) -> np.ndarray:
+        """Normalize an embedding to unit length."""
+        emb = np.asarray(embedding, dtype=np.float32)
+        norm = np.linalg.norm(emb)
+        if norm > 0:
+            return emb / norm
+        return emb
 
     def clear_cache(self):
-        """Clear embedding cache"""
-        self.cache.clear()
-        for cache_file in self.cache_dir.glob("*.pkl"):
-            cache_file.unlink()
-        logger.info("Embedding cache cleared")
+        """Clear in-memory and on-disk cache."""
+        try:
+            for p in self.cache_dir.glob("*.pkl"):
+                try:
+                    p.unlink()
+                except Exception:
+                    pass
+            self.cache.clear()
+            logger.info("Embedding cache cleared")
+        except Exception as e:
+            logger.warning("Failed to clear embedding cache: %s", e)

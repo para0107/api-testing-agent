@@ -58,48 +58,80 @@ class VectorStore:
 
         logger.info(f"Created index: {index_name}")
 
+    # python
     def add(self, index_name: str, embeddings: np.ndarray,
             metadata: List[Dict[str, Any]] = None, ids: List[int] = None):
         """
-        Add embeddings to index
-
-        Args:
-            index_name: Name of the index
-            embeddings: Numpy array of embeddings
-            metadata: Optional metadata for each embedding
-            ids: Optional IDs for embeddings
+        Add embeddings to index (robust: dtype/shape checks, train IVF if needed,
+        safer id generation, store metadata).
         """
         if index_name not in self.indices:
             raise ValueError(f"Index {index_name} not found")
 
         index = self.indices[index_name]
 
-        # Ensure embeddings are 2D
-        if len(embeddings.shape) == 1:
-            embeddings = embeddings.reshape(1, -1)
+        # Ensure numpy array and 2D
+        emb = np.asarray(embeddings, dtype=np.float32)
+        if emb.ndim == 1:
+            emb = emb.reshape(1, -1)
+        emb = np.ascontiguousarray(emb)
 
-        # Generate IDs if not provided
+        n, dim = emb.shape
+        if dim != self.dimension:
+            logger.warning("Embedding dim (%d) != configured dimension (%d). Truncating/padding.",
+                           dim, self.dimension)
+            if dim > self.dimension:
+                emb = emb[:, : self.dimension]
+            else:
+                pad = np.zeros((n, self.dimension - dim), dtype=np.float32)
+                emb = np.hstack([emb, pad])
+
+        # Prepare IDs
         if ids is None:
-            start_id = len(self.metadata_stores[index_name])
-            ids = list(range(start_id, start_id + len(embeddings)))
+            existing_keys = list(self.metadata_stores.get(index_name, {}).keys())
+            if existing_keys:
+                start_id = max(existing_keys) + 1
+            else:
+                start_id = int(getattr(index, "ntotal", 0) or 0)
+            ids_array = np.arange(start_id, start_id + n, dtype=np.int64)
+        else:
+            ids_array = np.asarray(ids, dtype=np.int64)
+            if ids_array.shape[0] != n:
+                raise ValueError("Length of ids does not match number of embeddings")
 
-        # Convert to numpy array
-        ids_array = np.array(ids, dtype=np.int64)
+        # Find inner index (IndexIDMap wrapper may expose .index)
+        inner = getattr(index, "index", None) or getattr(index, "faiss_index", None) or index
 
-        # Train index if needed (for IVF)
-        if isinstance(index.index, faiss.IndexIVFFlat) and not index.index.is_trained:
-            logger.info(f"Training index {index_name}")
-            index.index.train(embeddings)
+        # Train if required (IVF / trainable indices)
+        try:
+            if hasattr(inner, "is_trained") and not inner.is_trained:
+                logger.info("FAISS index '%s' is not trained; training with %d vectors...", index_name, n)
+                train_vecs = emb
+                max_train = 10000
+                if n > max_train:
+                    idxs = np.random.choice(n, size=max_train, replace=False)
+                    train_vecs = emb[idxs]
+                train_vecs = np.ascontiguousarray(train_vecs.astype(np.float32))
+                inner.train(train_vecs)
+                logger.info("FAISS index '%s' trained", index_name)
+        except Exception as e:
+            logger.warning("Failed to train FAISS index '%s': %s", index_name, e)
+            raise
 
-        # Add to index
-        index.add_with_ids(embeddings, ids_array)
+        # Add embeddings with ids
+        try:
+            index.add_with_ids(emb, ids_array)
+        except Exception as e:
+            logger.error("Failed to add embeddings to FAISS index '%s': %s", index_name, e)
+            raise
 
-        # Store metadata
+        # Store metadata (map ids -> metadata)
         if metadata:
-            for id_, meta in zip(ids, metadata):
-                self.metadata_stores[index_name][id_] = meta
+            store = self.metadata_stores.setdefault(index_name, {})
+            for id_, meta in zip(ids_array.tolist(), metadata):
+                store[int(id_)] = meta
 
-        logger.info(f"Added {len(embeddings)} embeddings to {index_name}")
+        logger.info("Added %d embeddings to %s (ids %d..%d)", n, index_name, ids_array[0], ids_array[-1])
 
     def search(self, index_name: str, query_embedding: np.ndarray,
                k: int = 10) -> Tuple[List[int], List[float], List[Dict]]:

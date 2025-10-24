@@ -14,6 +14,9 @@ import numpy as np
 import torch
 from dotenv import load_dotenv
 import os
+
+from reinforcement_learning import ExperienceBuffer
+
 load_dotenv()
 
 
@@ -26,7 +29,7 @@ from rag.vector_store import VectorStore
 from rag.embeddings import EmbeddingManager
 from rag.chunking import ChunkingStrategy
 from rag.indexer import Indexer
-from reinforcement_learning.rl_optimizer import RLOptimizer
+from reinforcement_learning.rl_optimizer import RLOptimizer, rl_config
 from test_execution.executor import TestExecutor
 from utils.logger import setup_logger
 from config import paths
@@ -41,6 +44,17 @@ class QASETestParser:
         self.test_patterns = []
         self.edge_cases = []
         self.validation_rules = []
+
+    def _to_text(self, value) -> str:
+        """Safely convert value to string (return empty string for None/invalid)."""
+        if value is None:
+            return ""
+        if isinstance(value, str):
+            return value
+        try:
+            return str(value)
+        except Exception:
+            return ""
 
     def parse_qase_files(self, file_paths: List[Path]) -> Dict[str, List]:
         """Parse all QASE JSON files"""
@@ -81,7 +95,7 @@ class QASETestParser:
         }
 
         for suite in suites:
-            for case in suite.get('cases', []):
+            for case in suite.get('cases', []) or []:
                 parsed_case = self._parse_test_case(case)
 
                 if self._is_edge_case(case):
@@ -97,7 +111,7 @@ class QASETestParser:
                 if api_pattern:
                     data['api_patterns'].append(api_pattern)
 
-            nested = self._parse_suite_recursive(suite.get('suites', []))
+            nested = self._parse_suite_recursive(suite.get('suites', []) or [])
             for key in data:
                 data[key].extend(nested[key])
 
@@ -105,32 +119,35 @@ class QASETestParser:
 
     def _parse_test_case(self, case: Dict) -> Dict:
         """Parse individual test case"""
+        # Safely extract fields
+        title = self._to_text(case.get('title', ''))
+        description = self._to_text(case.get('description', ''))
         endpoint_info = self._extract_endpoint_info(case)
 
         return {
             'id': case.get('id'),
-            'name': case.get('title', ''),
-            'description': case.get('description', ''),
+            'name': title,
+            'description': description,
             'test_type': self._determine_test_type(case),
             'priority': case.get('priority', 'medium'),
             'severity': case.get('severity', 'normal'),
             'endpoint': endpoint_info.get('endpoint', ''),
             'method': endpoint_info.get('method', ''),
-            'preconditions': case.get('preconditions', ''),
-            'postconditions': case.get('postconditions', ''),
-            'steps': self._parse_steps(case.get('steps', [])),
+            'preconditions': self._to_text(case.get('preconditions', '')),
+            'postconditions': self._to_text(case.get('postconditions', '')),
+            'steps': self._parse_steps(case.get('steps', []) or []),
             'expected_status': endpoint_info.get('expected_status', 200),
-            'parameters': self._parse_parameters(case.get('params', [])),
-            'tags': case.get('tags', [])
+            'parameters': self._parse_parameters(case.get('params', []) or []),
+            'tags': case.get('tags', []) or []
         }
 
     def _extract_endpoint_info(self, case: Dict) -> Dict:
         """Extract endpoint, method, and expected status"""
         info: Dict = {'endpoint': '', 'method': '', 'expected_status': 200}
 
-        for step in case.get('steps', []):
-            action = step.get('action', '')
-            expected = step.get('expected_result', '')
+        for step in (case.get('steps', []) or []):
+            action = self._to_text(step.get('action', ''))
+            expected = self._to_text(step.get('expected_result', ''))
 
             method_match = re.search(r'\b(GET|POST|PUT|DELETE|PATCH)\s+([/\w{}-]+)', action, re.IGNORECASE)
             if method_match:
@@ -147,22 +164,22 @@ class QASETestParser:
         """Parse test steps"""
         return [{
             'position': step.get('position', 0),
-            'action': step.get('action', ''),
-            'expected_result': step.get('expected_result', ''),
+            'action': self._to_text(step.get('action', '')),
+            'expected_result': self._to_text(step.get('expected_result', '')),
             'data': step.get('data', '')
         } for step in steps]
 
     def _parse_parameters(self, params: List[Dict]) -> List[Dict]:
         """Parse test parameters"""
         return [{
-            'name': param.get('title', ''),
-            'values': param.get('values', [])
+            'name': self._to_text(param.get('title', '')),
+            'values': param.get('values', []) or []
         } for param in params]
 
     def _determine_test_type(self, case: Dict) -> str:
         """Determine test type from title/description"""
-        title = case.get('title', '').lower()
-        desc = case.get('description', '').lower()
+        title = self._to_text(case.get('title', '')).lower()
+        desc = self._to_text(case.get('description', '')).lower()
         text = f"{title} {desc}"
 
         if any(word in text for word in ['duplicate', 'invalid', 'negative', 'fail', 'error']):
@@ -180,8 +197,8 @@ class QASETestParser:
 
     def _is_edge_case(self, case: Dict) -> bool:
         """Determine if test is an edge case"""
-        title = case.get('title', '').lower()
-        desc = case.get('description', '').lower()
+        title = self._to_text(case.get('title', '')).lower()
+        desc = self._to_text(case.get('description', '')).lower()
 
         edge_keywords = [
             'duplicate', 'invalid', 'null', 'empty', 'boundary',
@@ -192,8 +209,8 @@ class QASETestParser:
 
     def _extract_validation_rules(self, case: Dict) -> Dict:
         """Extract validation rules"""
-        title = case.get('title', '')
-        desc = case.get('description', '')
+        title = self._to_text(case.get('title', ''))
+        desc = self._to_text(case.get('description', ''))
 
         if 'duplicate' in title.lower() or 'unique' in desc.lower():
             endpoint_info = self._extract_endpoint_info(case)
@@ -208,7 +225,7 @@ class QASETestParser:
 
     def _extract_field_name(self, title: str, desc: str) -> str:
         """Extract field name from text"""
-        text = f"{title} {desc}".lower()
+        text = f"{self._to_text(title)} {self._to_text(desc)}".lower()
         fields = ['email', 'username', 'id', 'password', 'license', 'plate']
 
         for field in fields:
@@ -229,15 +246,15 @@ class QASETestParser:
             'method': endpoint_info['method'],
             'test_type': self._determine_test_type(case),
             'expected_status': endpoint_info['expected_status'],
-            'description': case.get('description', ''),
-            'preconditions': case.get('preconditions', '')
+            'description': self._to_text(case.get('description', '')),
+            'preconditions': self._to_text(case.get('preconditions', ''))
         }
 
 
 class TrainingPipeline:
     """Complete training pipeline using existing project components"""
 
-    def __init__(self, api_base_url: str, hf_token:str = None):
+    def __init__(self, api_base_url: str, hf_token: str = None):
         self.api_base_url = api_base_url
         self.parser = QASETestParser()
 
@@ -290,6 +307,10 @@ class TrainingPipeline:
 
     async def _populate_knowledge_base(self, parsed_data: Dict):
         """Add parsed data to knowledge base"""
+
+        # Clear existing knowledge base to avoid duplicates
+        logger.info("Clearing existing knowledge base...")
+        self.knowledge_base = KnowledgeBase()
 
         for pattern in parsed_data['test_patterns']:
             self.knowledge_base.add_knowledge('test_patterns', pattern)
@@ -348,6 +369,10 @@ class TrainingPipeline:
             return
 
         logger.info(f"Indexing {len(items)} {item_type}s into '{index_name}'...")
+
+        # Clear existing index to avoid duplicates
+        logger.info(f"Clearing existing index '{index_name}'...")
+        self.vector_store.clear_index(index_name)
 
         texts = []
         for item in items:
@@ -417,6 +442,10 @@ class TrainingPipeline:
             return
 
         logger.info("Creating training experiences...")
+
+        # Clear existing experience buffer to avoid duplicates
+        logger.info("Clearing existing experience buffer...")
+        self.rl_optimizer.experience_buffer = ExperienceBuffer(rl_config.buffer_size)
 
         for result in execution_results:
             state_vector = self._create_state_vector(result)
@@ -545,50 +574,42 @@ class TrainingPipeline:
 async def main():
     """Main training entry point"""
 
-    print("""
-    ╔══════════════════════════════════════════════════════════════════╗
-    ║        API Testing Agent - QASE Training Pipeline               ║
-    ║                                                                  ║
-    ║  This will train your system using QASE test files              ║
-    ╚══════════════════════════════════════════════════════════════════╝
-    """)
+    logger.info("API Testing Agent - QASE Training Pipeline")
+    logger.info("Starting automated training process...")
 
+    # Configuration
     QASE_FILES = [
         Path('data/training/QA-Backend-Data.json')
     ]
+    API_BASE_URL = "https://localhost:7063"
+    EXECUTE_TESTS = False
 
+    # Verify files exist
     missing_files = [f for f in QASE_FILES if not f.exists()]
     if missing_files:
-        print(f"Error: Missing files: {[f.name for f in missing_files]}")
+        logger.error(f"Missing required files: {[f.name for f in missing_files]}")
         return
 
-    API_BASE_URL = input("\nEnter your local API URL (default: https://localhost:7063): ").strip()
-    if not API_BASE_URL:
-        API_BASE_URL = "https://localhost:7063"
+    logger.info(f"Configuration:")
+    logger.info(f"  QASE Files: {len(QASE_FILES)} files")
+    logger.info(f"  API URL: {API_BASE_URL}")
+    logger.info(f"  Execute Tests: {'Yes' if EXECUTE_TESTS else 'No (knowledge base only)'}")
 
-    execute_tests = input("\nExecute tests against API? (y/n) [n]: ").strip().lower() == 'y'
-
-    print(f"\nQASE Files: {len(QASE_FILES)} files")
-    print(f"API URL: {API_BASE_URL}")
-    print(f"Execute Tests: {'Yes' if execute_tests else 'No (knowledge base only)'}")
-
-    confirm = input("\nStart training? (y/n) [y]: ").strip().lower()
-    if confirm == 'n':
-        print("Training cancelled")
-        return
+    # Get HuggingFace token from environment
     HF_TOKEN = os.getenv("HG_TOKEN") or os.getenv("HUGGINGFACE_HUB_TOKEN") or os.getenv("HF_TOKEN")
-    pipeline = TrainingPipeline(api_base_url=API_BASE_URL, hf_token=HF_TOKEN)
-    await pipeline.train(QASE_FILES, execute_tests=execute_tests)
 
-    print("\n" + "=" * 80)
-    print("TRAINING COMPLETE")
-    print("=" * 80)
-    print("\nNext steps:")
-    print("   1. Verify training: Check data/vectors/ and data/knowledge_base/")
-    print("   2. Test retrieval: Search for similar patterns in knowledge base")
-    print("   3. Generate tests: Run main.py with your API code")
-    print("\nSee QASE_TRAINING_GUIDE.md for detailed usage instructions")
-    print("=" * 80)
+    # Initialize and run training
+    pipeline = TrainingPipeline(api_base_url=API_BASE_URL, hf_token=HF_TOKEN)
+    await pipeline.train(QASE_FILES, execute_tests=EXECUTE_TESTS)
+
+    logger.info("\n" + "=" * 80)
+    logger.info("TRAINING COMPLETE")
+    logger.info("=" * 80)
+    logger.info("\nNext steps:")
+    logger.info("   1. Verify training: Check data/vectors/ and data/knowledge_base/")
+    logger.info("   2. Test retrieval: Search for similar patterns in knowledge base")
+    logger.info("   3. Generate tests: Run main.py with your API code")
+    logger.info("=" * 80)
 
 
 if __name__ == "__main__":
