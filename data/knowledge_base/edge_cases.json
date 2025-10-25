@@ -14223,5 +14223,4078 @@
     "parameters": [],
     "tags": [],
     "added_at": "2025-10-24T10:43:23.345722"
+  },
+  {
+    "id": "6249713227295607857",
+    "name": "Test User entity-Create-Succesfull",
+    "description": "Verify that a new user can be created and no duplicate is created",
+    "test_type": "validation",
+    "priority": "high",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "Database is accesible\nUser table exists",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send POST request to create user with valid data\nPOST /user",
+        "expected_result": "201 OK response",
+        "data": "id, password, email, name, lastname, IsAdmin, licence plate"
+      }
+    ],
+    "expected_status": 201,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.435484"
+  },
+  {
+    "id": "-8917873332379798044",
+    "name": "User entity-Create a user with duplicate email-Succesfull",
+    "description": "Testing if creating a user with an email that another user already has works or not",
+    "test_type": "validation",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "There is already a user with the desired email",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Create a new user\nPOST/ user/{params}\n//duplicate email",
+        "expected_result": "500 Internal server error",
+        "data": ""
+      }
+    ],
+    "expected_status": 500,
+    "parameters": [
+      {
+        "name": "id",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "password",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "email(not unique)",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "isAdmin",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "licence plate",
+        "values": [
+          "-"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.459867"
+  },
+  {
+    "id": "-8921280667825979824",
+    "name": "Create user-duplicate license plate-Successful",
+    "description": "Create a user with a licence plate that already belongs to another user",
+    "test_type": "validation",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "/users",
+    "method": "POST",
+    "preconditions": "There is a user that already has a licence plate that the new user wants to use",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "The new user is created with a duplicate licence plate\nPOST /users /{all_fields}\n//duplicate licence plate",
+        "expected_result": "500 Internal Server error",
+        "data": ""
+      }
+    ],
+    "expected_status": 500,
+    "parameters": [
+      {
+        "name": "id",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "password",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "email",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "name",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "lastname",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "isAdmin",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "licence plate",
+        "values": [
+          "//duplicate"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.481106"
+  },
+  {
+    "id": "-1571083297595906014",
+    "name": "User-update a duplicate licence plate-successful",
+    "description": "Update an existing user's licence plate value with one that already belongs to one of the user's from the database",
+    "test_type": "validation",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "/users",
+    "method": "PATCH",
+    "preconditions": "There are at least two users in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Update with an existing user's licence plate value\nPATCH /users /{userid} /{licence_plate}",
+        "expected_result": "40_ status code",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "licence_plate",
+        "values": [
+          "//a value that already exists in the database"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.501127"
+  },
+  {
+    "id": "5792528849744170103",
+    "name": "User-Create a user with empty first name-successful",
+    "description": "Testing if creating a user with an empty name works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send POST request to /api/users/{userid}/{name}",
+        "expected_result": "Status code 40_. The name should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "name",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.525124"
+  },
+  {
+    "id": "-1034776564290359268",
+    "name": "User-Create a user with empty password-successful*",
+    "description": "Testing if creating a user with an empty password works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a POST request to api/users/{userid}/{password}",
+        "expected_result": "422 Error Unprocessable Entity . The password should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [
+      {
+        "name": "password",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.547111"
+  },
+  {
+    "id": "1677975410574866648",
+    "name": "User-Create a user with empty lastname-successful",
+    "description": "Testing if creating a user with an empty lastname works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a POST request to api/users/{userid}/{lastname}",
+        "expected_result": "40_ . The name should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "lastname",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.594124"
+  },
+  {
+    "id": "-2967487212525115196",
+    "name": "User-Create a user with empty email-successful",
+    "description": "Testing if creating a user with an empty email works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a POST request to api/users/{userid}/{email}",
+        "expected_result": "40_ . The email should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "email",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.625311"
+  },
+  {
+    "id": "4532306637825368225",
+    "name": "User-Create a user with empty isAdmin-succesfull",
+    "description": "Testing if creating a user with an empty isAdmin works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a POST request to api/users/{userid}/{isAdmin}",
+        "expected_result": "40_ . The isAdmin field should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "isAdmin",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.652005"
+  },
+  {
+    "id": "-8536497289864554124",
+    "name": "User-Update an user with empty licence plate-successful",
+    "description": "Testing if updating a user with an empty licence plate works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There exists at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a PATCH request to api/users/{userid}/{licence_plate}",
+        "expected_result": "40_ . The licence plate field should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "licence plate",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.678722"
+  },
+  {
+    "id": "4976715552585741993",
+    "name": "User-Create a user with empty licence plate-successful",
+    "description": "Testing if creating a user with an empty licence plate works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a POST request to api/users/{userid}/{licence_plate}",
+        "expected_result": "40_ . The licence plate field should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "licence plate",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.700315"
+  },
+  {
+    "id": "-2493825861605892175",
+    "name": "User-Update an user with empty lastname-successful*",
+    "description": "Testing if updating a user with an empty lastname works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There exists at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a PATCH request to api/users/{userid}/{lastname}",
+        "expected_result": "422 Unprocessable entity. The lastname field should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [
+      {
+        "name": "lastname",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.725878"
+  },
+  {
+    "id": "4900148189033973641",
+    "name": "User-Update an user with empty name-successful",
+    "description": "Testing if updating a user with an empty name works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There exists at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a PATCH request to api/users/{userid}/{name}",
+        "expected_result": "40_ . The name field should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "lastname",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.750414"
+  },
+  {
+    "id": "7264299231738191748",
+    "name": "User-Update an user with empty password-successful*",
+    "description": "Testing if updating a user with an password works or not",
+    "test_type": "edge_case",
+    "priority": "low",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There exists at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a PATCH request to api/users/{userid}/{password}",
+        "expected_result": "40_ . The password field should not be empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "password",
+        "values": [
+          "//empty"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.776898"
+  },
+  {
+    "id": "7983629096054101363",
+    "name": "User-create user with special characters in lastname(except '-')-succesfull",
+    "description": "Creating a new user with special characters in their name",
+    "test_type": "functional",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a POST request to /api/users",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.809602"
+  },
+  {
+    "id": "7273815711525261386",
+    "name": "User-update name of a user to contain special characters-successful*",
+    "description": "Testing if updating an user's lastname with a name that contains special characters works",
+    "test_type": "happy_path",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a PATCH request to /api/users/last-name",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.835368"
+  },
+  {
+    "id": "692753463594124158",
+    "name": "Create user with license plate that contains special characters-negative-successful",
+    "description": "Testing if a user can have characters like !,^ or \\* in their license plate(should not have)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/users",
+        "expected_result": "422 unprocessed entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.855152"
+  },
+  {
+    "id": "9168481296993053265",
+    "name": "Update license plate to contain special characters-negative-successful*",
+    "description": "",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/user-id/licence-plate",
+        "expected_result": "422 Unprocessed entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.878501"
+  },
+  {
+    "id": "-127043461997055139",
+    "name": "Key Entity-Create-successful",
+    "description": "Creates a new key entity and checks that no duplicate key should be created",
+    "test_type": "validation",
+    "priority": "high",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "Key table is created\nserial number has 10 special characters",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a POST request to /api/keys",
+        "expected_result": "A new key is created\n200 status code",
+        "data": "id, serial number"
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "id",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "serial number",
+        "values": [
+          "-"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.910340"
+  },
+  {
+    "id": "920976858022413075",
+    "name": "Key-create with duplicate serial number-successful",
+    "description": "Create a key with a serial number that already belongs to another",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "to",
+    "method": "POST",
+    "preconditions": "There is already a key in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a request POST to /api/keys with a serial_number that exists in the database",
+        "expected_result": "40_ . Another key already has this serial_number",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "serial_number",
+        "values": [
+          "//duplicate"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.936707"
+  },
+  {
+    "id": "-5593307114970504369",
+    "name": "Key-update with duplicate serial number-successful",
+    "description": "Update an existing key with a serial nmber that belongs to n existing key",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "major",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "There are at least 2 keys in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send POST request to /api/keys",
+        "expected_result": "40_ code respone. Cannot have duplicate serial number",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.960249"
+  },
+  {
+    "id": "677444691220448259",
+    "name": "Key-create with special characters-successsful",
+    "description": "",
+    "test_type": "functional",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/keys",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:49.982994"
+  },
+  {
+    "id": "8846130487586970410",
+    "name": "Update a key with special characters in serial number-successful",
+    "description": "",
+    "test_type": "happy_path",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PUT",
+    "preconditions": "There is at least one key in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PUT request to /api/keys/keyId",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.005488"
+  },
+  {
+    "id": "6501326576310642521",
+    "name": "Create a duplicate key with duplicate upper letters-successful(not case sensitive)",
+    "description": "Testing if upper letters are handled as duplicates with one that has lower letters",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/keys",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.032649"
+  },
+  {
+    "id": "-1694079674900230938",
+    "name": "Reservation-Update as admin-positive-successful",
+    "description": "Check that the user can update the date of the reservation, but not move it to a date when there is also another reservation for the same user, and where there are no more than 24 reservations on that day(maximum amount)",
+    "test_type": "happy_path",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "/reservation/{reservation_id}/{date}",
+    "method": "PUT",
+    "preconditions": "There is at least one user and one reservation for that user",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "PUT /reservation/{reservation_id}/{date}",
+        "expected_result": "200 if the reservation is successfully changed\n40_ if there is already another reservation associated to that user in that day\n40_ if there are already 24 reservations in that day",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [
+      {
+        "name": "reservation_id",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "user_id",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "date",
+        "values": [
+          "-"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.055916"
+  },
+  {
+    "id": "-2415711940014021661",
+    "name": "Create multiple reservations on same date(user)-negative-successful",
+    "description": "Testing if creating multiple reservations on the same date works or not(should not for a user)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send two POST request to api/Reservation on the same day",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.083787"
+  },
+  {
+    "id": "4984598693138069549",
+    "name": "Create reservation s.t. the start date is after the end date-negative-successful",
+    "description": "Testing if the start date is always before the end date",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/Reservation with start_date after end_date",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [
+      {
+        "name": "start_date",
+        "values": [
+          "later than final_date"
+        ]
+      },
+      {
+        "name": "final_date",
+        "values": [
+          "earlier that start_date"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.113535"
+  },
+  {
+    "id": "2910068829281697421",
+    "name": "Update a reservation s.t. there are 2 on the same day(from same user)-negative-successful",
+    "description": "Testing if updating a reservation on a date when another reservation is done by the same user is possible(should not be)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PUT",
+    "preconditions": "There are at least two reservations done by the same user in the db",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PUT request to /api/Reservation/{reservationId} to modify the start and end dates of a reservation of a user to match the exact start and end dates of other reservation that belongs to the same user",
+        "expected_result": "409 conflict",
+        "data": ""
+      }
+    ],
+    "expected_status": 409,
+    "parameters": [
+      {
+        "name": "start_date",
+        "values": [
+          "same as the second reservation"
+        ]
+      },
+      {
+        "name": "end_date",
+        "values": [
+          "same as the second reservation"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.136984"
+  },
+  {
+    "id": "-8588248395402754595",
+    "name": "Update a reservation s.t. there is the start date after the end date-negative-successful",
+    "description": "Testing if updating a reservation's start\\_date to be later than the end\\_date",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PUT",
+    "preconditions": "There is at least one reservation in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PUT request to /api/Reservation/{reservationId} to update a reservation's start and end dates",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [
+      {
+        "name": "start_date",
+        "values": [
+          "after the end_date"
+        ]
+      },
+      {
+        "name": "end_date",
+        "values": [
+          "after the start_date"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.158404"
+  },
+  {
+    "id": "-4995471698300193532",
+    "name": "Test that a reservation is not done by a non-existent user-negative-successful",
+    "description": "Test that a reservation cannot hold the id of a user that does not exist",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "There are at least one reservation and one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/keys",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.179652"
+  },
+  {
+    "id": "-961700075948450021",
+    "name": "update a reservation that does not exist in the database(non-existent id in the db)-negative-successful",
+    "description": "Check that , if a non-existed id is introduced, the reservation cannot be updated",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PUT",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PUT request with a non-existent id",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.201972"
+  },
+  {
+    "id": "4727961154227142533",
+    "name": "Delete non-existent reservation-negative-successful",
+    "description": "Check that a non-existed reservation cannot be deleted",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "DELETE",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a DELETE request to /api/Reservation/{reservation_id}",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [
+      {
+        "name": "reservation_id",
+        "values": [
+          "do not exist in the db"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.227560"
+  },
+  {
+    "id": "277818535338620457",
+    "name": "Bad format for date creation is approved-negative-successful",
+    "description": "Testing if a string, for example, instead of the month works(should not)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/reservations",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.254734"
+  },
+  {
+    "id": "3231730499964460483",
+    "name": "Create more than 24 reservations on a day-negative-successful",
+    "description": "Create more than 24 reservations on a day",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "requests",
+    "method": "POST",
+    "preconditions": "There is at least one admin in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send 24 POST requests to /api/reservations",
+        "expected_result": "",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.278338"
+  },
+  {
+    "id": "-5323976685602022095",
+    "name": "Update a reservation with bad date format-negative-successful",
+    "description": "Updating a date with string instead of the day, for example(it should not work)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one reservation in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/reservations/",
+        "expected_result": "",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.300617"
+  },
+  {
+    "id": "-128491730387146577",
+    "name": "Get by Id that does not exist-negative-successful",
+    "description": "Return a reservation that does not exist",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/reservations/reservationId",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.325908"
+  },
+  {
+    "id": "-7244842884594754435",
+    "name": "Update reservations such that there are more than 24 in a day-negative-successful",
+    "description": "Testing if I can update reservations s.t. there are more than 24 on the same day",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PUT",
+    "preconditions": "There are at least 24 reservations already in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send multiple(minimum 24) PUT request to /api/Reservation s.t. there ar at least 24 reservations on the same date",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.346372"
+  },
+  {
+    "id": "-7780333625989315892",
+    "name": "Create reservation with previous date than today-negative-successful",
+    "description": "Create a date before 08.2025(example)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/reservations",
+        "expected_result": "422 not valid",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.370890"
+  },
+  {
+    "id": "-1860663140946499973",
+    "name": "Update reservation with previous dates than today-negative-successful",
+    "description": "Update a reservation for previous date",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PUT",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PUT request to /api/reservations/reservationId",
+        "expected_result": "422 invalid",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.402440"
+  },
+  {
+    "id": "4223330279646741365",
+    "name": "Create reservation with invalid months and days-negative-successful",
+    "description": "Test if creating a reservation with invalid months and days works(like month 13)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/reservations",
+        "expected_result": "422 invalid",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.433022"
+  },
+  {
+    "id": "-1582182718148465178",
+    "name": "Update reservation with invalid months and dates-negative-successful",
+    "description": "Test if updating a reservation with invalid months and days works(like month 13)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "| send a PUTrequest to /api/reservations |  |\n| -------------------------------------- | --- |\n|\n\n\n<br>",
+        "expected_result": "422 invalid",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.460167"
+  },
+  {
+    "id": "-1751669521717644052",
+    "name": "Patch for empty license-negative-succesfully",
+    "description": "Updating a user's license plate with a null value",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "| Send a PATCH request to /api/users/{userid}/licence-plate with empty value |  |\n| -------------------------------------------------------------------------- | --- |\n|\n\n\n<br>",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.488148"
+  },
+  {
+    "id": "-8002899892701812912",
+    "name": "Patch for empty password-negative-succesfully",
+    "description": "Updating a user with an empty password",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "| Send a PATCH request to /api/users/{userid}/password and filling the field \"old password\", \"new password\", \"confirm password\" |  |\n| ----------------------------------------------------------------------------------------------------------------------------- | --- |\n|\n\n\n<br>",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.518828"
+  },
+  {
+    "id": "2025042572628243428",
+    "name": "Update license plate to contain special characters-negative-successful",
+    "description": "Updating a user's license plate with special characters",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/user-id/licence-plate",
+        "expected_result": "422 Unprocessed entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.547054"
+  },
+  {
+    "id": "-8732084894493510988",
+    "name": "Update with an invalid old Password-negative-successful",
+    "description": "Updating a user's password by introducing in the old password field a password that is not his",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/:userId/password, with \"oldPassword\" field different from the actual password",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.576623"
+  },
+  {
+    "id": "7778881147983954300",
+    "name": "Update for unmatching confirmation password with the new password field-negative-successful",
+    "description": "Updating a user's password with a new password that does not match the confirmation password field",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/:userid/password",
+        "expected_result": "422 unprocessed entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.603561"
+  },
+  {
+    "id": "-310729014833820729",
+    "name": "Update password of a user that does not exist-negative-successful",
+    "description": "Use an id that does not belong to any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/:userid/password",
+        "expected_result": "422 Unprocessable Entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.634017"
+  },
+  {
+    "id": "-8008418493065849768",
+    "name": "Update license plate of a user that does not exist-negative-successful",
+    "description": "Use an id that does not belong to any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/:userid/licence-plate",
+        "expected_result": "422 Unprocessable Entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.660233"
+  },
+  {
+    "id": "-2276600012171242276",
+    "name": "Update first name of a user that does not exist-negative-successful",
+    "description": "Use an id that does not belong to any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/:userid/first-name",
+        "expected_result": "422 Unprocessable Entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.689780"
+  },
+  {
+    "id": "-7613755096727980039",
+    "name": "Update last name of a user that does not exist-negative-successful",
+    "description": "Use an id that does not belong to any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "There is at least one user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/:userid/last-name",
+        "expected_result": "422 Unprocessable Entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.721106"
+  },
+  {
+    "id": "8014626061897814110",
+    "name": "Invalid JSON Body Handling-successful",
+    "description": "Verify that a malformed JSON does not crash the application",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "JSON body is accepted",
+    "postconditions": "App remains running",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send POST request",
+        "expected_result": "JSON parsing fails",
+        "data": ""
+      },
+      {
+        "position": 2,
+        "action": "Middleware catches exception",
+        "expected_result": "400 Bad Request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.746860"
+  },
+  {
+    "id": "-4623100363603986252",
+    "name": "Validation Error - Missing required fields-successful",
+    "description": "Verify middleware rejects requests missing/invalid required fields and sends formatted error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send POST request missing fields",
+        "expected_result": "Missing fields are detected,\n400 is returned, response contains JSON validation error",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.783923"
+  },
+  {
+    "id": "6216548234375253924",
+    "name": "Invalid token signature-successful",
+    "description": "Verify API rejects a request with an invalid JWT signature",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User exists in DB. An invalid JWT is generated (alter payload/use incorrect key)",
+    "postconditions": "The requests are rejected. Authentication fails.",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Take valid JWT for existing user",
+        "expected_result": "",
+        "data": ""
+      },
+      {
+        "position": 2,
+        "action": "Modify payload",
+        "expected_result": "",
+        "data": ""
+      },
+      {
+        "position": 3,
+        "action": "Use untrusted key",
+        "expected_result": "",
+        "data": ""
+      },
+      {
+        "position": 4,
+        "action": "Send GET request",
+        "expected_result": "401 Unauthorized, Error message",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.815813"
+  },
+  {
+    "id": "-1323157147511525460",
+    "name": "GetAll() method modified-negative-successful",
+    "description": "Get All should return keys grouped in two groups : assigned and not assigned",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys",
+        "expected_result": "403 Forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.846894"
+  },
+  {
+    "id": "5497672974554878573",
+    "name": "Assigned key returns information about user that holds it-negative-successful",
+    "description": "Checking that the current key contains the correct user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "There is at least one key assigned to a user",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send a PATCH request to /api/users/{userId}/key",
+        "expected_result": "403 forbidden",
+        "data": ""
+      },
+      {
+        "position": 2,
+        "action": "Send GET request to /api/users/{userId} to check that the key holds information about the current user",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [
+      {
+        "name": "KeyId",
+        "values": [
+          "Existent in the db"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.872933"
+  },
+  {
+    "id": "1316235747020147887",
+    "name": "An unassigned key returns information about any user-negative - successful",
+    "description": "Testing if a key returns information about any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "to",
+    "method": "GET",
+    "preconditions": "At least one key and a user in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET to /api/key/{keyId}",
+        "expected_result": "403 FORBIDDEN",
+        "data": ""
+      },
+      {
+        "position": 2,
+        "action": "check the user returned in the key",
+        "expected_result": "null",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [
+      {
+        "name": "KeyId",
+        "values": [
+          "-"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.896429"
+  },
+  {
+    "id": "4569325901131876715",
+    "name": "Same key is assigned multiple times-negative-successful",
+    "description": "The key assigned to other users multiple times should retain the information from the last user it was assigned to",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "There is at least a key, an admin, and multiple users",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send multiple PATCH request to /api/keys/{userId}/key",
+        "expected_result": "403 forbidden",
+        "data": ""
+      },
+      {
+        "position": 2,
+        "action": "send a GET request to /api/users/{userId}",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [
+      {
+        "name": "keyId",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "userId",
+        "values": [
+          "multiple values"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.922824"
+  },
+  {
+    "id": "7650770170030547514",
+    "name": "User assigns key-negative-successful",
+    "description": "Testing if a user can assign keys to other users",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "requests",
+    "method": "PATCH",
+    "preconditions": "There are at least two users in the database and one key",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send PATCH requests to /api/keys/{userId}/key multiple times",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [
+      {
+        "name": "Id of the users",
+        "values": [
+          "-"
+        ]
+      },
+      {
+        "name": "id of keys",
+        "values": [
+          "-"
+        ]
+      }
+    ],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.946095"
+  },
+  {
+    "id": "4925746204322059606",
+    "name": "Get all keys-negative-successful",
+    "description": "a user that is not logged in should not be able to get all keys",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:50.981746"
+  },
+  {
+    "id": "4698120814806955007",
+    "name": "Create key-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to create keys",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/keys",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.007267"
+  },
+  {
+    "id": "-5216353159212895839",
+    "name": "Search key by ID-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to return a key",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/keyId",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.030630"
+  },
+  {
+    "id": "731388245897100928",
+    "name": "Update the serial number of a key-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to update a key",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PUT",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PUT request to /api/keys/keyId",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.061576"
+  },
+  {
+    "id": "-3877633288360248077",
+    "name": "Delete key-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to delete a key",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a DEL request to /api/keys/keyId",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.083760"
+  },
+  {
+    "id": "6946314188609117500",
+    "name": "Get all users-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to see all users",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.109049"
+  },
+  {
+    "id": "-8105284272629173097",
+    "name": "Create user-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to create new users",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a POST request to /api/users",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.137023"
+  },
+  {
+    "id": "4626926075426248536",
+    "name": "Get user by Id-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to see any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/userId",
+        "expected_result": "401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.166124"
+  },
+  {
+    "id": "602010361158060376",
+    "name": "Delete user-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to delete any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a DEL request to /api/users/userId",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.199440"
+  },
+  {
+    "id": "-803093431535148745",
+    "name": "Update user by first-name-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to update any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/userId/first-name",
+        "expected_result": "401 Unaothorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.227550"
+  },
+  {
+    "id": "-2917766321565010918",
+    "name": "Update user by last-name-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to update any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/userId/last-name",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.264459"
+  },
+  {
+    "id": "-9076030387946377057",
+    "name": "Update user by license plate-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to update any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/userId/licence-plate",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.303151"
+  },
+  {
+    "id": "-2188340013595846876",
+    "name": "Update user by password-negative-successful",
+    "description": "a user/admin that is not logged in should not be able to update any user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "PATCH",
+    "preconditions": "user is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a PATCH request to /api/users/userId/password",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.331764"
+  },
+  {
+    "id": "5451967166817587886",
+    "name": "Create multiple reservations on same date-user-negative-successful",
+    "description": "Create at least 2 reservations as user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "POST",
+    "preconditions": "User is logged in and there is at least one reservation for that user in the db",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send multiple POST request to /api/Reservation/schedule/:userId",
+        "expected_result": "400 Bad Request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.356008"
+  },
+  {
+    "id": "8882704687114617658",
+    "name": "Get avaliable dates for other user-user-negative-successful",
+    "description": "User should not be able to see avaliable dates of other users",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in and there is at least one reservation for that user in the db",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/get-available-dates/:userId",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.386368"
+  },
+  {
+    "id": "-3287407937790925970",
+    "name": "Export as user-negative-successful",
+    "description": "User should not be able to export the file",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.416122"
+  },
+  {
+    "id": "3495174545836789319",
+    "name": "Export as not logged in-negative-successful",
+    "description": "Someone who is not logged in should not be able to generate files",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export",
+        "expected_result": "401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.443530"
+  },
+  {
+    "id": "-2769016821776015121",
+    "name": "If there is no reservation, document should be empty-successful",
+    "description": "The document should be empty if there is no reservation",
+    "test_type": "edge_case",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "There is no reservation in the db",
+    "postconditions": "",
+    "steps": [],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.473026"
+  },
+  {
+    "id": "8238880406103182036",
+    "name": "Send email about reminding reservation to users who have a key and  have a reservation in the last 2 weeks-1-negative-successful",
+    "description": "Send a key-job email to users who do have a reservation in the past 2 weeks",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a trigger to key-job",
+        "expected_result": "Email is not sent",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.500388"
+  },
+  {
+    "id": "-4532153928445145342",
+    "name": "Send email about reminding reservation to users who do not have a key and  have a reservation in the last 2 weeks-1-negative-successful",
+    "description": "Send a key-job email to users who do not have a key",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a trigger to key-job",
+        "expected_result": "email should not be sent",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.524380"
+  },
+  {
+    "id": "3383770309925567371",
+    "name": "Send a reservation remainder to users who had reservation's start date earlier than 2 weeks ago and end date later than 2 weeks ago-negative-successful",
+    "description": "Send an email to users whose reservations intercalates the 2 week period(should not happen)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a key-job trigger",
+        "expected_result": "email should not be sent",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.549460"
+  },
+  {
+    "id": "-2791153960339155511",
+    "name": "Send a reservation remainder to a user with a reservation starting later than 2 weeks ago and ending after today-negative-successful",
+    "description": "Send an email to a user whose reservation starts in the 2 weeks period and ends in the future",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a key-job trigger",
+        "expected_result": "email should not be sent",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.574138"
+  },
+  {
+    "id": "-4208114753573187424",
+    "name": "Send a reservation to a user who has a reservation starting earlier than 2 weeks ago and ending in the future-negative-successful",
+    "description": "Send a reservation that starts previously than the 2 weeks period and ends in the future",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a key-job trigger",
+        "expected_result": "email should not be sent",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.609173"
+  },
+  {
+    "id": "671895749235622992",
+    "name": "Send a reservation remainder to users who have a reservations in the last 2 weeks-negative-successful",
+    "description": "Send an email to users whose reservations are in the last two weeks",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a key-job trigger",
+        "expected_result": "email should not be sent",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.641682"
+  },
+  {
+    "id": "-5839620559845003093",
+    "name": "User tries to assign key with valid user JWT token-negative-successful",
+    "description": "Ensure user without admin rights can't assign keys",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User is logged in with its' valid user jwt",
+    "postconditions": "No key is assigned",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send request to /api/users/:userId/key to assign Key4 to User B",
+        "expected_result": "Request fails and no key is assigned, 403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.671796"
+  },
+  {
+    "id": "-7673980603752381801",
+    "name": "User tries to assign key without JWT token-negative-successful",
+    "description": "Ensure un unauthenticated user can't assign keys",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User is not authenticated",
+    "postconditions": "No key is assigned",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send request to /api/users/:userId/key to assign Key4 to User B",
+        "expected_result": "Request fails and no key is assigned, 401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.702109"
+  },
+  {
+    "id": "-6608291341725200303",
+    "name": "User tries to assign key with invalid/expired JWT token-negative-successful",
+    "description": "Ensure that requests with invalid/expired JWT token are rejected",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "",
+    "postconditions": "No key is assigned",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send request to /api/users/:userId/key",
+        "expected_result": "Request fails and no key is assigned, 401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.738567"
+  },
+  {
+    "id": "-8670908816995804090",
+    "name": "User tries to assign key to themselves-negative-successful",
+    "description": "Ensure user can't assign key to themselves",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User A is logged with valid user JWT",
+    "postconditions": "No key is assigned",
+    "steps": [
+      {
+        "position": 1,
+        "action": "User A sends request to ... to assign Key4 to themselves",
+        "expected_result": "Request fails and no key is assigned, 403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.783263"
+  },
+  {
+    "id": "985680509452189250",
+    "name": "User tries to assign key to another user -negative-successful",
+    "description": "Ensure that a user can't assign a key to another user",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User A is logged in with valid user JWT, user B exists",
+    "postconditions": "No key is assigned",
+    "steps": [
+      {
+        "position": 1,
+        "action": "user A sends request to /api/users/:userId/key to assign Key4 to User B",
+        "expected_result": "Request fails and no key is assigned, 403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.820551"
+  },
+  {
+    "id": "3075561792558858553",
+    "name": "User tries to reassign key to another user -negative-successful",
+    "description": "Ensure that a user can't reassign key from another user to themselves or someone else",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User A is logged in with valid JWT token , user B exists and already has Key1",
+    "postconditions": "No key is reassigned; user B still has Key1",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Send request to /api/users/:userId/key to reassign Key1 to themselves or other user",
+        "expected_result": "Request fails, no reassignment is done, 403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.871843"
+  },
+  {
+    "id": "4216817931074716833",
+    "name": "User tries to assign non-existent key-negative-successful",
+    "description": "Ensure users can't manipulate payloads to assign fake keys",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User is logged in with valid user JWT , Key100 does not exist",
+    "postconditions": "No assignment is created",
+    "steps": [
+      {
+        "position": 1,
+        "action": "User sends request to api/users/:userId/key to assign Key100, that does not exist, to themselves or another user",
+        "expected_result": "Request rejected and no assignment created, 403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.910133"
+  },
+  {
+    "id": "-5989654286522906912",
+    "name": "User attempts to assign key to another user using another's user valid JWT token-negative-successful",
+    "description": "Ensure that a user can't impersonate another user by reusing their JWT token",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User A is logged in, user B's valid token was leaked",
+    "postconditions": "Request is rejected and no key is assigned, 403 forbidden",
+    "steps": [
+      {
+        "position": 1,
+        "action": "User A attempts to assign Key1 to themselves or another user while using user's B JWT token, send request to /api/users/:userId/key",
+        "expected_result": "Request fails and no key is assigned, 401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.942442"
+  },
+  {
+    "id": "8837984636570124234",
+    "name": "Send reservation data to user-negative-successful",
+    "description": "User should not be able to request data about reservations",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:51.981625"
+  },
+  {
+    "id": "-5936374476791209379",
+    "name": "Get all reservations for a year when there are no reservations-negative-successful",
+    "description": "Get all reservations if in that year there are no reservations",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "There is a year with no reservations",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/filter-year",
+        "expected_result": "400 bad request\nThere are no reservations in this year!",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.011185"
+  },
+  {
+    "id": "-3602937591736392892",
+    "name": "Get all no. of reservations for the logged in admin(he has no reservations)-negative-successful",
+    "description": "Getting all reservations for the admin who is currently logged in, but he has no reservation",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/filter-year",
+        "expected_result": "400 bad request\nThere are no reservations in this year!",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.036652"
+  },
+  {
+    "id": "2748560790499306948",
+    "name": "Get all no. of reservations for other user(logged in as admin and user has no reservation)-negative-successful",
+    "description": "Admin should be able to see other user's reservations and return a 404 status code if he has none",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/filter-year",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.068079"
+  },
+  {
+    "id": "3366133561499904250",
+    "name": "Get all no. of reservations for a userId that does not exist-negative-successful",
+    "description": "An user that does not exist in the database should return an error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "a non-existent userId is inserted in the UserId field",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/filter-year",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.095324"
+  },
+  {
+    "id": "3623526700471857023",
+    "name": "Get all reservations for other user than the current one who is logged in-negative-successful",
+    "description": "User should not be able to see other user's statistics",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/filter-year",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.124846"
+  },
+  {
+    "id": "7963786717750581517",
+    "name": "Get no.of reservations and do not select the year-negative-successful",
+    "description": "If the year is not selected, then no reservation number should be displayed",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Year field is left empty",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/filter-year",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.156163"
+  },
+  {
+    "id": "-5578603725252548311",
+    "name": "User sees other user's number of reservations for last month-negative-successful",
+    "description": "USer should not see other user's reservation",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations-number",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.189868"
+  },
+  {
+    "id": "-8111077463441521351",
+    "name": "An userid that does not exist is inserted-negative-successful",
+    "description": "Insert an userId that does not exist in the db",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User does not exist in the db",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations-number",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.216526"
+  },
+  {
+    "id": "-8690291909729935664",
+    "name": "User that is not logged in sees any info and reservation from last month-negative-successful",
+    "description": "User that is not logged in should not see any statistics",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No one is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations-number",
+        "expected_result": "401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.257769"
+  },
+  {
+    "id": "-3162773358759138012",
+    "name": "User can see no. of reservations for other users-negative-successful",
+    "description": "User should not see other user's number of reservations",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/date-range",
+        "expected_result": "403 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.287573"
+  },
+  {
+    "id": "3298932981883791437",
+    "name": "Start date is after end date-negative-successful",
+    "description": "Start date should not be after the end date",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Start date is after end date as params",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/date-range",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.320077"
+  },
+  {
+    "id": "6380178733205709728",
+    "name": "User id does not exist in the database-negative-successful",
+    "description": "A user that does not exist in the database should not be able to see anything",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "There is no userId in the db",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/date-range",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.359369"
+  },
+  {
+    "id": "-5690794548134477102",
+    "name": "Bad format of data-negative-successful",
+    "description": "Bad format of data should display an error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Data is in bad format(eg '2025-08')",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/Reservation/date-range",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.387975"
+  },
+  {
+    "id": "523142401400705282",
+    "name": "User can request data-negative-successful",
+    "description": "User should not be able to request data",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.416241"
+  },
+  {
+    "id": "4655297482280919161",
+    "name": "There is no reservation in that selected date-positive-successful",
+    "description": "There is no reservation in that selected month and year, so the file should be empty",
+    "test_type": "edge_case",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No reservation in that period of time and the admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "200OK\nThe excel file is empty",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.446528"
+  },
+  {
+    "id": "-5894629800343094726",
+    "name": "Year param is not entered-negative-successful",
+    "description": "Testing that not entering anything at the year field causes an error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "The year field is left empty and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.492345"
+  },
+  {
+    "id": "-5687600112369491573",
+    "name": "Month param is not entered-negative-successful",
+    "description": "Testing to see if not filling the month param returns an error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "There is no value in the month param and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.545714"
+  },
+  {
+    "id": "7449940304880551730",
+    "name": "Bad format of year param(eg: 'labubu')-negative-successful",
+    "description": "Testing to see if entering a bad format for the year field returns an error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Year format is empty and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.599934"
+  },
+  {
+    "id": "-1484248514574869400",
+    "name": "Bad format of month param(eg: 'null')-negative-successful",
+    "description": "Testing to see if entering a bad format in the month field returns a bad error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Month field is empty and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.629612"
+  },
+  {
+    "id": "-5043744726121425057",
+    "name": "Wrong name of month param(eg: 'noveNber')-negative-successful",
+    "description": "Testing to see if entering a bad format in the month field returns a bad error",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Month field is empty and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.665251"
+  },
+  {
+    "id": "-2528312015368458784",
+    "name": "Month name is case sensitive-negative-unsuccessful",
+    "description": "Testing if month name is case sensitive(should not be)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Month is empty and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.708897"
+  },
+  {
+    "id": "7860133090130323860",
+    "name": "Someone not logged in can export data-negative-successful",
+    "description": "Someone who is not logged in should not export data",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No one is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/export?year&month",
+        "expected_result": "401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.741443"
+  },
+  {
+    "id": "-3066403163715584851",
+    "name": "User can call this endpoint-negative-successful",
+    "description": "An user should not be able see any reservations, not even his",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/reservations/date-range?userId",
+        "expected_result": "403 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.774328"
+  },
+  {
+    "id": "-1439302447290555233",
+    "name": "An userId that does not exist is entered as parameter-negative-successful",
+    "description": "Admin tries to see reservation that belong to a user that does not exist in the db",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "An userId that belong to no user is entered",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/reservations/date-range?fromDate&toDate",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.806062"
+  },
+  {
+    "id": "4352975995263334382",
+    "name": "Bad format for dates are entered-negative-successful",
+    "description": "Checking if bad formats for date are allowed",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Dates are left as years only , eg. 2024",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/reservations/date-range?fromDate&toDate",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.833276"
+  },
+  {
+    "id": "-5697296064043147643",
+    "name": "Someone who is not logged in tries to see data about reservations-negative-successful",
+    "description": "Someone who is not logged in tries to see data about reservations",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User(or admin) is not logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/reservations/date-range?fromDate&toDate",
+        "expected_result": "401 unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.859562"
+  },
+  {
+    "id": "-2849415777748087739",
+    "name": "Verify Unit test scenarios (Positive & Negative)-positive-successful",
+    "description": "Confirm unit tests include both valid/ invalid cases",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "Access to unit test code, test report",
+    "postconditions": "Both positive/negative scenarios are tested",
+    "steps": [
+      {
+        "position": 1,
+        "action": "Review test suite",
+        "expected_result": "Positive and negative scenarios are adequately covered in the unit tests",
+        "data": ""
+      },
+      {
+        "position": 2,
+        "action": "Identify tests covering successful cases",
+        "expected_result": "",
+        "data": ""
+      },
+      {
+        "position": 3,
+        "action": "Identify tests covering failure/edge cases (e.g. booking fails due to unavailable spot-fully booked day)",
+        "expected_result": "",
+        "data": ""
+      },
+      {
+        "position": 4,
+        "action": "Validate both success and failure cases exist for major functions",
+        "expected_result": "",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.895744"
+  },
+  {
+    "id": "2423932828044675882",
+    "name": "Loggin in using another type of account-negative-successful",
+    "description": "Trying to call Microsoft login with another type of account(non-Microsoft account, eg yahoo or gmail)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User is registered in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "call\nhttps://localhost:7063/api/auth/microsoft/login",
+        "expected_result": "AADSTS50020: User account '(email of the account)' from identity provider 'live.com' does not exist in tenant 'High Tech Engineering Center d.o.o.' and cannot access the application 'd6124fae-ff55-436b-9405-ebf82688a279'(HTEC Parking) in that tenant. The account needs to be added as an external user in the tenant first. Sign out and sign in again with a different Azure Active Directory user account",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.928511"
+  },
+  {
+    "id": "-3217732238407746398",
+    "name": "Logging in as user and trying to call an endpoint only an admin can call-negative-successful",
+    "description": "Testing that , being logged in as user using Microsoft login method, there is no admin method that the user can call(eg. seeing all users)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "USer is logged successfully with Microsoft account(using Microsoft login method)",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.964994"
+  },
+  {
+    "id": "3447742397457093239",
+    "name": "Logging in with an account that does not exist-negative-successful",
+    "description": "Trying to log in with an account that does not exist in the database",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "The used account in this test case does not exist in the database",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "call https://localhost:7063/api/auth/microsoft/login\n\n<br>",
+        "expected_result": "AADSTS50020: User account '(email of account)' from identity provider 'https://sts.windows.net/5a4863ed-40c8-4fd5-8298-fbfdb7f13095/' does not exist in tenant 'High Tech Engineering Center d.o.o.' and cannot access the application 'd6124fae-ff55-436b-9405-ebf82688a279'(HTEC Parking) in that tenant. The account needs to be added as an external user in the tenant first. Sign out and sign in again with a different Azure Active Directory user account.",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:52.998706"
+  },
+  {
+    "id": "-8256765016030946069",
+    "name": "Logging in with another type of Microsoft Account-negative-successful",
+    "description": "Users having a non-HTEC Microsoft account should not be able to log in",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User is registered with a non-HTEC Microsoft account",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "call\nhttps://localhost:7063/api/auth/microsoft/login",
+        "expected_result": "AADSTS50020: User account '(email of account)' from identity provider 'https://sts.windows.net/5a4863ed-40c8-4fd5-8298-fbfdb7f13095/' does not exist in tenant 'High Tech Engineering Center d.o.o.' and cannot access the application 'd6124fae-ff55-436b-9405-ebf82688a279'(HTEC Parking) in that tenant. The account needs to be added as an external user in the tenant first. Sign out and sign in again with a different Azure Active Directory user account.",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.027148"
+  },
+  {
+    "id": "7665799880907861092",
+    "name": "User can call this endpoint-negative-successful",
+    "description": "User should not be able to call this method",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/paginated",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.053861"
+  },
+  {
+    "id": "6727684338639269366",
+    "name": "Someone not logged in can call this endpoint-negative-successful",
+    "description": "Someone who is not logged in should not be able to call this endpoint",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No one is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/paginated",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.083596"
+  },
+  {
+    "id": "7094965114653445097",
+    "name": "Size field is 0-negative-successful",
+    "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the value for size is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.110014"
+  },
+  {
+    "id": "161993066223429080",
+    "name": "Page field is 0-negative-successful",
+    "description": "Page field should not be 0(index starts at 1)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the page value is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.149357"
+  },
+  {
+    "id": "-971849768068437857",
+    "name": "Size field is empty-negative-successful",
+    "description": "Size should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and there is no value in the size field",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.190445"
+  },
+  {
+    "id": "8512155721022850350",
+    "name": "Page field is empty-negative-successful",
+    "description": "Page field should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Page is left unfilled and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.229492"
+  },
+  {
+    "id": "-1183528308443637291",
+    "name": "User can call this endpoint-negative-successful",
+    "description": "User should not be able to call this method",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/sorted/paginated",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.264694"
+  },
+  {
+    "id": "-7253464503209193435",
+    "name": "Someone not logged in can call this endpoint-negative-successful",
+    "description": "Someone who is not logged in should not be able to call this endpoint",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No one is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/sorted/paginated",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.312555"
+  },
+  {
+    "id": "105395318925366634",
+    "name": "Size field is 0-negative-successful",
+    "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the value for size is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/sorted/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.347857"
+  },
+  {
+    "id": "121942376797366582",
+    "name": "Page field is 0-negative-successful",
+    "description": "Page field should not be 0(index starts at 1)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the page value is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/sorted/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.386582"
+  },
+  {
+    "id": "2878861333925328777",
+    "name": "Size field is empty-negative-successful",
+    "description": "Size should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and there is no value in the size field",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/sorted/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.419579"
+  },
+  {
+    "id": "1421841591904217256",
+    "name": "Page field is empty-negative-successful",
+    "description": "Page field should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Page is left unfilled and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/sorted/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.450195"
+  },
+  {
+    "id": "-176078858834004356",
+    "name": "Someone not logged in can call this endpoint-negative-successful",
+    "description": "Someone who is not logged in should not be able to call this endpoint",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No one is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.480733"
+  },
+  {
+    "id": "8640706978530842225",
+    "name": "Size field is 0-negative-successful",
+    "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the value for size is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.511578"
+  },
+  {
+    "id": "-959382742982545304",
+    "name": "Page field is 0-negative-successful",
+    "description": "Page field should not be 0(index starts at 1)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the page value is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.539216"
+  },
+  {
+    "id": "5506948504872947267",
+    "name": "Size field is empty-negative-successful",
+    "description": "Size should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and there is no value in the size field",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.575690"
+  },
+  {
+    "id": "7375284292318109118",
+    "name": "Page field is empty-negative-successful",
+    "description": "Page field should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Page is left unfilled and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.618074"
+  },
+  {
+    "id": "4062213078007739907",
+    "name": "User can call this endpoint for other user-negative-successful",
+    "description": "User should not be able to see other user's reservations",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.656193"
+  },
+  {
+    "id": "-6908839505441516737",
+    "name": "TimeFilter field is not selected(neither past or future)-negative",
+    "description": "TimeFilter should be set to show reservations from past or future",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and TimeFilter is left unselected",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.723396"
+  },
+  {
+    "id": "-7281957639228508208",
+    "name": "An userId that does not exist in the database is entered-negative",
+    "description": "Admin searches reservations for a user that does not exist",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users/:userId/reservations/paginated",
+        "expected_result": "404 not found",
+        "data": ""
+      }
+    ],
+    "expected_status": 404,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.766535"
+  },
+  {
+    "id": "600646813215196113",
+    "name": "User can call this endpoint-negative-successful",
+    "description": "User should not be able to call this method",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/paginated",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.802643"
+  },
+  {
+    "id": "1582817861718581323",
+    "name": "Someone not logged in can call this endpoint-negative-successful",
+    "description": "Someone who is not logged in should not be able to call this endpoint",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No one is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/paginated",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.836440"
+  },
+  {
+    "id": "3729701339882084064",
+    "name": "Size field is 0-negative-successful",
+    "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the value for size is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.879149"
+  },
+  {
+    "id": "-5220755392633935924",
+    "name": "Page field is 0-negative-successful",
+    "description": "Page field should not be 0(index starts at 1)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the page value is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.917379"
+  },
+  {
+    "id": "-12009071243417443",
+    "name": "Size field is empty-negative-successful",
+    "description": "Size should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and there is no value in the size field",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.956744"
+  },
+  {
+    "id": "-2489576461228727982",
+    "name": "Page field is empty-negative-successful",
+    "description": "Page field should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Page is left unfilled and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:53.988186"
+  },
+  {
+    "id": "-5482366952885763988",
+    "name": "User can call this endpoint-negative-successful",
+    "description": "User should not be able to call this method",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/:keyId/history/paginated",
+        "expected_result": "403 forbidden",
+        "data": ""
+      }
+    ],
+    "expected_status": 403,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.017562"
+  },
+  {
+    "id": "8428852737532345099",
+    "name": "Someone not logged in can call this endpoint-negative-successful",
+    "description": "Someone who is not logged in should not be able to call this endpoint",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "No one is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/:keyId/history/paginated",
+        "expected_result": "401 Unauthorized",
+        "data": ""
+      }
+    ],
+    "expected_status": 401,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.049257"
+  },
+  {
+    "id": "4847020281790570766",
+    "name": "Size field is 0-negative-successful",
+    "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the value for size is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/:keyId/history/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.080567"
+  },
+  {
+    "id": "5383282637312382015",
+    "name": "Page field is 0-negative-successful",
+    "description": "Page field should not be 0(index starts at 1)",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and the page value is 0",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/:keyId/history/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.116223"
+  },
+  {
+    "id": "-5554450964256258785",
+    "name": "Size field is empty-negative-successful",
+    "description": "Size should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Admin is logged in and there is no value in the size field",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/:keyId/history/paginated",
+        "expected_result": "422 Unprocessable entity",
+        "data": ""
+      }
+    ],
+    "expected_status": 422,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.157726"
+  },
+  {
+    "id": "8038137516072201402",
+    "name": "Page field is empty-negative-successful",
+    "description": "Page field should not be left unfilled",
+    "test_type": "validation",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "Page is left unfilled and admin is logged in",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/keys/:keyId/history/paginated",
+        "expected_result": "400 bad request",
+        "data": ""
+      }
+    ],
+    "expected_status": 400,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.190080"
+  },
+  {
+    "id": "1371796600634731637",
+    "name": "passwords are generated according to the regex-user-positive-unsuccessful",
+    "description": "All password must respect the regex from the frontend-at least 8 characters, one uppercase letter, one lowercase letter, one special character and one number",
+    "test_type": "happy_path",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "",
+    "method": "",
+    "preconditions": "User table is seeded in the database and one password should be set for every user(cannot check after they are hashed)",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "see in code how the passwords are generated",
+        "expected_result": "Passwords must respect the regex",
+        "data": ""
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.234752"
+  },
+  {
+    "id": "-4138314576441956716",
+    "name": "Licence plates are generated according to the regex-user-positive",
+    "description": "Licence plate should respect the regex-at most 10 characters, alphanumeric characters, can only contain '-' as special characters and only uppercase letters",
+    "test_type": "happy_path",
+    "priority": "undefined",
+    "severity": "normal",
+    "endpoint": "request",
+    "method": "GET",
+    "preconditions": "User table is populated with data",
+    "postconditions": "",
+    "steps": [
+      {
+        "position": 1,
+        "action": "send a GET request to /api/users",
+        "expected_result": "Licence plate must respect the regex",
+        "data": "select LicencePlate from dbo.Users"
+      }
+    ],
+    "expected_status": 200,
+    "parameters": [],
+    "tags": [],
+    "added_at": "2025-10-24T12:06:54.266848"
   }
 ]

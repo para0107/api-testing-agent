@@ -280,3 +280,63 @@ Next steps:
 2025-10-24 10:43:24 - __main__ - INFO -    2. Test retrieval: Search for similar patterns in knowledge base
 2025-10-24 10:43:24 - __main__ - INFO -    3. Generate tests: Run main.py with your API code
 2025-10-24 10:43:24 - __main__ - INFO - ================================================================================
+2025-10-24 12:06:33 - __main__ - INFO - API Testing Agent - QASE Training Pipeline
+2025-10-24 12:06:33 - __main__ - INFO - Starting automated training process...
+2025-10-24 12:06:33 - __main__ - INFO - Configuration:
+2025-10-24 12:06:33 - __main__ - INFO -   QASE Files: 1 files
+2025-10-24 12:06:33 - __main__ - INFO -   API URL: https://localhost:7063
+2025-10-24 12:06:33 - __main__ - INFO -   Execute Tests: No (knowledge base only)
+2025-10-24 12:06:37 - __main__ - INFO - ================================================================================
+2025-10-24 12:06:37 - __main__ - INFO - STARTING TRAINING PIPELINE
+2025-10-24 12:06:37 - __main__ - INFO - ================================================================================
+2025-10-24 12:06:37 - __main__ - INFO - 
+STEP 1: Parsing QASE Test Files...
+2025-10-24 12:06:37 - __main__ - INFO - Parsing 1 QASE files...
+2025-10-24 12:06:37 - __main__ - INFO - Parsing QA-Backend-Data.json...
+2025-10-24 12:06:37 - __main__ - INFO - Parsed 320 test patterns
+2025-10-24 12:06:37 - __main__ - INFO - Parsed 156 edge cases
+2025-10-24 12:06:37 - __main__ - INFO - Parsed 10 validation rules
+2025-10-24 12:06:37 - __main__ - INFO - Parsed 386 API patterns
+2025-10-24 12:06:37 - __main__ - INFO - 
+STEP 2: Populating Knowledge Base...
+2025-10-24 12:06:37 - __main__ - INFO - Clearing existing knowledge base...
+2025-10-24 12:06:49 - __main__ - INFO - Added 320 test patterns
+2025-10-24 12:06:54 - __main__ - INFO - Added 156 edge cases
+2025-10-24 12:06:54 - __main__ - INFO - Added 10 validation rules
+2025-10-24 12:07:01 - __main__ - INFO - Added 386 API patterns
+2025-10-24 12:07:01 - __main__ - INFO - 
+STEP 3: Indexing Knowledge with FAISS...
+2025-10-24 12:07:01 - __main__ - INFO - Indexing 320 Test Patterns into 'test_patterns'...
+2025-10-24 12:07:01 - __main__ - INFO - Clearing existing index 'test_patterns'...
+2025-10-24 12:07:01 - __main__ - INFO - Indexed 320 Test Patterns to data/vectors/test_patterns/
+2025-10-24 12:07:01 - __main__ - INFO - Indexing 156 Edge Cases into 'edge_cases'...
+2025-10-24 12:07:01 - __main__ - INFO - Clearing existing index 'edge_cases'...
+2025-10-24 12:07:01 - __main__ - INFO - Indexed 156 Edge Cases to data/vectors/edge_cases/
+2025-10-24 12:07:01 - __main__ - INFO - Indexing 10 Validation Rules into 'validation_rules'...
+2025-10-24 12:07:01 - __main__ - INFO - Clearing existing index 'validation_rules'...
+2025-10-24 12:07:01 - __main__ - INFO - Indexed 10 Validation Rules to data/vectors/validation_rules/
+2025-10-24 12:07:01 - __main__ - INFO - Indexing 386 API Patterns into 'api_specifications'...
+2025-10-24 12:07:01 - __main__ - INFO - Clearing existing index 'api_specifications'...
+2025-10-24 12:07:01 - __main__ - INFO - Indexed 386 API Patterns to data/vectors/api_specifications/
+2025-10-24 12:07:01 - __main__ - INFO - All knowledge indexed successfully
+2025-10-24 12:07:01 - __main__ - INFO - 
+STEP 4 & 5: Skipped (execute_tests=False)
+2025-10-24 12:07:01 - __main__ - INFO - 
+STEP 6: Saving Training Results...
+2025-10-24 12:07:02 - __main__ - INFO - Knowledge base saved to: C:\Facultate\Licenta\api-testing-agent-github\data\knowledge_base\knowledge_export_20251024_120701.json
+2025-10-24 12:07:02 - __main__ - INFO - Vector indices saved to: C:\Facultate\Licenta\api-testing-agent-github\data\vectors
+2025-10-24 12:07:02 - __main__ - INFO - Training data saved to: C:\Facultate\Licenta\api-testing-agent-github\data\training\qase_training_data.json
+2025-10-24 12:07:02 - __main__ - INFO - 
+================================================================================
+2025-10-24 12:07:02 - __main__ - INFO - TRAINING COMPLETED SUCCESSFULLY
+2025-10-24 12:07:02 - __main__ - INFO - ================================================================================
+2025-10-24 12:07:02 - __main__ - INFO - 
+================================================================================
+2025-10-24 12:07:02 - __main__ - INFO - TRAINING COMPLETE
+2025-10-24 12:07:02 - __main__ - INFO - ================================================================================
+2025-10-24 12:07:02 - __main__ - INFO - 
+Next steps:
+2025-10-24 12:07:02 - __main__ - INFO -    1. Verify training: Check data/vectors/ and data/knowledge_base/
+2025-10-24 12:07:02 - __main__ - INFO -    2. Test retrieval: Search for similar patterns in knowledge base
+2025-10-24 12:07:02 - __main__ - INFO -    3. Generate tests: Run main.py with your API code
+2025-10-24 12:07:02 - __main__ - INFO - ================================================================================
