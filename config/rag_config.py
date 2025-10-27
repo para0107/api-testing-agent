@@ -13,13 +13,13 @@ class RAGConfig:
 
     # Embedding models
     # text_embedding_model: str = "sentence-transformers/all-mpnet-base-v2"
-    text_embedding_model: str = "all-mini-lm-l6-v2"
+    text_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     code_embedding_model: str = "microsoft/codebert-base"
-    embedding_dimension: int = 768
+    embedding_dimension: int = 384
 
     # FAISS settings
     index_type: str = "IVF"  # IVF for accuracy
-    nlist: int = 100  # Number of clusters
+    nlist: int = 10  # Number of clusters
     nprobe: int = 10  # Number of clusters to search
     metric: str = "cosine"  # Similarity metric
 

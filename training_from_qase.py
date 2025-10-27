@@ -408,21 +408,23 @@ class TrainingPipeline:
         results: List[Dict] = []
         executed_count = 0
 
-        for i, test in enumerate(test_patterns, 1):
-            if not test.get('endpoint') or not test.get('method'):
-                continue
+        async with self.executor as executor:  # This initializes the session
+            for i, test in enumerate(test_patterns, 1):
+                if not test.get('endpoint') or not test.get('method'):
+                    continue
 
-            try:
-                result = await self.executor.execute_test(test, self.api_base_url)
-                results.append(result)
-                executed_count += 1
+                try:
+                    result = await executor.execute_test(test, self.api_base_url)
+                    results.append(result)
+                    executed_count += 1
 
-                status = "PASS" if result.get('passed') else "FAIL"
-                if i % 10 == 0 or result.get('passed') == False:
-                    logger.info(f"[{executed_count}/{len(test_patterns)}] {status} - {test.get('name', 'Unnamed')[:50]}")
+                    status = "PASS" if result.get('passed') else "FAIL"
+                    if i % 10 == 0 or result.get('passed') == False:
+                        logger.info(
+                            f"[{executed_count}/{len(test_patterns)}] {status} - {test.get('name', 'Unnamed')[:50]}")
 
-            except Exception as e:
-                logger.error(f"Error executing test {test.get('name')}: {e}")
+                except Exception as e:
+                    logger.error(f"Error executing test {test.get('name')}: {e}")
 
         pass_count = sum(1 for r in results if r.get('passed'))
         pass_rate = (pass_count / len(results) * 100) if results else 0
@@ -491,7 +493,7 @@ class TrainingPipeline:
             1.0 if result.get('method') == 'POST' else 0.0,
             1.0 if result.get('passed') else 0.0,
         ]
-        return np.array(features + [0.0] * (576 - len(features)))
+        return np.array(features + [0.0] * (640 - len(features)))
 
     def _test_type_to_action(self, test_type: str) -> int:
         """Convert test type to action index"""
@@ -582,7 +584,7 @@ async def main():
         Path('data/training/QA-Backend-Data.json')
     ]
     API_BASE_URL = "https://localhost:7063"
-    EXECUTE_TESTS = False
+    EXECUTE_TESTS = True
 
     # Verify files exist
     missing_files = [f for f in QASE_FILES if not f.exists()]

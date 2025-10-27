@@ -9,6 +9,8 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 import json
 
+from torchgen.api.unboxing import connector
+
 from config import settings
 
 logger = logging.getLogger(__name__)
@@ -24,7 +26,8 @@ class TestExecutor:
 
     async def __aenter__(self):
         """Async context manager entry"""
-        self.session = aiohttp.ClientSession(timeout=self.timeout)
+        connector = aiohttp.TCPConnector(ssl=False)
+        self.session = aiohttp.ClientSession(timeout=self.timeout, connector=connector)
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
