@@ -150,3 +150,36 @@ class BaseParser(ABC):
         """
         # Default implementation - override in specific parsers
         return []
+
+    def parse_file(self, file_path: str) -> Dict[str, Any]:
+        """
+        Parse a source code file and extract API endpoints
+
+        Args:
+            file_path: Path to the source code file
+
+        Returns:
+            Dictionary containing parsed data with endpoints and metadata
+        """
+        try:
+            # Read file content
+            with open(file_path, 'r', encoding='utf-8') as f:
+                source_code = f.read()
+
+            # Parse the source code
+            parsed_data = self.parse(source_code)
+
+            # Add file metadata
+            parsed_data['file_path'] = file_path
+            parsed_data['language'] = self.language
+
+            logger.info(f"Successfully parsed {file_path}: found {len(parsed_data.get('endpoints', []))} endpoints")
+
+            return parsed_data
+
+        except FileNotFoundError:
+            logger.error(f"File not found: {file_path}")
+            raise
+        except Exception as e:
+            logger.error(f"Error parsing file {file_path}: {e}")
+            raise
