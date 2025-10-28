@@ -73,30 +73,27 @@ class TestDesignerAgent(BaseAgent):
     async def _generate_happy_path_tests(self, analysis: Dict[str, Any],
                                          context: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Generate happy path test cases"""
-        prompt = f"""Design happy path test cases for the following API:
+        prompt = f"""Design happy path test cases for this API:
 
 Endpoint: {analysis.get('endpoint')}
 Method: {analysis.get('method')}
 Parameters: {analysis.get('critical_parameters')}
 
-Similar successful tests:
-{self._format_similar_tests(context)}
+Generate 3-5 test cases covering basic successful operations.
 
-Generate 3-5 happy path test cases that cover:
-1. Basic successful operation with valid data
-2. Different valid parameter combinations
-3. Expected successful responses
-
-Return as JSON array with structure:
-[{{
+IMPORTANT: Your response must be ONLY a JSON array. No explanations, no markdown, no notes.
+Start with [ and end with ]. Each test case should have this exact structure:
+{{
     "name": "descriptive test name",
     "description": "what this test validates",
     "test_type": "happy_path",
-    "input": {{"parameter": "value"}},
+    "input": {{"param": "value"}},
     "expected_status": 200,
-    "expected_response": {{"key": "expected value"}},
-    "assertions": ["list of assertions to verify"]
-}}]"""
+    "expected_response": {{"key": "value"}},
+    "assertions": ["assertion1", "assertion2"]
+}}
+
+Respond with ONLY the JSON array, nothing else:"""
 
         response = await self.generate_json_with_retry(prompt)
 

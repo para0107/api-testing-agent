@@ -130,55 +130,88 @@ class LlamaClient:
         return "\n\n".join(formatted)
 
     async def generate_json(self, prompt: str, schema: Dict[str, Any] = None, **kwargs) -> Dict[str, Any]:
-        """
-        Generate JSON response
+        """Generate JSON response with improved extraction"""
 
-        Args:
-            prompt: Input prompt
-            schema: Optional JSON schema for validation
-            **kwargs: Override parameters
-
-        Returns:
-            Parsed JSON object
-        """
-        # Add JSON instruction to prompt
+        # Add stronger JSON-only instruction
         json_prompt = f"""{prompt}
 
-Respond with valid JSON only. Do not include any text outside the JSON structure.
-"""
+    CRITICAL: Respond with ONLY valid JSON. Do not include:
+    - Any explanatory text before or after the JSON
+    - Markdown code fences like ```json or ```
+    - Notes, comments, or descriptions
+    - Multiple copies of the JSON
+
+    Start your response with {{ or [ and end with }} or ].
+    """
 
         if schema:
-            json_prompt += f"\nFollow this schema:\n{json.dumps(schema, indent=2)}"
+            json_prompt += f"\nSchema:\n{json.dumps(schema, indent=2)}"
 
-        # Generate response
-        response = await self.generate(json_prompt, **kwargs)
+        # Generate with stricter parameters
+        params = kwargs.copy()
+        params['temperature'] = min(params.get('temperature', 0.3), 0.3)  # Lower temp for JSON
+        params['stop'] = params.get('stop', []) + ['\n```', '```\n', '\nNote:', '\n\n\n']  # Stop sequences
 
-        # Parse JSON
+        response = await self.generate(json_prompt, **params)
+
+        # IMPROVED: Extract JSON more aggressively
         try:
-            # Clean response
-            response = response.strip()
-            if response.startswith('```json'):
-                response = response[7:]
-            if response.startswith('```'):
-                response = response[3:]
-            if response.endswith('```'):
-                response = response[:-3]
-
-            return json.loads(response.strip())
+            cleaned = self._extract_json_aggressively(response)
+            return json.loads(cleaned)
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse JSON response: {e}")
-            logger.debug(f"Raw response: {response}")
-
-            # Try to extract JSON from response
-            import re
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
-            if json_match:
-                try:
-                    return json.loads(json_match.group())
-                except:
-                    pass
-
             raise ValueError(f"Invalid JSON response: {e}")
+
+    def _extract_json_aggressively(self, response: str) -> str:
+        """Aggressively extract ONLY the JSON portion"""
+
+        # Remove everything before first { or [
+        json_start = min(
+            response.find('{') if '{' in response else len(response),
+            response.find('[') if '[' in response else len(response)
+        )
+
+        if json_start == len(response):
+            raise ValueError("No JSON found in response")
+
+        response = response[json_start:]
+
+        # Find the matching closing brace/bracket
+        # This handles nested structures properly
+        stack = []
+        json_end = -1
+        in_string = False
+        escape_next = False
+
+        for i, char in enumerate(response):
+            if escape_next:
+                escape_next = False
+                continue
+
+            if char == '\\':
+                escape_next = True
+                continue
+
+            if char == '"' and not escape_next:
+                in_string = not in_string
+                continue
+
+            if in_string:
+                continue
+
+            if char in '{[':
+                stack.append(char)
+            elif char in '}]':
+                if stack:
+                    stack.pop()
+                    if not stack:  # Found complete JSON
+                        json_end = i + 1
+                        break
+
+        if json_end > 0:
+            response = response[:json_end]
+
+        return response.strip()
 
     async def stream_generate(self, prompt: str, callback=None, **kwargs):
         """

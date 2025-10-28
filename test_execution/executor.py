@@ -94,17 +94,17 @@ class TestExecutor:
         start_time = datetime.now()
 
         try:
-            # Build request
-            url = self._build_url(base_url, test_case.get('endpoint', ''))
+            endpoint = test_case.get('endpoint', '')
             method = test_case.get('method', 'GET').upper()
+            test_data = test_case.get('test_data', {})
+
+            # Build URL with path params replaced
+            url = self._build_url(base_url, endpoint, test_data)
+
             headers = self._build_headers(test_case)
 
-            # Get test data
-            test_data = test_case.get('input') or test_case.get('test_data', {})
-
-            # Prepare request params
+            # Prepare request parameters
             request_params = self._prepare_request_params(method, test_data)
-
             # Execute with retry
             response_data = await self._execute_with_retry(
                 method, url, headers, request_params
@@ -194,10 +194,22 @@ class TestExecutor:
 
         raise Exception(f"Request failed after {self.max_retries} attempts: {last_error}")
 
-    def _build_url(self, base_url: str, endpoint: str) -> str:
-        """Build complete URL"""
+    def _build_url(self, base_url: str, endpoint: str, test_data: Dict = None) -> str:
+        """Build complete URL with path parameters replaced"""
         base_url = base_url.rstrip('/')
         endpoint = endpoint.lstrip('/')
+
+        # Replace path parameters with actual values
+        if test_data:
+            # Find all {param} in endpoint
+            import re
+            path_params = re.findall(r'\{(\w+)\}', endpoint)
+
+            for param in path_params:
+                # Use value from test_data or default to 1
+                value = test_data.get(param, test_data.get('id', 1))
+                endpoint = endpoint.replace(f'{{{param}}}', str(value))
+
         return f"{base_url}/{endpoint}"
 
     def _build_headers(self, test_case: Dict[str, Any]) -> Dict[str, str]:

@@ -11,6 +11,7 @@ import aiohttp
 from datetime import datetime
 import json
 import sys
+import re
 
 from input_processing import ParserFactory, EndpointExtractor
 from rag.knowledge_base import KnowledgeBase
@@ -32,9 +33,9 @@ class InteractiveAPITestAgent:
         self.use_ssl = use_ssl
         self.auth_token = None
 
-        logger.info("=" * 80)
+        logger.info("="*80)
         logger.info("API Testing Agent - Initialization")
-        logger.info("=" * 80)
+        logger.info("="*80)
 
         try:
             self.knowledge_base = KnowledgeBase()
@@ -54,7 +55,7 @@ class InteractiveAPITestAgent:
             self.executor.ssl_verify = False
 
         logger.info("Agent ready")
-        logger.info("=" * 80 + "\n")
+        logger.info("="*80 + "\n")
 
     def _load_rl_model(self) -> Optional[RLOptimizer]:
         """Load trained RL model if available"""
@@ -75,7 +76,7 @@ class InteractiveAPITestAgent:
             logger.info("Mode: FILE PARSING")
             logger.info(f"File: {Path(file_path).name}")
             logger.info(f"API URL: {api_base_url}")
-            logger.info("=" * 80)
+            logger.info("="*80)
 
             logger.info("\n[1/4] Parsing file...")
             endpoints = await self._parse_file(file_path, api_base_url, language)
@@ -117,7 +118,7 @@ class InteractiveAPITestAgent:
         try:
             logger.info("Mode: DIRECT URL TESTING")
             logger.info(f"Endpoints: {len(endpoints)}")
-            logger.info("=" * 80)
+            logger.info("="*80)
 
             if not base_url:
                 base_url = self._extract_base_url(endpoints)
@@ -202,18 +203,33 @@ class InteractiveAPITestAgent:
         test_suite = []
 
         for endpoint in endpoints:
+            method = endpoint.get('method', 'GET')
+            path = endpoint.get('path', '')
+
+            # Extract path parameters
+            path_params = re.findall(r'\{(\w+)\}', path)
+
+            # Generate valid test data for path parameters
+            valid_test_data = {}
+            for param in path_params:
+                if 'id' in param.lower() or 'user' in param.lower():
+                    valid_test_data[param] = 1
+                elif 'year' in param.lower():
+                    valid_test_data[param] = 2025
+                else:
+                    valid_test_data[param] = 1
+
             # Happy path test
             test_case = {
                 'name': f"{endpoint.get('description', 'Test')} - Happy Path",
-                'endpoint': endpoint.get('path', endpoint.get('url', '')),
-                'method': endpoint.get('method', 'GET'),
+                'endpoint': path,
+                'method': method,
                 'test_type': 'happy_path',
-                'expected_status': self._get_expected_status(endpoint.get('method', 'GET')),
-                'test_data': endpoint.get('body', {}),
+                'expected_status': self._get_expected_status(method),
+                'test_data': valid_test_data.copy(),
                 'headers': endpoint.get('headers', {}),
             }
 
-            # Add auth token if set
             if self.auth_token:
                 test_case['auth_token'] = self.auth_token
 
@@ -227,9 +243,10 @@ class InteractiveAPITestAgent:
                 except Exception as e:
                     logger.debug(f"KB test generation failed: {e}")
 
-            # Edge cases
-            edge_tests = self._generate_edge_tests(endpoint)
-            test_suite.extend(edge_tests)
+            # Edge cases - ONLY for endpoints WITH path parameters
+            if path_params:
+                edge_tests = self._generate_edge_tests(endpoint, path_params)
+                test_suite.extend(edge_tests)
 
         return test_suite
 
@@ -267,22 +284,40 @@ class InteractiveAPITestAgent:
 
         return tests
 
-    def _generate_edge_tests(self, endpoint: Dict) -> List[Dict]:
-        """Generate edge case tests"""
+    def _generate_edge_tests(self, endpoint: Dict, path_params: List[str]) -> List[Dict]:
+        """Generate edge case tests for endpoints with path parameters"""
         tests = []
         method = endpoint.get('method', 'GET')
         path = endpoint.get('path', '')
 
-        edge_cases = [
-            {'name': f'Edge - Invalid ID - {path}', 'expected_status': 404, 'test_data': {'id': 999999}},
-            {'name': f'Edge - Null Values - {path}', 'expected_status': 400, 'test_data': {}},
-        ]
+        # Invalid ID test
+        invalid_test_data = {}
+        for param in path_params:
+            if 'id' in param.lower():
+                invalid_test_data[param] = 999999
+            else:
+                invalid_test_data[param] = 'invalid'
 
-        for edge in edge_cases:
-            test = {**edge, 'endpoint': path, 'method': method, 'test_type': 'edge_case'}
-            if self.auth_token:
-                test['auth_token'] = self.auth_token
-            tests.append(test)
+        tests.append({
+            'name': f'Edge - Invalid {"/".join(path_params)} - {path}',
+            'endpoint': path,
+            'method': method,
+            'test_type': 'edge_case',
+            'expected_status': 404,
+            'test_data': invalid_test_data,
+            'auth_token': self.auth_token if self.auth_token else None
+        })
+
+        # Null/missing parameter test
+        tests.append({
+            'name': f'Edge - Missing {"/".join(path_params)} - {path}',
+            'endpoint': path,
+            'method': method,
+            'test_type': 'edge_case',
+            'expected_status': 400,
+            'test_data': {},
+            'auth_token': self.auth_token if self.auth_token else None
+        })
 
         return tests
 
@@ -321,7 +356,7 @@ class InteractiveAPITestAgent:
                 'total_tests': len(results),
                 'passed': passed,
                 'failed': len(results) - passed,
-                'pass_rate': f"{(passed / len(results) * 100):.1f}%" if results else "0%"
+                'pass_rate': f"{(passed/len(results)*100):.1f}%" if results else "0%"
             },
             'endpoints': endpoints,
             'results': results
@@ -338,9 +373,9 @@ class InteractiveAPITestAgent:
         failed = len(results) - passed
         pass_rate = (passed / len(results) * 100) if results else 0
 
-        print("\n" + "=" * 80)
+        print("\n" + "="*80)
         print("TEST SUMMARY")
-        print("=" * 80)
+        print("="*80)
         print(f"Total Tests:  {len(results)}")
         print(f"Passed:       {passed} ({pass_rate:.1f}%)")
         print(f"Failed:       {failed}")
@@ -353,14 +388,14 @@ class InteractiveAPITestAgent:
                 if fail.get('error'):
                     print(f"     Error: {fail['error'][:70]}")
 
-        print("=" * 80 + "\n")
+        print("="*80 + "\n")
 
 
 def get_user_input():
     """Interactive user input collection"""
-    print("\n" + "=" * 80)
+    print("\n" + "="*80)
     print("API Testing Agent - Interactive Mode")
-    print("=" * 80)
+    print("="*80)
 
     print("\nSelect input mode:")
     print("  1. Parse API file (Controller, app.py, etc.)")
@@ -452,12 +487,6 @@ API Testing Agent - Interactive Mode
 Usage:
   python run_agent.py              # Interactive mode
   python run_agent.py --help       # Show this help
-
-Interactive mode will prompt you for:
-  - Input mode (file parsing or direct URLs)
-  - File path or API endpoints
-  - Authentication token (if required)
-  - SSL verification settings
 """)
         return
 
