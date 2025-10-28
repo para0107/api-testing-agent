@@ -41,12 +41,11 @@ class EndpointExtractor:
 
     def normalize_endpoint(self, endpoint: Dict[str, Any]) -> Dict[str, Any]:
         """Normalize endpoint data across different languages"""
+        path = endpoint.get('path') or endpoint.get('route') or endpoint.get('url', '')
 
         # Extract common fields
         normalized = {
-            'path': self.normalize_path(endpoint.get('path') or
-                                        endpoint.get('route') or
-                                        endpoint.get('url', '')),
+            'path': self.normalize_path(path),
             'method': self.normalize_method(endpoint.get('method') or
                                             endpoint.get('http_method', 'GET')),
             'name': endpoint.get('function_name') or

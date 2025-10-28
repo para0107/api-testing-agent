@@ -55,25 +55,28 @@ class CSharpParser(BaseParser):
         """Extract API endpoints from C# controller"""
         endpoints = []
 
-        # Find controller class
         class_match = re.search(self.patterns['class'], code)
         if not class_match:
             return endpoints
 
         controller_name = class_match.group(1)
 
-        # Find base route
-        base_route_match = re.search(r'\[Route\("api/([^"]+)"\)\]', code)
-        base_route = base_route_match.group(1) if base_route_match else ""
+        # Find base route - FIXED to handle any content
+        base_route_match = re.search(r'\[Route\("([^"]+)"\)\]', code)
+        if base_route_match:
+            base_route = base_route_match.group(1).replace("api/", "")
+        else:
+            base_route = ""
 
-        # Find authorization requirements
         auth_matches = re.findall(self.patterns['authorize'], code)
 
-        # Split into method blocks
-        method_blocks = re.split(r'(?=public\s+(?:async\s+)?(?:Task<)?)', code)
+        # FIXED: Better split pattern to handle all return types
+        method_blocks = re.split(
+            r'(?=\[Http(?:Get|Post|Put|Delete|Patch))',  # Split before HTTP attributes
+            code
+        )
 
         for block in method_blocks:
-            # Extract HTTP method
             http_match = re.search(self.patterns['http_method'], block)
             if not http_match:
                 continue
@@ -81,36 +84,50 @@ class CSharpParser(BaseParser):
             http_method = http_match.group(1)
             sub_route = http_match.group(2) if http_match.group(2) else ""
 
-            # Extract method signature
-            method_match = re.search(self.patterns['method'], block)
+            # FIXED: Better method signature pattern
+            method_match = re.search(
+                r'public\s+(?:async\s+)?(?:Task<)?(?:ActionResult<)?(?:IActionResult|Action Result|[\w<>]+)(?:>)?\s+(\w+)\s*\(',
+                block
+            )
+
             if not method_match:
                 continue
 
-            return_type = method_match.group(1)
-            method_name = method_match.group(2)
-
-            # Extract parameters
+            method_name = method_match.group(1)
             parameters = self.extract_parameters(block)
-
-            # Check for specific authorization
             method_auth = re.search(self.patterns['authorize'], block)
+
+            # Build complete route
+            if sub_route:
+                full_route = f"/api/{base_route}/{sub_route}".replace('//', '/').rstrip('/')
+            else:
+                full_route = f"/api/{base_route}".rstrip('/')
 
             endpoint = {
                 'controller': controller_name,
                 'method_name': method_name,
                 'http_method': http_method.upper(),
-                'route': f"/api/{base_route}/{sub_route}".replace('//', '/').rstrip('/'),
-                'return_type': return_type,
+                'route': full_route,
+                'path': full_route,  # Add path field for endpoint_extractor
                 'parameters': parameters,
                 'authorization': {
                     'required': bool(auth_matches or method_auth),
-                    'policy': method_auth.group(1) if method_auth and method_auth.group(1) else None
+                    'policy': self._extract_policy(method_auth) if method_auth else None
                 }
             }
 
             endpoints.append(endpoint)
 
         return endpoints
+
+    def _extract_policy(self, auth_match):
+        """Extract policy from Authorize attribute"""
+        if not auth_match:
+            return None
+
+        auth_content = auth_match.group(1) if auth_match.group(1) else ""
+        policy_match = re.search(r'Policy\s*=\s*"([^"]+)"', auth_content)
+        return policy_match.group(1) if policy_match else None
 
     def extract_methods(self, code: str) -> List[Dict[str, Any]]:
         """Extract methods from C# code"""
