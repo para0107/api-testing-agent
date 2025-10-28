@@ -1,7 +1,7 @@
 """
 Base agent class for LLM agents
 """
-
+import asyncio
 import logging
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List, Optional
@@ -36,9 +36,10 @@ class BaseAgent(ABC):
 
     async def generate_with_retry(self, prompt: str, max_retries: int = 3) -> str:
         """Generate with retry logic"""
+        last_error = None
         for attempt in range(max_retries):
             try:
-                response = await self.client.generate(prompt, **self.config)
+                response = await self.client.generate(prompt,  **self.config)
                 if response:
                     return response
             except Exception as e:
@@ -49,18 +50,45 @@ class BaseAgent(ABC):
 
     async def generate_json_with_retry(self, prompt: str, schema: Dict[str, Any] = None,
                                        max_retries: int = 3) -> Dict[str, Any]:
-        """Generate JSON with retry logic"""
+        """Generate JSON with retry logic - DON'T grow the prompt"""
+        last_error = None
+        original_prompt = prompt  # SAVE ORIGINAL
+
         for attempt in range(max_retries):
             try:
-                response = await self.client.generate_json(prompt, schema, **self.config)
+                # Use original prompt each time, not growing version
+                current_prompt = original_prompt
+
+                # Only add guidance on 2nd+ attempt
+                if attempt > 0:
+                    current_prompt = f"""RETRY ATTEMPT {attempt + 1}/{max_retries}
+
+    {original_prompt}
+
+    CRITICAL: Previous attempts failed. You MUST respond with ONLY valid JSON.
+    Start with {{ or [ immediately. No other text."""
+
+                response = await self.client.generate_json(current_prompt, schema, **self.config)
+
                 if response:
-                    return response
-            except Exception as e:
+                    # Validate it's not empty
+                    if isinstance(response, (dict, list)) and response:
+                        return response
+                    else:
+                        logger.warning(f"Attempt {attempt + 1}: Empty response")
+            except ValueError as e:
+                last_error = e
                 logger.warning(f"Attempt {attempt + 1} failed: {e}")
+                # Wait before retry
+                if attempt < max_retries - 1:
+                    await asyncio.sleep(1)
+            except Exception as e:
+                last_error = e
+                logger.error(f"Attempt {attempt + 1} unexpected error: {e}")
                 if attempt == max_retries - 1:
                     raise
-        return {}
 
+        raise ValueError(f"Failed after {max_retries} attempts. Last error: {last_error}")
     def format_context(self, context: Dict[str, Any]) -> str:
         """Format context for prompt"""
         formatted_parts = []

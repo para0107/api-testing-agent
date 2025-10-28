@@ -130,36 +130,40 @@ class LlamaClient:
         return "\n\n".join(formatted)
 
     async def generate_json(self, prompt: str, schema: Dict[str, Any] = None, **kwargs) -> Dict[str, Any]:
-        """Generate JSON response with improved extraction"""
+        """Generate JSON response with improved handling for 3B model"""
 
-        # Add stronger JSON-only instruction
+        # Add stronger, clearer JSON-only instruction
         json_prompt = f"""{prompt}
 
-    CRITICAL: Respond with ONLY valid JSON. Do not include:
-    - Any explanatory text before or after the JSON
-    - Markdown code fences like ```json or ```
-    - Notes, comments, or descriptions
-    - Multiple copies of the JSON
-
-    Start your response with {{ or [ and end with }} or ].
+    RESPONSE FORMAT:
+    - Output ONLY valid JSON
+    - Start immediately with {{ or [
+    - No explanations, notes, or markdown
+    - No text before or after the JSON
     """
 
         if schema:
-            json_prompt += f"\nSchema:\n{json.dumps(schema, indent=2)}"
+            json_prompt += f"\n\nExpected structure:\n{json.dumps(schema, indent=2)}"
 
-        # Generate with stricter parameters
+        # CRITICAL: Use parameters optimized for small models
         params = kwargs.copy()
-        params['temperature'] = min(params.get('temperature', 0.3), 0.3)  # Lower temp for JSON
-        params['stop'] = params.get('stop', []) + ['\n```', '```\n', '\nNote:', '\n\n\n']  # Stop sequences
+        params['temperature'] = min(params.get('temperature', 0.2), 0.2)  # Very low
+        params['max_tokens'] = min(params.get('max_tokens', 1200), 1200)  # Reduced
+        params['frequency_penalty'] = 0.8  # High to prevent repetition
+        params['presence_penalty'] = 0.8  # High to prevent repetition
+
+        # FIXED: Only essential stop sequences
+        params['stop'] = ['}\n}', ']\n]', '\n\nNote', 'Example:', 'Here is']
 
         response = await self.generate(json_prompt, **params)
 
-        # IMPROVED: Extract JSON more aggressively
+        # Extract JSON aggressively
         try:
             cleaned = self._extract_json_aggressively(response)
             return json.loads(cleaned)
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse JSON response: {e}")
+            logger.debug(f"Raw response (first 500 chars): {response[:500]}")
             raise ValueError(f"Invalid JSON response: {e}")
 
     def _extract_json_aggressively(self, response: str) -> str:

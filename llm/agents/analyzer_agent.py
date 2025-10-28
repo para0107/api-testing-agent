@@ -56,43 +56,23 @@ class AnalyzerAgent(BaseAgent):
         # Format context
         context_info = self.format_context(context)
 
-        prompt = f"""Analyze the following API endpoint and identify testing requirements.
+        prompt = f"""Analyze this API endpoint:
 
-API Specification:
-{api_info}
+        {api_info}
 
-Context from similar APIs:
-{context_info}
+        Return JSON with this structure:
+        {{
+            "endpoint": "path",
+            "method": "HTTP_METHOD",
+            "critical_parameters": ["param1", "param2"],
+            "auth_requirements": {{"required": true, "type": "bearer"}},
+            "business_logic": ["rule1", "rule2"],
+            "failure_points": ["point1", "point2"],
+            "validation_rules": ["rule1", "rule2"],
+            "error_scenarios": ["scenario1", "scenario2"]
+        }}
 
-Provide a comprehensive analysis including:
-1. Critical parameters that must be tested
-2. Authentication and authorization requirements
-3. Business logic constraints
-4. Potential failure points
-5. Dependencies on other services
-6. Data validation rules
-7. Expected error scenarios
-8. Performance considerations
-
-Return your analysis as a JSON object with the following structure:
-{{
-    "endpoint": "endpoint path",
-    "method": "HTTP method",
-    "critical_parameters": ["list of critical parameters"],
-    "auth_requirements": {{
-        "required": boolean,
-        "type": "auth type",
-        "scopes": ["required scopes"]
-    }},
-    "business_logic": ["list of business rules"],
-    "failure_points": ["potential failure scenarios"],
-    "dependencies": ["service dependencies"],
-    "validation_rules": ["validation requirements"],
-    "error_scenarios": ["expected errors"],
-    "performance": {{
-        "expected_latency": "latency expectation",
-        "throughput": "throughput expectation"
-    }}
+        Respond with ONLY the JSON object.
 }}"""
 
         return prompt
