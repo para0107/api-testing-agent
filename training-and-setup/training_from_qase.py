@@ -581,7 +581,7 @@ async def main():
 
     # Configuration
     QASE_FILES = [
-        Path('data/training/QA-Backend-Data.json')
+        Path('../data/training/QA-Backend-Data.json')
     ]
     API_BASE_URL = "https://localhost:7063"
     EXECUTE_TESTS = True

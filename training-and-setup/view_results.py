@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 # Load training data
-with open('data/training/qase_training_data.json', 'r') as f:
+with open('../data/training/qase_training_data.json', 'r') as f:
     data = json.load(f)
 
 # View execution results
