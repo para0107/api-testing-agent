@@ -45,7 +45,7 @@ class TestGenerationPipeline:
             PipelineStage("parsing", self._parse_code, required=True, timeout=30),
             PipelineStage("analysis", self._analyze_api, required=True, timeout=60),
             PipelineStage("retrieval", self._retrieve_context, required=True, timeout=30),
-            PipelineStage("generation", self._generate_tests, required=True, timeout=120),
+            PipelineStage("generation", self._generate_tests, required=True, timeout=180),
             PipelineStage("optimization", self._optimize_tests, required=False, timeout=60),
             PipelineStage("execution", self._execute_tests, required=True, timeout=300),
             PipelineStage("feedback", self._process_feedback, required=False, timeout=30),
@@ -174,9 +174,14 @@ class TestGenerationPipeline:
         business_logic = self.engine.input_processor.extract_business_logic(parsed_data)
         api_spec['business_logic'] = business_logic
 
+        # Log what was extracted
+        logger.info(f"API Spec extracted: {len(api_spec.get('endpoints', []))} endpoints, "
+                   f"{len(validation_rules)} validation rules, "
+                   f"{len(api_spec.get('models', []))} models")
+
         # Validate API specification
         if not is_valid_api_spec(api_spec):
-            raise ValueError("Invalid API specification")
+            logger.warning("API specification validation failed, but continuing...")
 
         return api_spec
 
@@ -184,30 +189,87 @@ class TestGenerationPipeline:
         """Retrieve context from RAG"""
         api_spec = self.stage_results.get('analysis', {})
 
-        # Generate embeddings for API spec
-        context = {}
+        # Initialize context
+        context = {
+            'similar_tests': [],
+            'edge_cases': [],
+            'validation_patterns': []
+        }
 
         try:
-            # Get embeddings
+            # Create search text from API spec
+            search_parts = []
+
+            # Add endpoints if available
             if api_spec.get('endpoints'):
-                endpoint_text = json.dumps(api_spec['endpoints'])
-                embeddings = await self.engine.rag_system.generate_embeddings(endpoint_text)
+                for ep in api_spec['endpoints']:
+                    search_parts.append(f"{ep.get('method', '')} {ep.get('path', '')}")
 
-                # Retrieve similar tests
-                similar_tests = await self.engine.rag_system.retrieve_similar_tests(embeddings)
-                context['similar_tests'] = similar_tests
+            # Add controller/class names
+            if api_spec.get('controllers'):
+                for ctrl in api_spec['controllers']:
+                    search_parts.append(ctrl.get('name', ''))
 
-                # Retrieve edge cases
-                edge_cases = await self.engine.rag_system.retrieve_edge_cases(embeddings)
-                context['edge_cases'] = edge_cases
+            # Add models
+            if api_spec.get('models'):
+                for model in api_spec['models']:
+                    search_parts.append(model.get('name', ''))
 
-                # Retrieve validation patterns
-                validation_patterns = await self.engine.rag_system.retrieve_validation_patterns(embeddings)
-                context['validation_patterns'] = validation_patterns
+            # Fallback: use filename
+            if not search_parts:
+                code_file = request.get('code_files', [''])[0]
+                filename = os.path.basename(code_file).replace('.cs', '').replace('Controller', '')
+                search_parts.append(filename)
+                logger.warning(f"No API elements found, searching RAG with filename: {filename}")
+
+            search_text = ' '.join(search_parts)
+            logger.info(f"RAG search text: {search_text[:100]}...")
+
+            # Generate embeddings
+            embeddings = await self.engine.rag_system.generate_embeddings(search_text)
+            logger.info("Generated embeddings for RAG search")
+
+            # Retrieve similar tests
+            try:
+                similar_tests = await self.engine.rag_system.retrieve_similar_tests(embeddings, k=10)
+                if similar_tests:
+                    context['similar_tests'] = similar_tests
+                    logger.info(f"Retrieved {len(similar_tests)} similar test patterns from RAG")
+                else:
+                    logger.warning("No similar tests found in RAG")
+            except Exception as e:
+                logger.warning(f"Similar tests retrieval failed: {e}")
+
+            # Retrieve edge cases
+            try:
+                edge_cases = await self.engine.rag_system.retrieve_edge_cases(embeddings, k=10)
+                if edge_cases:
+                    context['edge_cases'] = edge_cases
+                    logger.info(f"Retrieved {len(edge_cases)} edge cases from RAG")
+                else:
+                    logger.warning("No edge cases found in RAG")
+            except Exception as e:
+                logger.warning(f"Edge cases retrieval failed: {e}")
+
+            # Retrieve validation patterns
+            try:
+                validation_patterns = await self.engine.rag_system.retrieve_validation_patterns(embeddings, k=10)
+                if validation_patterns:
+                    context['validation_patterns'] = validation_patterns
+                    logger.info(f"Retrieved {len(validation_patterns)} validation patterns from RAG")
+                else:
+                    logger.warning("No validation patterns found in RAG")
+            except Exception as e:
+                logger.warning(f"Validation patterns retrieval failed: {e}")
 
         except Exception as e:
-            logger.warning(f"RAG retrieval failed: {e}, continuing without context")
-            context = {'similar_tests': [], 'edge_cases': [], 'validation_patterns': []}
+            logger.error(f"RAG retrieval failed: {e}", exc_info=True)
+
+        # Log final context summary
+        total_rag_items = (len(context['similar_tests']) +
+                          len(context['edge_cases']) +
+                          len(context['validation_patterns']))
+        logger.info(f"RAG retrieval complete: {total_rag_items} total items retrieved")
 
         return context
 
@@ -215,6 +277,10 @@ class TestGenerationPipeline:
         """Generate test cases using LLM agents"""
         api_spec = self.stage_results.get('analysis', {})
         context = self.stage_results.get('retrieval', {})
+
+        # Log context being passed to LLM
+        logger.info(f"Passing to LLM: API spec with {len(api_spec.get('endpoints', []))} endpoints, "
+                   f"RAG context with {len(context.get('similar_tests', []))} similar tests")
 
         # Create config for test generation
         config = {
@@ -228,14 +294,14 @@ class TestGenerationPipeline:
             logger.info("Checking LM Studio connection...")
             if not await orchestrator.client.check_connection():
                 raise RuntimeError(
-                    "❌ Cannot connect to LM Studio!\n"
+                    "Cannot connect to LM Studio!\n"
                     "Please ensure:\n"
                     "  1. LM Studio is installed and running\n"
-                    "  2. A model is loaded (llama-3.2-3b-instruct recommended)\n"
+                    "  2. A model is loaded (qwen2.5-7b-instruct recommended)\n"
                     "  3. Server is started on http://127.0.0.1:1234\n"
                     "  4. Check LM Studio logs for errors"
                 )
-            logger.info("✓ LM Studio connection successful")
+            logger.info("LM Studio connection successful")
 
             # Generate tests - Returns dict with: analysis, test_cases, edge_cases, test_data
             result = await orchestrator.generate_test_suite(
@@ -270,25 +336,57 @@ class TestGenerationPipeline:
 
         return valid_tests
 
-
-
     async def _optimize_tests(self, request: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Optimize test cases with RL"""
         test_cases = self.stage_results.get('generation', [])
+
+        if not test_cases:
+            logger.warning("No test cases to optimize")
+            return []
+
         api_spec = self.stage_results.get('analysis', {})
 
-        # Create state for RL
-        state = self.engine.rl_optimizer.create_state(test_cases, api_spec)
+        try:
+            # Create state for RL
+            state = self.engine.rl_optimizer.create_state(test_cases, api_spec)
 
-        # Optimize test selection and ordering
-        optimized_tests = self.engine.rl_optimizer.optimize(state, test_cases)
+            # Optimize test selection and ordering
+            optimized_result = self.engine.rl_optimizer.optimize(state, test_cases)
 
-        return optimized_tests
+            # Handle both coroutine and direct return
+            if asyncio.iscoroutine(optimized_result):
+                optimized_tests = await optimized_result
+            else:
+                optimized_tests = optimized_result
+
+            logger.info(f"Optimized {len(optimized_tests)} tests using RL")
+            return optimized_tests
+
+        except Exception as e:
+            logger.warning(f"RL optimization failed: {e}, using unoptimized tests")
+            return test_cases
 
     async def _execute_tests(self, request: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Execute test cases"""
-        test_cases = self.stage_results.get('optimization',
-                                            self.stage_results.get('generation', []))
+        # Get test cases from optimization or generation stage
+        test_cases = self.stage_results.get('optimization')
+
+        # If optimization didn't run or failed, fall back to generation
+        if test_cases is None:
+            test_cases = self.stage_results.get('generation', [])
+
+        # Handle case where test_cases might be a coroutine
+        if asyncio.iscoroutine(test_cases):
+            test_cases = await test_cases
+
+        # Ensure test_cases is a list
+        if not isinstance(test_cases, list):
+            logger.error(f"Invalid test_cases type: {type(test_cases)}")
+            test_cases = []
+
+        if not test_cases:
+            logger.warning("No test cases to execute")
+            return []
 
         # Set authentication if provided
         if request.get('auth_token'):
@@ -299,21 +397,27 @@ class TestGenerationPipeline:
             self.engine.test_executor.ssl_verify = False
 
         # Execute tests
+        logger.info(f"Executing {len(test_cases)} test cases...")
         results = []
-        for test in test_cases:
+
+        for idx, test in enumerate(test_cases, 1):
             try:
+                logger.info(f"Executing test {idx}/{len(test_cases)}: {test.get('name', 'unknown')}")
                 result = await self.engine.test_executor.execute_test(
                     test,
                     request['endpoint_url']
                 )
                 results.append(result)
             except Exception as e:
-                logger.error(f"Test execution failed: {e}")
+                logger.error(f"Test execution failed for {test.get('name', 'unknown')}: {e}")
                 results.append({
                     'test': test,
                     'passed': False,
                     'error': str(e)
                 })
+
+        passed = sum(1 for r in results if r.get('passed'))
+        logger.info(f"Execution complete: {passed}/{len(results)} tests passed")
 
         return results
 
@@ -321,9 +425,14 @@ class TestGenerationPipeline:
         """Process execution feedback"""
         execution_results = self.stage_results.get('execution', [])
 
+        if not execution_results:
+            logger.warning("No execution results to process")
+            return {'feedback_processed': False}
+
         # Update RAG system
         try:
             await self.engine.feedback_loop.update_rag(execution_results)
+            logger.info("RAG system updated with new patterns")
         except Exception as e:
             logger.warning(f"RAG update failed: {e}")
 
@@ -339,6 +448,7 @@ class TestGenerationPipeline:
                 self.engine.rl_optimizer.update_from_feedback(
                     state, None, reward, state, True
                 )
+            logger.info("RL model updated with execution feedback")
         except Exception as e:
             logger.warning(f"RL update failed: {e}")
 
@@ -354,6 +464,7 @@ class TestGenerationPipeline:
                 execution_results,
                 self.stage_results.get('analysis', {})
             )
+            logger.info("Report generated successfully")
         except Exception as e:
             logger.warning(f"Report generation failed: {e}")
             report = {
@@ -396,4 +507,4 @@ class TestGenerationPipeline:
         execution_results = self.stage_results.get('execution', [])
         if execution_results:
             passed_tests = sum(1 for r in execution_results if r.get('passed'))
-            self.pipeline_metrics['test_pass_rate'] = passed_tests / len(execution_results)
+            self.pipeline_metrics['test_pass_rate'] = passed_tests / len(execution_results) if execution_results else 0

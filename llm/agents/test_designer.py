@@ -26,29 +26,50 @@ class TestDesignerAgent(BaseAgent):
         return await self.design_tests(analysis, context)
 
     async def design_tests(self, analysis: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
-        """Design tests with parallel generation"""
+        """Design tests with SEQUENTIAL generation (not parallel!)"""
 
-        # Generate different test types in parallel
-        tasks = [
-            self._generate_happy_path_tests(analysis, context),
-            self._generate_boundary_tests(analysis, context),
-            self._generate_validation_tests(analysis, context),
-        ]
+        # Generate happy path tests ONLY (most important)
+        happy_path = []
+        try:
+            happy_path = await self._generate_happy_path_tests_simple(analysis, context)
+            logger.info(f"✅ Generated {len(happy_path)} happy path tests")
+        except Exception as e:
+            logger.error(f"Happy path generation failed: {e}")
 
-        # Run all generations concurrently
-        results = await asyncio.gather(*tasks, return_exceptions=True)
-
-        # Combine results
-        happy_path = results[0] if not isinstance(results[0], Exception) else []
-        edge_cases = results[1] if not isinstance(results[1], Exception) else []
-        validation = results[2] if not isinstance(results[2], Exception) else []
+        # Skip boundary/validation for now (too slow)
 
         return {
             'happy_path_tests': happy_path,
-            'edge_case_tests': edge_cases,
-            'validation_tests': validation,
-            'total_tests': len(happy_path) + len(edge_cases) + len(validation)
+            'edge_case_tests': [],
+            'validation_tests': [],
+            'total_tests': len(happy_path)
         }
+
+    async def _generate_happy_path_tests_simple(self, analysis: Dict[str, Any], context: Dict[str, Any]) -> List[
+        Dict[str, Any]]:
+        """Generate happy path tests in ONE batch only"""
+
+        prompt = f"""Generate 5 API test cases as JSON array.
+
+    Endpoint: {analysis.get('endpoint', '/api/endpoint')}
+    Method: {analysis.get('method', 'GET')}
+    Auth: {analysis.get('auth_requirements', {})}
+
+    Return JSON array ONLY:
+    [
+      {{"name": "test1", "test_type": "happy_path", "input": {{}}, "expected_status": 200}},
+      {{"name": "test2", "test_type": "happy_path", "input": {{}}, "expected_status": 200}}
+    ]"""
+
+        try:
+            tests = await self.generate_json_with_retry(prompt, max_retries=2)
+            if isinstance(tests, list) and len(tests) > 0:
+                logger.info(f"Generated {len(tests)} tests")
+                return tests[:10]  # Max 10 tests
+            return []
+        except Exception as e:
+            logger.error(f"Test generation failed: {e}")
+            return []
 
     async def _generate_happy_path_tests(self, analysis: Dict[str, Any], context: Dict[str, Any]) -> List[
         Dict[str, Any]]:

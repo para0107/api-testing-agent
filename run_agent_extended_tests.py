@@ -24,10 +24,10 @@ def print_banner():
     print("API Testing Agent - Complete System (RAG + RL + 5 Agents + Feedback)")
     print("=" * 80)
     print("Components:")
-    print("  • 5 LLM Agents: Analyzer | TestDesigner | EdgeCase | DataGenerator | ReportWriter")
-    print("  • RAG System: Vector Store + Knowledge Base + Retrieval")
-    print("  • RL Optimizer: PPO-based test selection and prioritization")
-    print("  • Feedback Loop: Continuous learning from execution results")
+    print("  - 5 LLM Agents: Analyzer | TestDesigner | EdgeCase | DataGenerator | ReportWriter")
+    print("  - RAG System: Vector Store + Knowledge Base + Retrieval")
+    print("  - RL Optimizer: PPO-based test selection and prioritization")
+    print("  - Feedback Loop: Continuous learning from execution results")
     print("=" * 80 + "\n")
 
 
@@ -38,12 +38,12 @@ def get_user_input():
 
     file_path = input("Enter API file path: ").strip()
     if not Path(file_path).exists():
-        print(f" Error: File not found: {file_path}")
+        print(f"Error: File not found: {file_path}")
         return None
 
     api_url = input("Enter API base URL: ").strip()
     if not api_url:
-        print(" Error: API URL is required")
+        print("Error: API URL is required")
         return None
 
     # Optional: Language detection
@@ -78,11 +78,6 @@ def get_user_input():
     }
 
 
-def print_stage_progress(stage_name: str, stage_num: int, total_stages: int, status: str = "..."):
-    """Print pipeline stage progress"""
-    print(f"[{stage_num}/{total_stages}] {stage_name.upper()}: {status}")
-
-
 def print_results_summary(result: dict):
     """Print detailed results summary"""
     print("\n" + "=" * 80)
@@ -95,16 +90,16 @@ def print_results_summary(result: dict):
         # Pipeline metrics
         metrics = result.get('metrics', {})
         print("Pipeline Metrics:")
-        print(f"  • Total Duration: {metrics.get('total_duration', 0):.2f}s")
-        print(f"  • Stages Completed: {metrics.get('stages_completed', 0)}/{metrics.get('total_stages', 0)}")
-        print(f"  • Success Rate: {metrics.get('success_rate', 0):.1%}")
+        print(f"  - Total Duration: {metrics.get('total_duration', 0):.2f}s")
+        print(f"  - Stages Completed: {metrics.get('stages_completed', 0)}/{metrics.get('total_stages', 0)}")
+        print(f"  - Success Rate: {metrics.get('success_rate', 0):.1%}")
 
         # Test generation metrics
         results = result.get('results', {})
         test_cases = results.get('test_cases', [])
         print(f"\nTest Generation:")
-        print(f"  • Tests Generated: {len(test_cases)}")
-        print(f"  • Tests Optimized by RL: {'Yes' if 'optimization' in result.get('stages_completed', []) else 'No'}")
+        print(f"  - Tests Generated: {len(test_cases)}")
+        print(f"  - Tests Optimized by RL: {'Yes' if 'optimization' in result.get('stages_completed', []) else 'No'}")
 
         # Execution metrics
         execution_results = results.get('execution_results', [])
@@ -114,10 +109,10 @@ def print_results_summary(result: dict):
             pass_rate = (passed / len(execution_results) * 100) if execution_results else 0
 
             print(f"\nTest Execution:")
-            print(f"  • Total Tests Executed: {len(execution_results)}")
-            print(f"  • Passed: {passed} ")
-            print(f"  • Failed: {failed} ")
-            print(f"  • Pass Rate: {pass_rate:.1f}%")
+            print(f"  - Total Tests Executed: {len(execution_results)}")
+            print(f"  - Passed: {passed}")
+            print(f"  - Failed: {failed}")
+            print(f"  - Pass Rate: {pass_rate:.1f}%")
 
             # Show test type breakdown
             test_types = {}
@@ -128,43 +123,33 @@ def print_results_summary(result: dict):
             if test_types:
                 print(f"\nTest Type Distribution:")
                 for test_type, count in sorted(test_types.items(), key=lambda x: x[1], reverse=True):
-                    print(f"  • {test_type}: {count}")
+                    print(f"  - {test_type}: {count}")
 
         # API specification
         api_spec = results.get('api_specification', {})
         if api_spec:
             endpoints = api_spec.get('endpoints', [])
             print(f"\nAPI Analysis:")
-            print(f"  • Endpoints Discovered: {len(endpoints)}")
-            print(f"  • Validation Rules Found: {len(api_spec.get('validation_rules', []))}")
-            print(f"  • Models Extracted: {len(api_spec.get('models', []))}")
+            print(f"  - Endpoints Discovered: {len(endpoints)}")
+            print(f"  - Validation Rules Found: {len(api_spec.get('validation_rules', []))}")
+            print(f"  - Models Extracted: {len(api_spec.get('models', []))}")
 
-        # Report location
+        # Report summary
         report = results.get('report', {})
-        if report:
-            print(f"\nReport Generated:")
-            report_path = Path('data/reports') / f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-            print(f"  • Location: {report_path}")
+        if report and isinstance(report, dict):
+            if report.get('summary'):
+                print(f"\nAI Analysis Summary:")
+                summary_text = report['summary'][:300]
+                print(f"  {summary_text}...")
 
-            # Show LLM insights if available
-            if isinstance(report, dict):
-                if report.get('summary'):
-                    print(f"\n📊 AI Insights:")
-                    print(f"  {report['summary'][:200]}...")
-
-                if report.get('recommendations'):
-                    print(f"\n💡 Top Recommendations:")
-                    for i, rec in enumerate(report['recommendations'][:3], 1):
-                        print(f"  {i}. {rec}")
-
-                if report.get('critical_issues'):
-                    print(f"\n  Critical Issues:")
-                    for i, issue in enumerate(report['critical_issues'][:3], 1):
-                        print(f"  {i}. {issue}")
+            if report.get('recommendations'):
+                print(f"\nTop Recommendations:")
+                for i, rec in enumerate(report['recommendations'][:3], 1):
+                    print(f"  {i}. {rec}")
 
         # Feedback loop status
         if 'feedback' in result.get('stages_completed', []):
-            print(f"\n Feedback Loop: Knowledge base and RL model updated")
+            print(f"\nFeedback Loop: Knowledge base and RL model updated")
 
         print("=" * 80 + "\n")
 
@@ -240,7 +225,7 @@ async def run_with_engine(config: dict):
             code_files=[config['file_path']],
             language=config['language'],
             endpoint_url=config['api_url'],
-            test_types=None,  # Let engine decide
+            test_types=None,
             max_tests=config.get('max_tests', 50),
             include_edge_cases=True
         )
@@ -289,7 +274,7 @@ async def main():
 
     # Print timing
     duration = (datetime.now() - start_time).total_seconds()
-    print(f"Total execution time: {duration:.2f}s\n")
+    print(f"\nTotal execution time: {duration:.2f}s\n")
 
 
 if __name__ == "__main__":

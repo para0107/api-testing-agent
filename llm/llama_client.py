@@ -138,45 +138,56 @@ class LlamaClient:
         return "\n\n".join(formatted)
 
     async def generate_json(self, prompt: str, schema: Dict[str, Any] = None, **kwargs):
-        """Optimized for speed while maintaining quality"""
+        """Generate JSON with aggressive stopping"""
 
+        # ULTRA-STRICT instruction
         json_prompt = f"""{prompt}
 
-    RESPONSE FORMAT:
-    - Output ONLY valid JSON array
-    - Start with [
-    - Each test: {{"name": "...", "test_type": "...", "input": {{}}, "expected_status": 200}}
-    - NO markdown, NO explanations
-    """
+    ===CRITICAL RULES===
+    1. Start response with {{ or [
+    2. End response with }} or ]
+    3. STOP IMMEDIATELY after closing brace
+    4. NO explanations
+    5. NO markdown
+    6. NO notes
+    ===END RULES==="""
+
+        if schema:
+            json_prompt += f"\n\nRequired structure:\n{json.dumps(schema, indent=2)}"
 
         params = {}
         for key, value in kwargs.items():
             if not isinstance(value, dict):
                 params[key] = value
 
-        # OPTIMIZED FOR SPEED
-        params['temperature'] = 0.3  # Higher = faster but less precise
-        params['max_tokens'] = 1500  # Enough for ~10-15 tests
-        params['top_k'] = 20  # Reduce from 40 for faster sampling
-        params['top_p'] = 0.9  # Slightly lower for speed
-        params['frequency_penalty'] = 1.0  # Prevent repetition
-        params['presence_penalty'] = 1.0  # Encourage variety
+        # Optimized parameters
+        params['temperature'] = 0.4  # VERY LOW for strict following
+        params['max_tokens'] = 900 # Reduced
+        params['top_k'] = 40  # Very focused sampling
+        params['top_p'] = 0.95  # Lower for determinism
+        params['frequency_penalty'] = 0.6  # High to prevent repetition
+        params['presence_penalty'] = 0.6  # High to prevent verbosity
 
-        # Better stop sequences for JSON arrays
-        params['stop'] = ['\n]\n', '}\n]\n', '\n\n]', 'END']
+        # AGGRESSIVE stop sequences to prevent explanations
+        params['stop'] = ['<|im_end|>', '<|endoftext|>', '```','\n]\n',']\n\n', ]
 
         response = await self.generate(json_prompt, **params)
 
-        # ... rest of method
-
-        # Extract JSON aggressively
+        # Clean and extract
         try:
+            cleaned = response.replace('```json', '').replace('```', '')
             cleaned = self._extract_json_aggressively(response)
+            if not cleaned:
+                raise ValueError("Empty response after extraction")
             return json.loads(cleaned)
         except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse JSON response: {e}")
-            logger.debug(f"Raw response (first 500 chars): {response[:500]}")
-            raise ValueError(f"Invalid JSON response: {e}")
+            logger.error(f"Failed to parse JSON: {e}")
+            logger.error(f"Raw response:\n{response[:1000]}")
+            raise ValueError(f"Invalid JSON: {e}")
+
+
+
+
     async def check_connection(self) -> bool:
         """Check if LM Studio server is responsive"""
         try:

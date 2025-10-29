@@ -20,9 +20,9 @@ class CSharpParser(BaseParser):
             'route': r'\[Route\("([^"]+)"\)\]',
             'http_method': r'\[Http(Get|Post|Put|Delete|Patch)(?:\("([^"]*)"\))?\]',
             'authorize': r'\[Authorize(?:\(([^)]*)\))?\]',
-            'from_body': r'\[FromBody\]\s*(\w+)\s+(\w+)',
-            'from_query': r'\[FromQuery\]\s*(\w+)\s+(\w+)',
-            'from_route': r'\[FromRoute\]\s*(\w+)\s+(\w+)',
+            'from_body': r'\[FromBody\]\s*(\w+(?:<.*?>)?)\s+(\w+)',
+            'from_query': r'\[FromQuery\]\s*(\w+\??)\s+(\w+)',
+            'from_route': r'\[FromRoute\]\s*(\w+\??)\s+(\w+)',
             'method': r'public\s+(?:async\s+)?(?:Task<)?(\w+)(?:>)?\s+(\w+)\s*\([^)]*\)',
             'service_injection': r'private\s+readonly\s+(\w+)\s+_(\w+);',
             'validation': r'RuleFor\(.*?\)\..*?;',
@@ -47,6 +47,8 @@ class CSharpParser(BaseParser):
                 'dependencies': self.extract_dependencies(code)
             }
 
+            logger.info(f"Extracted {len(file_result['endpoints'])} endpoints from {file_path}")
+
             results.append(file_result)
 
         return self.combine_results(results)
@@ -55,77 +57,116 @@ class CSharpParser(BaseParser):
         """Extract API endpoints from C# controller"""
         endpoints = []
 
+        # Find controller class
         class_match = re.search(self.patterns['class'], code)
         if not class_match:
+            logger.warning("No controller class found")
             return endpoints
 
         controller_name = class_match.group(1)
+        logger.info(f"Found controller: {controller_name}")
 
-        # Find base route - FIXED to handle any content
+        # Find base route
         base_route_match = re.search(r'\[Route\("([^"]+)"\)\]', code)
+        base_route = ""
         if base_route_match:
-            base_route = base_route_match.group(1).replace("api/", "")
+            base_route = base_route_match.group(1)
+            if not base_route.startswith("api/"):
+                base_route = f"api/{base_route}"
+            logger.info(f"Base route: {base_route}")
         else:
-            base_route = ""
+            logger.warning("No base route found")
 
-        auth_matches = re.findall(self.patterns['authorize'], code)
+        # Check for controller-level authorization
+        controller_auth = re.search(r'class\s+' + controller_name + r'.*?\[Authorize(?:\(([^)]*)\))?\]', code,
+                                    re.DOTALL)
 
-        # FIXED: Better split pattern to handle all return types
-        method_blocks = re.split(
-            r'(?=\[Http(?:Get|Post|Put|Delete|Patch))',  # Split before HTTP attributes
-            code
-        )
+        # Split code into method blocks - look for HTTP method attributes
+        method_blocks = re.split(r'(?=\s*\[Http(?:Get|Post|Put|Delete|Patch))', code)
+
+        logger.info(f"Found {len(method_blocks)} potential method blocks")
 
         for block in method_blocks:
-            http_match = re.search(self.patterns['http_method'], block)
+            # Find HTTP method attribute
+            http_match = re.search(r'\[Http(Get|Post|Put|Delete|Patch)(?:\("([^"]*)"\))?\]', block)
             if not http_match:
                 continue
 
-            http_method = http_match.group(1)
-            sub_route = http_match.group(2) if http_match.group(2) else ""
+            http_method = http_match.group(1).upper()
+            route_template = http_match.group(2) if http_match.group(2) else ""
 
-            # FIXED: Better method signature pattern
+            # Find method signature - FIXED PATTERN
             method_match = re.search(
-                r'public\s+(?:async\s+)?(?:Task<)?(?:ActionResult<)?(?:IActionResult|Action Result|[\w<>]+)(?:>)?\s+(\w+)\s*\(',
+                r'public\s+(?:async\s+)?(?:Task<)?(ActionResult<?[^>]*>?|IActionResult)>?\s+(\w+)\s*\(',
                 block
             )
 
             if not method_match:
+                logger.warning(f"Could not parse method signature in block starting with [{http_method}]")
                 continue
 
-            method_name = method_match.group(1)
+            method_name = method_match.group(2)
+            logger.info(f"Found method: {method_name} [{http_method}]")
+
+            # Extract parameters
             parameters = self.extract_parameters(block)
-            method_auth = re.search(self.patterns['authorize'], block)
+
+            # Check for method-level authorization
+            method_auth = re.search(r'\[Authorize(?:\(([^)]*)\))?\]', block)
+            has_auth = bool(controller_auth or method_auth)
+            policy = None
+            if method_auth:
+                policy = self._extract_policy(method_auth)
+            elif controller_auth:
+                policy = self._extract_policy(controller_auth)
 
             # Build complete route
-            if sub_route:
-                full_route = f"/api/{base_route}/{sub_route}".replace('//', '/').rstrip('/')
-            else:
-                full_route = f"/api/{base_route}".rstrip('/')
+            full_route = self._build_route(base_route, route_template, parameters)
 
             endpoint = {
                 'controller': controller_name,
                 'method_name': method_name,
-                'http_method': http_method.upper(),
+                'http_method': http_method,
                 'route': full_route,
-                'path': full_route,  # Add path field for endpoint_extractor
+                'path': full_route,
                 'parameters': parameters,
                 'authorization': {
-                    'required': bool(auth_matches or method_auth),
-                    'policy': self._extract_policy(method_auth) if method_auth else None
+                    'required': has_auth,
+                    'policy': policy
                 }
             }
 
             endpoints.append(endpoint)
+            logger.info(f"Added endpoint: {http_method} {full_route}")
 
+        logger.info(f"Total endpoints extracted: {len(endpoints)}")
         return endpoints
+
+    def _build_route(self, base_route: str, route_template: str, parameters: List[Dict]) -> str:
+        """Build complete route path"""
+        # Start with base route
+        if not base_route.startswith('/'):
+            base_route = f"/{base_route}"
+
+        # Add route template if exists
+        if route_template:
+            if not route_template.startswith('/'):
+                route_template = f"/{route_template}"
+            full_route = f"{base_route}{route_template}"
+        else:
+            full_route = base_route
+
+        # Ensure single slashes
+        full_route = re.sub(r'/+', '/', full_route)
+
+        return full_route
 
     def _extract_policy(self, auth_match):
         """Extract policy from Authorize attribute"""
         if not auth_match:
             return None
 
-        auth_content = auth_match.group(1) if auth_match.group(1) else ""
+        auth_content = auth_match.group(1) if auth_match.lastindex and auth_match.group(1) else ""
         policy_match = re.search(r'Policy\s*=\s*"([^"]+)"', auth_content)
         return policy_match.group(1) if policy_match else None
 
@@ -169,7 +210,7 @@ class CSharpParser(BaseParser):
         parameters = []
 
         # FromBody parameters
-        from_body_matches = re.findall(self.patterns['from_body'], method_code)
+        from_body_matches = re.findall(r'\[FromBody\]\s*(\w+(?:<.*?>)?)\s+(\w+)', method_code)
         for match in from_body_matches:
             parameters.append({
                 'name': match[1],
@@ -179,30 +220,33 @@ class CSharpParser(BaseParser):
             })
 
         # FromQuery parameters
-        from_query_matches = re.findall(self.patterns['from_query'], method_code)
+        from_query_matches = re.findall(r'\[FromQuery\]\s*(\w+\??(?:<.*?>)?)\s+(\w+)', method_code)
         for match in from_query_matches:
+            param_type = match[0]
             parameters.append({
                 'name': match[1],
-                'type': match[0],
+                'type': param_type,
                 'source': 'query',
-                'required': '?' not in match[0]
+                'required': '?' not in param_type
             })
 
         # FromRoute parameters
-        from_route_matches = re.findall(self.patterns['from_route'], method_code)
+        from_route_matches = re.findall(r'\[FromRoute\]\s*(\w+\??)\s+(\w+)', method_code)
         for match in from_route_matches:
             parameters.append({
                 'name': match[1],
                 'type': match[0],
                 'source': 'route',
-                'required': True
+                'required': '?' not in match[0]
             })
 
-        # Method signature parameters (if no attribute specified)
-        sig_match = re.search(r'\((.*?)\)', method_code)
+        # Method signature parameters (route parameters from method signature)
+        # Extract parameters from method signature like: MethodName(int userId, int id)
+        sig_match = re.search(r'\(([^)]*)\)', method_code)
         if sig_match:
             params_str = sig_match.group(1)
-            param_pattern = r'(?:\[.*?\]\s*)?(\w+(?:<.*?>)?)\s+(\w+)'
+            # Pattern to match: type name (ignoring attributes)
+            param_pattern = r'(?:\[.*?\]\s*)?(\w+\??(?:<.*?>)?)\s+(\w+)(?:\s*=\s*[^,)]+)?'
 
             for match in re.finditer(param_pattern, params_str):
                 param_type = match.group(1)
@@ -210,11 +254,14 @@ class CSharpParser(BaseParser):
 
                 # Check if already added with attribute
                 if not any(p['name'] == param_name for p in parameters):
+                    # Determine source based on parameter name and type
+                    source = 'route'  # Default for path parameters
+
                     parameters.append({
                         'name': param_name,
                         'type': param_type,
-                        'source': 'query',  # Default to query
-                        'required': '?' not in param_type
+                        'source': source,
+                        'required': '?' not in param_type and '=' not in match.group(0)
                     })
 
         return parameters
