@@ -1,9 +1,11 @@
 """
 Test Designer Agent
 """
-
+import asyncio
+import json
 import logging
 from typing import Dict, Any, List
+
 from .base_agent import BaseAgent
 
 logger = logging.getLogger(__name__)
@@ -15,98 +17,68 @@ class TestDesignerAgent(BaseAgent):
     def __init__(self, llama_client):
         super().__init__(llama_client, 'test_designer')
 
-    async def execute(self, input_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    async def execute(self, input_data: Dict[str, Any]) -> dict[str, Any]:
         """Design test cases"""
         analysis = input_data.get('analyzer_results', {})
         context = input_data.get('context', {})
         config = input_data.get('config', {})
 
-        return await self.design_tests(analysis, context, config)
+        return await self.design_tests(analysis, context)
 
-    async def design_tests(self, analysis: Dict[str, Any],
-                           context: Dict[str, Any],
-                           config: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """
-        Design comprehensive test cases
+    async def design_tests(self, analysis: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
+        """Design tests with parallel generation"""
 
-        Args:
-            analysis: API analysis results
-            context: Retrieved context
-            config: Test generation configuration
+        # Generate different test types in parallel
+        tasks = [
+            self._generate_happy_path_tests(analysis, context),
+            self._generate_boundary_tests(analysis, context),
+            self._generate_validation_tests(analysis, context),
+        ]
 
-        Returns:
-            List of test cases
-        """
-        test_cases = []
+        # Run all generations concurrently
+        results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        # Generate different types of tests
-        test_types = config.get('test_types', [
-            'happy_path', 'validation', 'authentication',
-            'error_handling', 'boundary', 'performance'
-        ])
+        # Combine results
+        happy_path = results[0] if not isinstance(results[0], Exception) else []
+        edge_cases = results[1] if not isinstance(results[1], Exception) else []
+        validation = results[2] if not isinstance(results[2], Exception) else []
 
-        for test_type in test_types:
-            if test_type == 'happy_path':
-                tests = await self._generate_happy_path_tests(analysis, context)
-            elif test_type == 'validation':
-                tests = await self._generate_validation_tests(analysis, context)
-            elif test_type == 'authentication':
-                tests = await self._generate_auth_tests(analysis, context)
-            elif test_type == 'error_handling':
-                tests = await self._generate_error_tests(analysis, context)
-            elif test_type == 'boundary':
-                tests = await self._generate_boundary_tests(analysis, context)
-            elif test_type == 'performance':
-                tests = await self._generate_performance_tests(analysis, context)
-            else:
+        return {
+            'happy_path_tests': happy_path,
+            'edge_case_tests': edge_cases,
+            'validation_tests': validation,
+            'total_tests': len(happy_path) + len(edge_cases) + len(validation)
+        }
+
+    async def _generate_happy_path_tests(self, analysis: Dict[str, Any], context: Dict[str, Any]) -> List[
+        Dict[str, Any]]:
+        """Generate happy path test cases in batches"""
+
+        all_tests = []
+        batch_size = 5  # Generate 5 tests per batch
+        num_batches = 3  # Total 15 tests across 3 batches
+
+        for batch_num in range(num_batches):
+            prompt = f"""Design {batch_size} happy path test cases (batch {batch_num + 1}/{num_batches}) for this API endpoint.
+
+    API Analysis:
+    {json.dumps(analysis, indent=2)}
+
+    Generate {batch_size} distinct test scenarios. Return as JSON array.
+    Each test needs: name, description, test_type, input, expected_status, expected_response, assertions
+
+    Focus on: {"core functionality" if batch_num == 0 else "edge cases" if batch_num == 1 else "error handling"}"""
+
+            try:
+                batch_tests = await self.generate_json_with_retry(prompt)
+                if isinstance(batch_tests, list):
+                    all_tests.extend(batch_tests)
+                logger.info(f"Generated {len(batch_tests)} tests in batch {batch_num + 1}")
+            except Exception as e:
+                logger.warning(f"Batch {batch_num + 1} failed: {e}")
                 continue
 
-            test_cases.extend(tests)
-
-        # Limit number of tests if specified
-        max_tests = config.get('max_tests', 50)
-        if len(test_cases) > max_tests:
-            test_cases = self._prioritize_tests(test_cases, max_tests)
-
-        return test_cases
-
-    async def _generate_happy_path_tests(self, analysis: Dict[str, Any],
-                                         context: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Generate happy path test cases"""
-        prompt = f"""Design happy path test cases for this API:
-
-Endpoint: {analysis.get('endpoint')}
-Method: {analysis.get('method')}
-Parameters: {analysis.get('critical_parameters')}
-
-Generate 3-5 test cases covering basic successful operations.
-
-IMPORTANT: Your response must be ONLY a JSON array. No explanations, no markdown, no notes.
-Start with [ and end with ]. Each test case should have this exact structure:
-{{
-    "name": "descriptive test name",
-    "description": "what this test validates",
-    "test_type": "happy_path",
-    "input": {{"param": "value"}},
-    "expected_status": 200,
-    "expected_response": {{"key": "value"}},
-    "assertions": ["assertion1", "assertion2"]
-}}
-
-Respond with ONLY the JSON array, nothing else:"""
-
-        response = await self.generate_json_with_retry(prompt)
-
-        # Ensure response is a list
-        if isinstance(response, dict):
-            response = [response]
-
-        # Add metadata
-        for test in response:
-            test['endpoint'] = analysis.get('endpoint')
-            test['method'] = analysis.get('method')
-
-        return response
+        return all_tests[:15]  # Return max 15 tests
 
     async def _generate_validation_tests(self, analysis: Dict[str, Any],
                                          context: Dict[str, Any]) -> List[Dict[str, Any]]:

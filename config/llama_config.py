@@ -38,7 +38,7 @@ class LlamaConfig:
     # Retry settings
     max_retries: int = 3
     retry_delay: float = 1.0
-    timeout: int = 120  # INCREASED from 60
+    timeout: int = 180 # INCREASED from 60
 
     # Response settings
     stream: bool = False

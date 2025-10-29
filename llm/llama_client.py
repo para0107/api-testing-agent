@@ -137,41 +137,37 @@ class LlamaClient:
 
         return "\n\n".join(formatted)
 
-    async def generate_json(self, prompt: str, schema: Dict[str, Any] = None, **kwargs) -> Dict[str, Any]:
-        """Generate JSON response with improved handling for 3B model"""
+    async def generate_json(self, prompt: str, schema: Dict[str, Any] = None, **kwargs):
+        """Optimized for speed while maintaining quality"""
 
-        # Add stronger, clearer JSON-only instruction
         json_prompt = f"""{prompt}
 
     RESPONSE FORMAT:
-    - Output ONLY valid JSON
-    - Start immediately with {{ or [
-    - No explanations, notes, or markdown
-    - No text before or after the JSON
+    - Output ONLY valid JSON array
+    - Start with [
+    - Each test: {{"name": "...", "test_type": "...", "input": {{}}, "expected_status": 200}}
+    - NO markdown, NO explanations
     """
 
-        if schema:
-            json_prompt += f"\n\nExpected structure:\n{json.dumps(schema, indent=2)}"
-
-        # CRITICAL FIX: Properly extract scalar values from params
         params = {}
         for key, value in kwargs.items():
-            # If value is a dict, skip it (shouldn't happen but be defensive)
-            if isinstance(value, dict):
-                logger.warning(f"Skipping parameter '{key}' - received dict instead of scalar value")
-                continue
-            params[key] = value
+            if not isinstance(value, dict):
+                params[key] = value
 
-        # Use parameters optimized for small models with safe defaults
-        params['temperature'] = min(float(params.get('temperature', 0.2)), 0.3)
-        params['max_tokens'] = min(int(params.get('max_tokens', 800)), 800)
-        params['frequency_penalty'] = float(params.get('frequency_penalty', 0.8))
-        params['presence_penalty'] = float(params.get('presence_penalty', 0.8))
+        # OPTIMIZED FOR SPEED
+        params['temperature'] = 0.3  # Higher = faster but less precise
+        params['max_tokens'] = 1500  # Enough for ~10-15 tests
+        params['top_k'] = 20  # Reduce from 40 for faster sampling
+        params['top_p'] = 0.9  # Slightly lower for speed
+        params['frequency_penalty'] = 1.0  # Prevent repetition
+        params['presence_penalty'] = 1.0  # Encourage variety
 
-        # FIXED: Only essential stop sequences
-        params['stop'] = ['}\n}', ']\n]', '\n\nNote', 'Example:', 'Here is']
+        # Better stop sequences for JSON arrays
+        params['stop'] = ['\n]\n', '}\n]\n', '\n\n]', 'END']
 
         response = await self.generate(json_prompt, **params)
+
+        # ... rest of method
 
         # Extract JSON aggressively
         try:
