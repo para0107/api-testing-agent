@@ -19,7 +19,29 @@ class BaseAgent(ABC):
 
     def _get_config(self) -> Dict[str, Any]:
         """Get agent-specific configuration"""
-        return self.client.get_config_for_agent(self.agent_type)
+        raw_config = self.client.get_config_for_agent(self.agent_type)
+
+        # LOG AT INFO LEVEL to see what we're getting
+        logger.info(f"=== Config for agent '{self.agent_type}' ===")
+        logger.info(f"Raw config type: {type(raw_config)}")
+        for key, value in raw_config.items():
+            logger.info(f"  {key}: type={type(value).__name__}, value={value if not isinstance(value, dict) else '<DICT>'}")
+
+        # Validate and flatten config
+        clean_config = {}
+        for key, value in raw_config.items():
+            if isinstance(value, (int, float, str, bool)):
+                clean_config[key] = value
+            elif isinstance(value, list):
+                clean_config[key] = value
+            elif isinstance(value, dict):
+                logger.warning(f"Config key '{key}' contains nested dict, skipping")
+            else:
+                logger.warning(f"Config key '{key}' has unexpected type {type(value)}, skipping")
+
+        logger.info(f"Clean config: {clean_config}")
+        logger.info("=" * 50)
+        return clean_config
 
     @abstractmethod
     async def execute(self, input_data: Dict[str, Any]) -> Any:
@@ -53,6 +75,10 @@ class BaseAgent(ABC):
         """Generate JSON with retry logic - DON'T grow the prompt"""
         last_error = None
         original_prompt = prompt  # SAVE ORIGINAL
+
+        logger.debug(f"Agent config type check:")
+        for key, value in self.config.items():
+            logger.debug(f"  {key}: {type(value)} = {value if not isinstance(value, dict) else '<dict>'}")
 
         for attempt in range(max_retries):
             try:

@@ -1,408 +1,295 @@
 """
-API Testing Agent - Using LLM-Powered Agents (All 5 Agents)
+API Testing Agent - Complete System with Full Pipeline
+Uses CoreEngine and TestGenerationPipeline for full RAG + RL + 5 Agents + Feedback
 """
 
 import asyncio
 import logging
 from pathlib import Path
-from typing import List, Dict
 from datetime import datetime
-import json
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
-from input_processing import ParserFactory, EndpointExtractor
-from llm.agents.analyzer_agent import AnalyzerAgent
-from llm.agents.test_designer import TestDesignerAgent
-from llm.agents.edge_case_agent import EdgeCaseAgent
-from llm.agents.data_generator import DataGeneratorAgent
-from llm.agents.report_writer import ReportWriterAgent
-from llm.llama_client import LlamaClient
-from rag.retriever import Retriever
-from rag.vector_store import VectorStore
-from rag.embeddings import EmbeddingManager
-from test_execution.executor import TestExecutor
-from config import paths
+from core.pipeline import TestGenerationPipeline
+from core.engine import CoreEngine, APITestRequest
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
-class LLMPoweredTestAgent:
-    """API Testing Agent using LM Studio and all 5 LLM agents"""
-
-    def __init__(self, use_ssl: bool = False):
-        self.use_ssl = use_ssl
-        self.auth_token = None
-
-        logger.info("=" * 80)
-        logger.info("LLM-Powered API Testing Agent (5 Agents)")
-        logger.info("=" * 80)
-
-        # Initialize LLM client
-        logger.info("Initializing LLM client...")
-        self.llm_client = LlamaClient()
-
-        # Initialize RAG components
-        logger.info("Initializing RAG components...")
-        try:
-            self.vector_store = VectorStore()
-            self.embedding_manager = EmbeddingManager()
-            self.retriever = Retriever(self.vector_store, self.embedding_manager)
-            logger.info("RAG components loaded")
-        except Exception as e:
-            logger.warning(f"Could not load RAG: {e}")
-            self.retriever = None
-
-        # Initialize all 5 LLM-powered agents
-        logger.info("Initializing 5 LLM agents...")
-        self.analyzer = AnalyzerAgent(self.llm_client)
-        self.test_designer = TestDesignerAgent(self.llm_client)
-        self.edge_case_agent = EdgeCaseAgent(self.llm_client)
-        self.data_generator = DataGeneratorAgent(self.llm_client)
-        self.report_writer = ReportWriterAgent(self.llm_client)
-
-        self.executor = TestExecutor()
-        if not use_ssl:
-            self.executor.ssl_verify = False
-
-        logger.info("All 5 agents initialized successfully")
-        logger.info("=" * 80 + "\n")
-
-    async def run_from_file(self, file_path: str, api_base_url: str, auth_token: str = None):
-        """Parse file and generate intelligent tests using all 5 LLM agents"""
-        try:
-            self.auth_token = auth_token
-
-            logger.info("Mode: LLM-POWERED FILE PARSING (5 AGENTS)")
-            logger.info(f"File: {Path(file_path).name}")
-            logger.info(f"API URL: {api_base_url}")
-            logger.info("=" * 80)
-
-            # Step 1: Parse file
-            logger.info("\n[1/6] Parsing API file...")
-            endpoints = await self._parse_file(file_path, api_base_url)
-            logger.info(f"Found {len(endpoints)} endpoints")
-
-            # Step 2: Analyze each endpoint with LLM (Agent 1: AnalyzerAgent)
-            logger.info("\n[2/6] Analyzing endpoints with LLM (AnalyzerAgent)...")
-            analyses = []
-            for i, endpoint in enumerate(endpoints, 1):
-                logger.info(f"  Analyzing {i}/{len(endpoints)}: {endpoint.get('method')} {endpoint.get('path')}")
-                try:
-                    analysis = await self.analyzer.analyze(endpoint, {})
-                    analyses.append(analysis)
-                except Exception as e:
-                    logger.error(f"  Failed to analyze endpoint {i}: {e}")
-                    # Create minimal analysis to continue
-                    analyses.append({
-                        'endpoint': endpoint.get('path'),
-                        'method': endpoint.get('method'),
-                        'critical_parameters': [],
-                        'error': str(e)
-                    })
-
-            # Step 3: Design tests with LLM (Agent 2: TestDesignerAgent)
-            logger.info("\n[3/6] Designing test cases with LLM (TestDesignerAgent)...")
-            all_tests = []
-            for i, analysis in enumerate(analyses, 1):
-                logger.info(f"  Designing tests {i}/{len(analyses)}")
-                try:
-                    tests = await self.test_designer.design_tests(analysis, {}, {})
-                    all_tests.extend(tests)
-                except Exception as e:
-                    logger.error(f"  Failed to design tests for endpoint {i}: {e}")
-            logger.info(f"Generated {len(all_tests)} test cases")
-
-            # Step 3.5: Generate edge cases with LLM (Agent 3: EdgeCaseAgent)
-            logger.info("\n[3.5/6] Generating edge cases with LLM (EdgeCaseAgent)...")
-            edge_cases = []
-            for i, analysis in enumerate(analyses, 1):
-                logger.info(f"  Generating edge cases {i}/{len(analyses)}")
-                try:
-                    edges = await self.edge_case_agent.generate_edge_cases(
-                        {
-                            'api_spec': analysis,
-                            'analysis': analysis
-                        }
-                    )
-                    edge_cases.extend(edges)
-                except Exception as e:
-                    logger.error(f"  Failed to generate edge cases for endpoint {i}: {e}")
-
-            logger.info(f"Generated {len(edge_cases)} edge case tests")
-            all_tests.extend(edge_cases)
-            logger.info(f"Total tests (including edge cases): {len(all_tests)}")
-
-            # Step 4: Generate test data with LLM (Agent 4: DataGeneratorAgent)
-            logger.info("\n[4/6] Generating test data with LLM (DataGeneratorAgent)...")
-            data_generated = 0
-            for test in all_tests:
-                if test.get('method') in ['POST', 'PUT', 'PATCH']:
-                    try:
-                        test_data = await self.data_generator.generate_data(
-                            test.get('endpoint'),
-                            test.get('method')
-                        )
-                        test['test_data'] = test_data
-                        data_generated += 1
-                    except Exception as e:
-                        logger.warning(f"  Failed to generate data for {test.get('name', 'unknown')}: {e}")
-            logger.info(f"Generated test data for {data_generated} tests")
-
-            # Step 5: Execute tests
-            logger.info("\n[5/6] Executing tests...")
-            results = await self._execute_tests(all_tests, api_base_url)
-            logger.info(f"Executed {len(results)} tests")
-
-            # Step 6: Generate intelligent report with LLM (Agent 5: ReportWriterAgent)
-            logger.info("\n[6/6] Generating intelligent report with LLM (ReportWriterAgent)...")
-            session_id = datetime.now().strftime("%Y%m%d_%H%M%S")
-            try:
-                report_data = await self.report_writer.generate_report(
-                    {
-                        'execution_results': results,
-                        'endpoints': endpoints,
-                        'analyses': analyses
-                    },
-                    session_id=session_id
-                )
-                logger.info("Intelligent report generated successfully")
-            except Exception as e:
-                logger.error(f"Failed to generate LLM report: {e}")
-                report_data = {
-                    'summary': 'Failed to generate LLM analysis',
-                    'recommendations': [],
-                    'error': str(e)
-                }
-
-            # Save results
-            report_path = self._save_results(results, endpoints, report_data)
-            logger.info(f"Report saved: {report_path}")
-
-            self._print_summary(results, report_data)
-
-            return {
-                'success': True,
-                'endpoints': len(endpoints),
-                'tests': len(results),
-                'edge_cases': len(edge_cases),
-                'report': str(report_path),
-                'results': results,
-                'llm_report': report_data
-            }
-
-        except Exception as e:
-            logger.error(f"Error: {e}", exc_info=True)
-            return {'success': False, 'error': str(e)}
-
-    async def _parse_file(self, file_path: str, api_base_url: str) -> List[Dict]:
-        """Parse API file"""
-        file_path = Path(file_path)
-
-        ext_map = {'.cs': 'csharp', '.py': 'python', '.java': 'java'}
-        language = ext_map.get(file_path.suffix.lower(), 'csharp')
-
-        factory = ParserFactory()
-        parser = factory.get_parser(language)
-        parsed_result = parser.parse([str(file_path)])
-
-        extractor = EndpointExtractor()
-        endpoints = extractor.extract(parsed_result)
-
-        base_url = api_base_url.rstrip('/')
-        for ep in endpoints:
-            path = ep.get('path', '')
-            if not path.startswith('/'):
-                path = '/' + path
-            ep['url'] = f"{base_url}{path}"
-
-        return endpoints
-
-    async def _execute_tests(self, test_suite: List[Dict], base_url: str) -> List[Dict]:
-        """Execute tests"""
-        import aiohttp
-
-        results = []
-        connector = aiohttp.TCPConnector(ssl=self.use_ssl)
-
-        async with aiohttp.ClientSession(connector=connector) as session:
-            self.executor.session = session
-
-            for i, test in enumerate(test_suite, 1):
-                try:
-                    # Add auth token
-                    if self.auth_token:
-                        test['auth_token'] = self.auth_token
-
-                    result = await self.executor.execute_test(test, base_url)
-                    results.append(result)
-
-                    if i % 5 == 0 or not result.get('passed'):
-                        status = "PASS" if result.get('passed') else "FAIL"
-                        logger.info(f"  [{i}/{len(test_suite)}] {status} - {test.get('name', 'Unknown')[:50]}")
-
-                except Exception as e:
-                    logger.error(f"  Test execution failed: {e}")
-                    results.append({
-                        'name': test.get('name', 'Unknown'),
-                        'passed': False,
-                        'error': str(e),
-                        'test_type': test.get('test_type', 'unknown')
-                    })
-
-        return results
-
-    def _save_results(self, results: List[Dict], endpoints: List[Dict], llm_report: Dict = None) -> Path:
-        """Save results with LLM-generated insights"""
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_path = paths.DATA_DIR / 'results' / f"llm_test_results_{timestamp}.json"
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-
-        passed = sum(1 for r in results if r.get('passed'))
-        failed = len(results) - passed
-
-        # Categorize tests by type
-        test_types = {}
-        for result in results:
-            test_type = result.get('test_type', 'unknown')
-            if test_type not in test_types:
-                test_types[test_type] = {'total': 0, 'passed': 0, 'failed': 0}
-            test_types[test_type]['total'] += 1
-            if result.get('passed'):
-                test_types[test_type]['passed'] += 1
-            else:
-                test_types[test_type]['failed'] += 1
-
-        report = {
-            'timestamp': datetime.now().isoformat(),
-            'mode': 'LLM-Powered (5 Agents)',
-            'agents_used': [
-                'AnalyzerAgent',
-                'TestDesignerAgent',
-                'EdgeCaseAgent',
-                'DataGeneratorAgent',
-                'ReportWriterAgent'
-            ],
-            'summary': {
-                'total_endpoints': len(endpoints),
-                'total_tests': len(results),
-                'passed': passed,
-                'failed': failed,
-                'pass_rate': f"{(passed / len(results) * 100):.1f}%" if results else "0%",
-                'by_test_type': test_types
-            },
-            'endpoints': endpoints,
-            'results': results,
-            'llm_analysis': llm_report  # LLM-generated insights from ReportWriterAgent
-        }
-
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(report, f, indent=2, default=str)
-
-        return output_path
-
-    def _print_summary(self, results: List[Dict], llm_report: Dict = None):
-        """Print summary with LLM insights"""
-        passed = sum(1 for r in results if r.get('passed'))
-        failed = len(results) - passed
-        pass_rate = (passed / len(results) * 100) if results else 0
-
-        print("\n" + "=" * 80)
-        print("TEST SUMMARY - LLM-POWERED (5 AGENTS)")
-        print("=" * 80)
-        print(f"Total Tests:  {len(results)}")
-        print(f"Passed:       {passed} ({pass_rate:.1f}%)")
-        print(f"Failed:       {failed}")
-
-        # Breakdown by test type
-        test_types = {}
-        for result in results:
-            test_type = result.get('test_type', 'unknown')
-            if test_type not in test_types:
-                test_types[test_type] = {'passed': 0, 'failed': 0}
-            if result.get('passed'):
-                test_types[test_type]['passed'] += 1
-            else:
-                test_types[test_type]['failed'] += 1
-
-        if test_types:
-            print("\nBreakdown by Test Type:")
-            for test_type, counts in test_types.items():
-                total = counts['passed'] + counts['failed']
-                print(f"  {test_type:15} - {counts['passed']}/{total} passed")
-
-        failures = [r for r in results if not r.get('passed')]
-        if failures:
-            print(f"\nFailed Tests (showing first 5):")
-            for i, fail in enumerate(failures[:5], 1):
-                name = fail.get('name', 'Unknown')
-                test_type = fail.get('test_type', 'unknown')
-                print(f"  {i}. [{test_type}] {name[:60]}")
-
-        # Print LLM-generated recommendations
-        if llm_report:
-            print("\n" + "-" * 80)
-            print("LLM-GENERATED INSIGHTS (ReportWriterAgent)")
-            print("-" * 80)
-
-            if 'summary' in llm_report:
-                print(f"\nOverall Assessment:")
-                summary = llm_report['summary']
-                if isinstance(summary, str):
-                    print(f"  {summary[:200]}")
-                elif isinstance(summary, dict):
-                    for key, value in list(summary.items())[:3]:
-                        print(f"  {key}: {value}")
-
-            if 'recommendations' in llm_report and llm_report['recommendations']:
-                print(f"\nTop Recommendations:")
-                for i, rec in enumerate(llm_report['recommendations'][:5], 1):
-                    print(f"  {i}. {rec}")
-
-            if 'critical_issues' in llm_report and llm_report['critical_issues']:
-                print(f"\nCritical Issues:")
-                for i, issue in enumerate(llm_report['critical_issues'][:3], 1):
-                    print(f"  {i}. {issue}")
-
-        print("=" * 80 + "\n")
-
-
-async def main():
-    """Main entry point"""
+def print_banner():
+    """Print application banner"""
     print("\n" + "=" * 80)
-    print("LLM-Powered API Testing Agent - Using 5 Intelligent Agents")
+    print("API Testing Agent - Complete System (RAG + RL + 5 Agents + Feedback)")
     print("=" * 80)
-    print("Agents: Analyzer | TestDesigner | EdgeCase | DataGenerator | ReportWriter")
+    print("Components:")
+    print("  • 5 LLM Agents: Analyzer | TestDesigner | EdgeCase | DataGenerator | ReportWriter")
+    print("  • RAG System: Vector Store + Knowledge Base + Retrieval")
+    print("  • RL Optimizer: PPO-based test selection and prioritization")
+    print("  • Feedback Loop: Continuous learning from execution results")
     print("=" * 80 + "\n")
 
-    file_path = input("Enter API file path: ").strip()
-    api_url = input("Enter API base URL: ").strip()
 
+def get_user_input():
+    """Get configuration from user"""
+    print("Configuration:")
+    print("-" * 80)
+
+    file_path = input("Enter API file path: ").strip()
+    if not Path(file_path).exists():
+        print(f" Error: File not found: {file_path}")
+        return None
+
+    api_url = input("Enter API base URL: ").strip()
+    if not api_url:
+        print(" Error: API URL is required")
+        return None
+
+    # Optional: Language detection
+    ext_map = {'.cs': 'csharp', '.py': 'python', '.java': 'java', '.cpp': 'cpp'}
+    language = ext_map.get(Path(file_path).suffix.lower(), 'csharp')
+    print(f"Detected language: {language}")
+
+    # Optional: Authentication
     auth_required = input("Requires authentication? (y/n): ").strip().lower()
     auth_token = None
     if auth_required == 'y':
         auth_token = input("Enter Bearer token: ").strip()
 
+    # Optional: SSL verification
     ssl_verify = input("Use SSL verification? (y/n): ").strip().lower() == 'y'
 
-    agent = LLMPoweredTestAgent(use_ssl=ssl_verify)
+    # Optional: Max tests
+    try:
+        max_tests = int(input("Max tests per endpoint (default: 50): ").strip() or "50")
+    except ValueError:
+        max_tests = 50
 
-    result = await agent.run_from_file(file_path, api_url, auth_token)
+    print("-" * 80 + "\n")
 
-    if result['success']:
-        print("\n" + "=" * 80)
-        print("✓ Test execution completed successfully!")
-        print("=" * 80)
-        print(f"Endpoints analyzed: {result['endpoints']}")
-        print(f"Total tests executed: {result['tests']}")
-        print(f"Edge cases generated: {result.get('edge_cases', 0)}")
-        print(f"Report location: {result['report']}")
+    return {
+        'file_path': file_path,
+        'api_url': api_url,
+        'language': language,
+        'auth_token': auth_token,
+        'ssl_verify': ssl_verify,
+        'max_tests': max_tests
+    }
+
+
+def print_stage_progress(stage_name: str, stage_num: int, total_stages: int, status: str = "..."):
+    """Print pipeline stage progress"""
+    print(f"[{stage_num}/{total_stages}] {stage_name.upper()}: {status}")
+
+
+def print_results_summary(result: dict):
+    """Print detailed results summary"""
+    print("\n" + "=" * 80)
+    print("EXECUTION RESULTS")
+    print("=" * 80)
+
+    if result.get('status') == 'success':
+        print("Pipeline completed successfully!\n")
+
+        # Pipeline metrics
+        metrics = result.get('metrics', {})
+        print("Pipeline Metrics:")
+        print(f"  • Total Duration: {metrics.get('total_duration', 0):.2f}s")
+        print(f"  • Stages Completed: {metrics.get('stages_completed', 0)}/{metrics.get('total_stages', 0)}")
+        print(f"  • Success Rate: {metrics.get('success_rate', 0):.1%}")
+
+        # Test generation metrics
+        results = result.get('results', {})
+        test_cases = results.get('test_cases', [])
+        print(f"\nTest Generation:")
+        print(f"  • Tests Generated: {len(test_cases)}")
+        print(f"  • Tests Optimized by RL: {'Yes' if 'optimization' in result.get('stages_completed', []) else 'No'}")
+
+        # Execution metrics
+        execution_results = results.get('execution_results', [])
+        if execution_results:
+            passed = sum(1 for r in execution_results if r.get('passed'))
+            failed = len(execution_results) - passed
+            pass_rate = (passed / len(execution_results) * 100) if execution_results else 0
+
+            print(f"\nTest Execution:")
+            print(f"  • Total Tests Executed: {len(execution_results)}")
+            print(f"  • Passed: {passed} ")
+            print(f"  • Failed: {failed} ")
+            print(f"  • Pass Rate: {pass_rate:.1f}%")
+
+            # Show test type breakdown
+            test_types = {}
+            for test in test_cases:
+                test_type = test.get('test_type', 'unknown')
+                test_types[test_type] = test_types.get(test_type, 0) + 1
+
+            if test_types:
+                print(f"\nTest Type Distribution:")
+                for test_type, count in sorted(test_types.items(), key=lambda x: x[1], reverse=True):
+                    print(f"  • {test_type}: {count}")
+
+        # API specification
+        api_spec = results.get('api_specification', {})
+        if api_spec:
+            endpoints = api_spec.get('endpoints', [])
+            print(f"\nAPI Analysis:")
+            print(f"  • Endpoints Discovered: {len(endpoints)}")
+            print(f"  • Validation Rules Found: {len(api_spec.get('validation_rules', []))}")
+            print(f"  • Models Extracted: {len(api_spec.get('models', []))}")
+
+        # Report location
+        report = results.get('report', {})
+        if report:
+            print(f"\nReport Generated:")
+            report_path = Path('data/reports') / f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            print(f"  • Location: {report_path}")
+
+            # Show LLM insights if available
+            if isinstance(report, dict):
+                if report.get('summary'):
+                    print(f"\n📊 AI Insights:")
+                    print(f"  {report['summary'][:200]}...")
+
+                if report.get('recommendations'):
+                    print(f"\n💡 Top Recommendations:")
+                    for i, rec in enumerate(report['recommendations'][:3], 1):
+                        print(f"  {i}. {rec}")
+
+                if report.get('critical_issues'):
+                    print(f"\n  Critical Issues:")
+                    for i, issue in enumerate(report['critical_issues'][:3], 1):
+                        print(f"  {i}. {issue}")
+
+        # Feedback loop status
+        if 'feedback' in result.get('stages_completed', []):
+            print(f"\n Feedback Loop: Knowledge base and RL model updated")
+
         print("=" * 80 + "\n")
+
     else:
-        print("\n" + "=" * 80)
-        print("✗ Test execution failed!")
+        print("Pipeline failed!")
         print("=" * 80)
-        print(f"Error: {result.get('error')}")
+        error = result.get('error', 'Unknown error')
+        print(f"Error: {error}")
+
+        # Show which stages completed before failure
+        stages_completed = result.get('stages_completed', [])
+        if stages_completed:
+            print(f"\nStages completed before failure:")
+            for stage in stages_completed:
+                print(f"   {stage}")
+
         print("=" * 80 + "\n")
+
+
+async def run_with_pipeline(config: dict):
+    """Run complete pipeline with all components"""
+    logger.info("Initializing Complete Pipeline System...")
+
+    try:
+        # Initialize pipeline
+        pipeline = TestGenerationPipeline()
+
+        # Prepare request
+        request = {
+            'code_files': [config['file_path']],
+            'language': config['language'],
+            'endpoint_url': config['api_url'],
+            'max_tests': config.get('max_tests', 50),
+            'include_edge_cases': True,
+            'auth_token': config.get('auth_token'),
+            'use_ssl': config.get('ssl_verify', False)
+        }
+
+        logger.info("Starting pipeline execution...")
+        logger.info(f"  File: {Path(config['file_path']).name}")
+        logger.info(f"  Language: {config['language']}")
+        logger.info(f"  API URL: {config['api_url']}")
+        logger.info(f"  Max Tests: {config.get('max_tests', 50)}")
+
+        print("\n" + "-" * 80)
+        print("Pipeline Stages:")
+        print("-" * 80)
+
+        # Run complete pipeline (all 9 stages)
+        result = await pipeline.run(request)
+
+        return result
+
+    except Exception as e:
+        logger.error(f"Pipeline execution failed: {e}", exc_info=True)
+        return {
+            'status': 'error',
+            'error': str(e),
+            'stages_completed': []
+        }
+
+
+async def run_with_engine(config: dict):
+    """Alternative: Run with CoreEngine (more control)"""
+    logger.info("Initializing Core Engine...")
+
+    try:
+        # Initialize engine
+        engine = CoreEngine()
+
+        # Create API test request
+        request = APITestRequest(
+            code_files=[config['file_path']],
+            language=config['language'],
+            endpoint_url=config['api_url'],
+            test_types=None,  # Let engine decide
+            max_tests=config.get('max_tests', 50),
+            include_edge_cases=True
+        )
+
+        logger.info("Starting CoreEngine processing...")
+
+        # Process API (runs full 7-step pipeline in engine.py)
+        result = await engine.process_api(request)
+
+        return result
+
+    except Exception as e:
+        logger.error(f"CoreEngine execution failed: {e}", exc_info=True)
+        return {
+            'status': 'error',
+            'error': str(e)
+        }
+
+
+async def main():
+    """Main entry point"""
+    print_banner()
+
+    # Get user configuration
+    config = get_user_input()
+    if not config:
+        return
+
+    # Choose execution method
+    print("Execution Method:")
+    print("  1. TestGenerationPipeline (recommended - 9 stages with full control)")
+    print("  2. CoreEngine (alternative - 7-step process)")
+    choice = input("Choose method (1/2, default: 1): ").strip() or "1"
+    print()
+
+    # Run pipeline
+    start_time = datetime.now()
+
+    if choice == "2":
+        result = await run_with_engine(config)
+    else:
+        result = await run_with_pipeline(config)
+
+    # Print results
+    print_results_summary(result)
+
+    # Print timing
+    duration = (datetime.now() - start_time).total_seconds()
+    print(f"Total execution time: {duration:.2f}s\n")
 
 
 if __name__ == "__main__":

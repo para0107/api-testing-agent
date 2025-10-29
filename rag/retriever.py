@@ -20,11 +20,41 @@ class Retriever:
         self.vector_store = vector_store
         self.embedding_manager = embedding_manager
 
-        # Load reranking model if enabled
+        # Load reranking model if enabled - token comes from rag_config
         self.reranker = None
         if rag_config.rerank:
-            self.reranker = CrossEncoder(rag_config.rerank_model)
-            logger.info(f"Loaded reranking model: {rag_config.rerank_model}")
+            try:
+                logger.info(f"Loading reranking model: {rag_config.rerank_model}")
+
+                # Use token from config
+                if rag_config.hf_token:
+                    logger.info("Using HuggingFace token from config")
+                    # Try both parameter names for compatibility
+                    try:
+                        self.reranker = CrossEncoder(
+                            rag_config.rerank_model,
+                            token=rag_config.hf_token  # Newer versions use 'token'
+                        )
+                    except TypeError:
+                        # Fallback for older versions
+                        self.reranker = CrossEncoder(
+                            rag_config.rerank_model,
+                            use_auth_token=rag_config.hf_token
+                        )
+                else:
+                    logger.warning("No HuggingFace token found in config, attempting anonymous access")
+                    logger.warning("Add HG_TOKEN to your .env file for authenticated model access")
+                    self.reranker = CrossEncoder(rag_config.rerank_model)
+
+                logger.info(f"✅ Successfully loaded reranking model: {rag_config.rerank_model}")
+
+            except Exception as e:
+                logger.error(f"❌ Failed to load reranking model: {e}")
+                logger.warning("⚠️  Continuing without reranking - results may be less accurate")
+                logger.warning("To fix: Add HG_TOKEN to your .env file or set rerank=False in config")
+                self.reranker = None
+        else:
+            logger.info("Reranking disabled in config")
 
     async def retrieve(self, query: Union[str, np.ndarray],
                        index_name: str, k: int = 10,
@@ -48,8 +78,9 @@ class Retriever:
             query_embedding = query
 
         # Search vector store
+        fetch_k = k * 2 if (rerank and self.reranker) else k
         ids, distances, metadata = self.vector_store.search(
-            index_name, query_embedding, k * 2 if rerank else k
+            index_name, query_embedding, fetch_k
         )
 
         # Prepare results
@@ -64,9 +95,14 @@ class Retriever:
                 }
                 results.append(result)
 
-        # Rerank if enabled
-        if (rerank or (rerank is None and rag_config.rerank)) and self.reranker and isinstance(query, str):
-            results = self._rerank_results(query, results)
+        # Rerank if enabled AND reranker is available
+        should_rerank = (rerank if rerank is not None else rag_config.rerank)
+        if should_rerank and self.reranker and isinstance(query, str):
+            try:
+                results = self._rerank_results(query, results)
+                logger.debug(f"Reranked {len(results)} results")
+            except Exception as e:
+                logger.warning(f"Reranking failed: {e}, using original ranking")
 
         return results[:k]
 
@@ -154,7 +190,10 @@ class Retriever:
 
         # Rerank if enabled
         if rag_config.rerank and self.reranker:
-            combined_results = self._rerank_results(query, combined_results)
+            try:
+                combined_results = self._rerank_results(query, combined_results)
+            except Exception as e:
+                logger.warning(f"Reranking failed in hybrid search: {e}")
 
         # Apply MMR for diversity
         if len(combined_results) > k:
@@ -171,111 +210,89 @@ class Retriever:
         pairs = []
         for result in results:
             # Extract text from metadata
-            text = result['metadata'].get('text', '')
-            if not text and 'content' in result['metadata']:
-                text = result['metadata']['content']
-            if not text and 'code' in result['metadata']:
-                text = result['metadata']['code']
-
+            text = self._extract_text_from_metadata(result['metadata'])
             pairs.append([query, text])
 
         # Get reranking scores
-        if pairs:
-            scores = self.reranker.predict(pairs)
+        scores = self.reranker.predict(pairs)
 
-            # Update scores
-            for result, score in zip(results, scores):
-                result['rerank_score'] = float(score)
-                result['final_score'] = (result['score'] + float(score)) / 2
+        # Update scores
+        for result, score in zip(results, scores):
+            result['rerank_score'] = float(score)
+            result['original_score'] = result['score']
+            result['score'] = float(score)  # Replace with rerank score
 
-            # Sort by final score
-            results.sort(key=lambda x: x.get('final_score', x['score']), reverse=True)
+        # Sort by new scores
+        results.sort(key=lambda x: x['score'], reverse=True)
 
         return results
 
-    def _apply_mmr(self, query_embedding: np.ndarray, results: List[Dict[str, Any]],
-                   k: int, lambda_param: float = 0.7) -> List[Dict[str, Any]]:
-        """
-        Apply Maximal Marginal Relevance for diversity
+    def _extract_text_from_metadata(self, metadata: Dict[str, Any]) -> str:
+        """Extract searchable text from metadata"""
+        text_fields = ['content', 'text', 'description', 'name', 'test_code', 'code']
 
-        Args:
-            query_embedding: Query embedding
-            results: Initial results
-            k: Number of results to return
-            lambda_param: Balance between relevance and diversity
+        texts = []
+        for field in text_fields:
+            if field in metadata and metadata[field]:
+                texts.append(str(metadata[field]))
 
-        Returns:
-            Diverse results
-        """
-        if not results:
-            return results
-
-        selected = []
-        candidates = results.copy()
-
-        # Select first result (highest relevance)
-        selected.append(candidates.pop(0))
-
-        # Select remaining results
-        while len(selected) < k and candidates:
-            mmr_scores = []
-
-            for candidate in candidates:
-                # Relevance to query
-                relevance = candidate['score']
-
-                # Maximum similarity to selected documents
-                max_sim = 0
-                for selected_doc in selected:
-                    # Calculate similarity (simplified - would need embeddings)
-                    sim = self._calculate_similarity(candidate, selected_doc)
-                    max_sim = max(max_sim, sim)
-
-                # MMR score
-                mmr = lambda_param * relevance - (1 - lambda_param) * max_sim
-                mmr_scores.append(mmr)
-
-            # Select document with highest MMR score
-            best_idx = np.argmax(mmr_scores)
-            selected.append(candidates.pop(best_idx))
-
-        return selected
-
-    def _calculate_similarity(self, doc1: Dict[str, Any], doc2: Dict[str, Any]) -> float:
-        """Calculate similarity between two documents"""
-        # Simplified similarity based on metadata
-        # In practice, would use embeddings
-
-        # Check if same index
-        if doc1.get('index') == doc2.get('index'):
-            similarity = 0.3
-        else:
-            similarity = 0.0
-
-        # Check metadata overlap
-        meta1 = doc1.get('metadata', {})
-        meta2 = doc2.get('metadata', {})
-
-        # Compare test types if available
-        if 'test_type' in meta1 and 'test_type' in meta2:
-            if meta1['test_type'] == meta2['test_type']:
-                similarity += 0.3
-
-        return min(similarity, 1.0)
+        return ' '.join(texts) if texts else str(metadata)
 
     def _classify_test_type(self, test_code: str) -> str:
         """Classify test type from code"""
         test_code_lower = test_code.lower()
 
-        if 'boundary' in test_code_lower or 'edge' in test_code_lower:
+        if 'validation' in test_code_lower or 'invalid' in test_code_lower:
+            return 'validation'
+        elif 'edge' in test_code_lower or 'boundary' in test_code_lower:
             return 'edge_case'
-        elif 'null' in test_code_lower or 'empty' in test_code_lower:
-            return 'null_check'
-        elif 'valid' in test_code_lower and 'invalid' not in test_code_lower:
-            return 'happy_path'
-        elif 'error' in test_code_lower or 'exception' in test_code_lower:
-            return 'error_handling'
-        elif 'security' in test_code_lower or 'inject' in test_code_lower:
+        elif 'auth' in test_code_lower or 'unauthorized' in test_code_lower:
+            return 'authentication'
+        elif 'security' in test_code_lower:
             return 'security'
         else:
-            return 'general'
+            return 'functional'
+
+    def _apply_mmr(self, query_embedding: np.ndarray,
+                   results: List[Dict[str, Any]], k: int,
+                   lambda_param: float = 0.5) -> List[Dict[str, Any]]:
+        """
+        Apply Maximal Marginal Relevance for diversity
+
+        Args:
+            query_embedding: Query embedding
+            results: Candidate results
+            k: Number of results to select
+            lambda_param: Trade-off between relevance and diversity (0-1)
+
+        Returns:
+            Diversified results
+        """
+        if len(results) <= k:
+            return results
+
+        selected = []
+        remaining = results.copy()
+
+        # Select first result (highest score)
+        selected.append(remaining.pop(0))
+
+        while len(selected) < k and remaining:
+            mmr_scores = []
+
+            for candidate in remaining:
+                # Relevance score
+                relevance = candidate['score']
+
+                # Diversity score (simplified)
+                diversity = 1.0
+
+                # MMR score
+                mmr = lambda_param * relevance - (1 - lambda_param) * (1 - diversity)
+                mmr_scores.append(mmr)
+
+            # Select best MMR score
+            best_idx = np.argmax(mmr_scores)
+            selected.append(remaining.pop(best_idx))
+
+        return selected

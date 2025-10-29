@@ -11,8 +11,13 @@ from typing import Dict, Any, List
 class RAGConfig:
     """Configuration for RAG system with FAISS"""
 
+    # HuggingFace Token - Load from environment
+    hf_token: str = field(default_factory=lambda:
+        os.getenv("HF_TOKEN") or
+        None
+    )
+
     # Embedding models
-    # text_embedding_model: str = "sentence-transformers/all-mpnet-base-v2"
     text_embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     code_embedding_model: str = "microsoft/codebert-base"
     embedding_dimension: int = 384
@@ -79,9 +84,10 @@ class RAGConfig:
             'top_k': self.top_k,
             'threshold': self.similarity_threshold,
             'rerank': self.rerank,
-            'rerank_model': self.rerank_model if self.rerank else None
+            'rerank_model': self.rerank_model if self.rerank else None,
+            'hf_token': self.hf_token  # Include token in retrieval config
         }
 
 
-# Global instance
+# Global instance - loads token from environment automatically
 rag_config = RAGConfig()

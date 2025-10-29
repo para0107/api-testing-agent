@@ -1,4 +1,4 @@
 # Ignore the embedding cache directory and all files inside it
 embedding_cache/
-training-and-setup/.env
+.env
 data/vectors/embedding_cache

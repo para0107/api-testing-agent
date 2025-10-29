@@ -11,7 +11,6 @@ from dataclasses import dataclass
 import torch
 
 from config import rl_config
-rl_config = rl_config.RLConfig()
 
 logger = logging.getLogger(__name__)
 

@@ -41,7 +41,7 @@ class CoreEngine:
         # Initialize components
         self.input_processor = InputProcessor()
         self.rag_system = RAGSystem()
-        self.llama_orchestrator = LlamaOrchestrator()
+        self.llama_orchestrator = None  # Will be initialized in process_api
         self.rl_optimizer = RLOptimizer()
         self.test_executor = TestExecutor()
         self.feedback_loop = FeedbackLoop()
@@ -51,7 +51,6 @@ class CoreEngine:
         self.current_session = None
         self.execution_history = []
         self.metrics = {}
-
     async def process_api(self, request: APITestRequest) -> Dict[str, Any]:
         """
         Main processing pipeline for API testing
@@ -156,16 +155,25 @@ class CoreEngine:
         """Generate test cases using LLM"""
         logger.info("Generating test cases with LLM")
 
-        # Orchestrate multiple agents
-        test_cases = await self.llama_orchestrator.generate_test_suite(
-            api_spec=api_spec,
-            context=context,
-            config={
-                'max_tests': self.current_session['request'].max_tests,
-                'include_edge_cases': self.current_session['request'].include_edge_cases,
-                'test_types': self.current_session['request'].test_types
-            }
-        )
+        # Use orchestrator as context manager
+        async with LlamaOrchestrator() as orchestrator:
+            # Check LM Studio connection
+            if not await orchestrator.client.check_connection():
+                raise RuntimeError(
+                    "Cannot connect to LM Studio at http://127.0.0.1:1234. "
+                    "Please ensure LM Studio is running and the server is started."
+                )
+
+            # Orchestrate multiple agents
+            test_cases = await orchestrator.generate_test_suite(
+                api_spec=api_spec,
+                context=context,
+                config={
+                    'max_tests': self.current_session['request'].max_tests,
+                    'include_edge_cases': self.current_session['request'].include_edge_cases,
+                    'test_types': self.current_session['request'].test_types
+                }
+            )
 
         return test_cases
 

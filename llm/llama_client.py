@@ -72,6 +72,7 @@ class LlamaClient:
             self.session = aiohttp.ClientSession()
 
         try:
+            logger.debug(f"Sending request to LM Studio (prompt length: {len(prompt)} chars)")
             async with self.session.post(
                     f"{self.base_url}/completions",
                     json=payload,
@@ -82,11 +83,18 @@ class LlamaClient:
 
                 # Extract text from response
                 if 'choices' in result and result['choices']:
-                    return result['choices'][0].get('text', '')
+                    text = result['choices'][0].get('text', '')
+                    logger.debug(f"Received response (length: {len(text)} chars)")
+                    return text
                 return ''
 
         except aiohttp.ClientError as e:
-            logger.error(f"API request failed: {e}")
+            logger.error(f"LM Studio API request failed: {e}")
+            logger.error(f"Make sure LM Studio is running at {self.base_url}")
+            raise
+        except asyncio.TimeoutError:
+            logger.error(f"Request timed out after {llama_config.timeout}s")
+            logger.error("LM Studio may be overloaded or the model is too slow")
             raise
         except Exception as e:
             logger.error(f"Unexpected error: {e}")
@@ -145,12 +153,20 @@ class LlamaClient:
         if schema:
             json_prompt += f"\n\nExpected structure:\n{json.dumps(schema, indent=2)}"
 
-        # CRITICAL: Use parameters optimized for small models
-        params = kwargs.copy()
-        params['temperature'] = min(params.get('temperature', 0.2), 0.2)  # Very low
-        params['max_tokens'] = min(params.get('max_tokens', 1200), 1200)  # Reduced
-        params['frequency_penalty'] = 0.8  # High to prevent repetition
-        params['presence_penalty'] = 0.8  # High to prevent repetition
+        # CRITICAL FIX: Properly extract scalar values from params
+        params = {}
+        for key, value in kwargs.items():
+            # If value is a dict, skip it (shouldn't happen but be defensive)
+            if isinstance(value, dict):
+                logger.warning(f"Skipping parameter '{key}' - received dict instead of scalar value")
+                continue
+            params[key] = value
+
+        # Use parameters optimized for small models with safe defaults
+        params['temperature'] = min(float(params.get('temperature', 0.2)), 0.3)
+        params['max_tokens'] = min(int(params.get('max_tokens', 800)), 800)
+        params['frequency_penalty'] = float(params.get('frequency_penalty', 0.8))
+        params['presence_penalty'] = float(params.get('presence_penalty', 0.8))
 
         # FIXED: Only essential stop sequences
         params['stop'] = ['}\n}', ']\n]', '\n\nNote', 'Example:', 'Here is']
@@ -165,6 +181,20 @@ class LlamaClient:
             logger.error(f"Failed to parse JSON response: {e}")
             logger.debug(f"Raw response (first 500 chars): {response[:500]}")
             raise ValueError(f"Invalid JSON response: {e}")
+    async def check_connection(self) -> bool:
+        """Check if LM Studio server is responsive"""
+        try:
+            if not self.session:
+                self.session = aiohttp.ClientSession()
+
+            async with self.session.get(
+                    f"{self.base_url}/models",
+                    timeout=aiohttp.ClientTimeout(total=5)
+            ) as response:
+                return response.status == 200
+        except Exception as e:
+            logger.error(f"LM Studio connection check failed: {e}")
+            return False
 
     def _extract_json_aggressively(self, response: str) -> str:
         """Aggressively extract ONLY the JSON portion"""

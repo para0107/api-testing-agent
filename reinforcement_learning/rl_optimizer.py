@@ -17,7 +17,6 @@ from reinforcement_learning.experience_buffer import ExperienceBuffer
 from reinforcement_learning.reward_calculator import RewardCalculator
 
 logger = logging.getLogger(__name__)
-rl_config = rl_config.RLConfig()
 @dataclass
 class State:
     """RL state representation"""

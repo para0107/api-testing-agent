@@ -8,7 +8,6 @@ import torch.nn.functional as F
 from typing import List
 
 from config import rl_config
-rl_config = rl_config.RLConfig()
 
 class PolicyNetwork(nn.Module):
     """Neural network for policy (action selection)"""
