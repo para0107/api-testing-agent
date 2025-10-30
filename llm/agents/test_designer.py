@@ -109,29 +109,49 @@ Generate JSON array now:"""
         examples_text = "📚 EXAMPLES FROM KNOWLEDGE BASE (476 test cases):\n"
         examples_text += "Learn from these real test cases:\n\n"
 
-        for idx, (distance, metadata) in enumerate(similar_tests[:3], 1):
-            if not metadata:
+        # Handle different data structures
+        for idx, item in enumerate(similar_tests[:3], 1):
+            try:
+                # Try unpacking as tuple
+                if isinstance(item, tuple) and len(item) == 2:
+                    distance, metadata = item
+                elif isinstance(item, tuple) and len(item) == 3:
+                    # If it's (id, distance, metadata)
+                    _, distance, metadata = item
+                elif isinstance(item, dict):
+                    # If it's already a dict
+                    distance = item.get('score', 0.5)
+                    metadata = item
+                else:
+                    logger.warning(f"Unknown item type: {type(item)}")
+                    continue
+
+                if not metadata:
+                    continue
+
+                title = metadata.get('title', 'Unknown')
+                description = metadata.get('description', '')
+                steps = metadata.get('steps', [])
+
+                similarity = max(0, 1 - distance) if distance < 10 else distance
+                examples_text += f"Example {idx} (relevance: {similarity:.1%}): {title}\n"
+
+                if description:
+                    examples_text += f"  Description: {description}\n"
+
+                if steps:
+                    for step_idx, step in enumerate(steps[:2], 1):
+                        action = step.get('action', '')
+                        expected = step.get('expected_result', '')
+                        if action:
+                            examples_text += f"  Step: {action}\n"
+                        if expected:
+                            examples_text += f"    Expected: {expected}\n"
+
+                examples_text += "\n"
+
+            except Exception as e:
+                logger.error(f"Error formatting RAG example {idx}: {e}")
                 continue
-
-            title = metadata.get('title', 'Unknown')
-            description = metadata.get('description', '')
-            steps = metadata.get('steps', [])
-
-            similarity = max(0, 1 - distance)  # Convert distance to similarity
-            examples_text += f"Example {idx} (match: {similarity:.1%}): {title}\n"
-
-            if description:
-                examples_text += f"  Description: {description}\n"
-
-            if steps:
-                for step_idx, step in enumerate(steps[:2], 1):
-                    action = step.get('action', '')
-                    expected = step.get('expected_result', '')
-                    if action:
-                        examples_text += f"  Step: {action}\n"
-                    if expected:
-                        examples_text += f"    Expected: {expected}\n"
-
-            examples_text += "\n"
 
         return examples_text

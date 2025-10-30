@@ -132,7 +132,7 @@ class CoreEngine:
         """Retrieve relevant context from RAG system"""
         logger.info("Retrieving context from RAG system")
 
-        # ✅ FIX: Create search text from endpoints
+        # Create search text from endpoints
         endpoints = api_spec.get('endpoints', [])
         if not endpoints:
             logger.warning("No endpoints in API spec for RAG search")
@@ -142,9 +142,9 @@ class CoreEngine:
                 'validation_patterns': []
             }
 
-        # Build search query from endpoints
+        # Build search query
         search_parts = []
-        for endpoint in endpoints[:5]:  # Use first 5 endpoints
+        for endpoint in endpoints[:5]:
             method = endpoint.get('method', 'GET')
             path = endpoint.get('path', endpoint.get('endpoint', ''))
             search_parts.append(f"{method} {path}")
@@ -152,38 +152,37 @@ class CoreEngine:
         search_text = " ".join(search_parts)
         logger.info(f"RAG search text: {search_text[:200]}...")
 
-        # Generate embedding from search text
+        # Generate embedding
         embedding = await self.rag_system.embedding_manager.embed_text(search_text)
         logger.info("Generated embeddings for RAG search")
 
-        # Search with proper k value
-        k = 10  # Retrieve top 10 matches
+        # Search each index
+        k = 10
 
-        # Retrieve from each index
         try:
-            similar_tests = self.rag_system.vector_store.search('test_patterns', embedding, k=k)
-            edge_cases = self.rag_system.vector_store.search('edge_cases', embedding, k=k)
-            validation_patterns = self.rag_system.vector_store.search('validation_rules', embedding, k=k)
+            ids1, dists1, metas1 = self.rag_system.vector_store.search('test_patterns', embedding, k=k)
+            ids2, dists2, metas2 = self.rag_system.vector_store.search('edge_cases', embedding, k=k)
+            ids3, dists3, metas3 = self.rag_system.vector_store.search('validation_rules', embedding, k=k)
 
-            # Convert to format expected by agents: list of (score, metadata) tuples
-            similar_tests_formatted = self._format_search_results(similar_tests)
-            edge_cases_formatted = self._format_search_results(edge_cases)
-            validation_patterns_formatted = self._format_search_results(validation_patterns)
+            # Format as (distance, metadata) tuples
+            similar_tests = [(d, m) for d, m in zip(dists1, metas1) if m]
+            edge_cases = [(d, m) for d, m in zip(dists2, metas2) if m]
+            validation_patterns = [(d, m) for d, m in zip(dists3, metas3) if m]
 
-            logger.info(f"RAG retrieval complete: {len(similar_tests_formatted)} similar tests, "
-                        f"{len(edge_cases_formatted)} edge cases, {len(validation_patterns_formatted)} validation patterns")
+            logger.info(f"RAG retrieval complete: {len(similar_tests)} similar tests, "
+                        f"{len(edge_cases)} edge cases, {len(validation_patterns)} validation patterns")
 
-            if len(similar_tests_formatted) == 0:
+            if len(similar_tests) == 0:
                 logger.warning("No similar tests found in RAG")
-            if len(edge_cases_formatted) == 0:
+            if len(edge_cases) == 0:
                 logger.warning("No edge cases found in RAG")
-            if len(validation_patterns_formatted) == 0:
+            if len(validation_patterns) == 0:
                 logger.warning("No validation patterns found in RAG")
 
             return {
-                'similar_tests': similar_tests_formatted,
-                'edge_cases': edge_cases_formatted,
-                'validation_patterns': validation_patterns_formatted
+                'similar_tests': similar_tests,
+                'edge_cases': edge_cases,
+                'validation_patterns': validation_patterns
             }
 
         except Exception as e:

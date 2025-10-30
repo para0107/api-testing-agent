@@ -310,7 +310,9 @@ class VectorStore:
             for index_dir in paths.VECTOR_STORE_DIR.iterdir():
                 if index_dir.is_dir():
                     index_name = index_dir.name
-                    if index_name not in self.indices:
+                    # Try to load saved data for indices we created
+                    if index_name in self.indices:
+                        logger.info(f"Attempting to load saved data for index: {index_name}")
                         self.load_index(index_name)
 
     def save_all(self):
