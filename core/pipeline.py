@@ -163,15 +163,26 @@ class TestGenerationPipeline:
         """Analyze API specification"""
         parsed_data = self.stage_results.get('parsing', {})
 
+        logger.info(f"Parsing stage returned: {list(parsed_data.keys())}")
+        logger.info(f"Raw endpoints in parsed_data: {len(parsed_data.get('endpoints', []))}")
+
+        # CRITICAL FIX: Wrap parsed_data if needed
+        if 'endpoints' in parsed_data and 'results' not in parsed_data:
+            # Parser returned flat structure, wrap it for specification builder
+            wrapped_data = {'results': [parsed_data]}
+            logger.info("Wrapped parsed_data for specification builder")
+        else:
+            wrapped_data = parsed_data
+
         # Build specification
-        api_spec = self.engine.input_processor.build_specification(parsed_data)
+        api_spec = self.engine.input_processor.build_specification(wrapped_data)
 
         # Extract validation rules
-        validation_rules = self.engine.input_processor.extract_validation_rules(parsed_data)
+        validation_rules = self.engine.input_processor.extract_validation_rules(wrapped_data)
         api_spec['validation_rules'] = validation_rules
 
         # Extract business logic
-        business_logic = self.engine.input_processor.extract_business_logic(parsed_data)
+        business_logic = self.engine.input_processor.extract_business_logic(wrapped_data)
         api_spec['business_logic'] = business_logic
 
         # Log what was extracted
@@ -202,8 +213,9 @@ class TestGenerationPipeline:
 
             # Add endpoints if available
             if api_spec.get('endpoints'):
-                for ep in api_spec['endpoints']:
-                    search_parts.append(f"{ep.get('method', '')} {ep.get('path', '')}")
+                logger.info(f"Found {len(api_spec['endpoints'])} endpoints for RAG search")
+                for ep in api_spec['endpoints'][:5]:  # Use first 5 endpoints
+                    search_parts.append(f"{ep.get('http_method', '')} {ep.get('path', '')}")
 
             # Add controller/class names
             if api_spec.get('controllers'):
@@ -212,7 +224,7 @@ class TestGenerationPipeline:
 
             # Add models
             if api_spec.get('models'):
-                for model in api_spec['models']:
+                for model in api_spec['models'][:3]:  # Use first 3 models
                     search_parts.append(model.get('name', ''))
 
             # Fallback: use filename
@@ -223,7 +235,7 @@ class TestGenerationPipeline:
                 logger.warning(f"No API elements found, searching RAG with filename: {filename}")
 
             search_text = ' '.join(search_parts)
-            logger.info(f"RAG search text: {search_text[:100]}...")
+            logger.info(f"RAG search text: {search_text[:150]}...")
 
             # Generate embeddings
             embeddings = await self.engine.rag_system.generate_embeddings(search_text)
@@ -313,6 +325,16 @@ class TestGenerationPipeline:
         # Extract test cases and edge cases from result
         test_cases = result.get('test_cases', [])
         edge_cases = result.get('edge_cases', [])
+
+        valid_edge_cases = []
+        for edge_case in edge_cases:
+            # Skip if it's just a text description
+            if 'test_case' in edge_case and 'method' not in edge_case:
+                logger.warning(f"Skipping malformed edge case: {edge_case.get('test_case', 'unknown')}")
+                continue
+            valid_edge_cases.append(edge_case)
+
+        logger.info(f"Filtered edge cases: {len(edge_cases)} -> {len(valid_edge_cases)}")
 
         # Combine all tests
         all_tests = test_cases + edge_cases

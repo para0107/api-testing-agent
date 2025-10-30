@@ -1,362 +1,169 @@
 """
-Build complete API specification from parsed code
+Builds OpenAPI-like specification from parsed code
 """
 
 import logging
 from typing import Dict, List, Any
-import json
 
 logger = logging.getLogger(__name__)
 
 
 class SpecificationBuilder:
-    """Builds complete API specification from parsed components"""
-
-    def __init__(self):
-        self.spec_version = "3.0.0"  # OpenAPI version
+    """Builds API specification from parsed data"""
 
     def build(self, parsed_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Build complete API specification
-
-        Args:
-            parsed_data: Parsed code data
-
-        Returns:
-            Complete API specification
-        """
+        """Build API specification"""
         logger.info("Building API specification")
 
-        specification = {'openapi': self.spec_version, 'info': self.build_info(parsed_data),
-                         'servers': self.build_servers(parsed_data), 'paths': self.build_paths(parsed_data),
-                         'components': self.build_components(parsed_data), 'security': self.build_security(parsed_data),
-                         'tags': self.build_tags(parsed_data), 'x-test-metadata': {
-                'services': parsed_data.get('services', []),
-                'validators': parsed_data.get('validators', []),
-                'dependencies': parsed_data.get('dependencies', []),
-                'business_logic': self.extract_business_logic(parsed_data)
-            }}
+        # Extract all data from parsed results
+        all_endpoints = []
+        all_models = []
+        all_controllers = []
 
-        # Add custom extensions for testing
+        # Handle both single file and multiple files
+        if isinstance(parsed_data, dict):
+            if 'endpoints' in parsed_data:
+                # Single file format
+                all_endpoints = parsed_data.get('endpoints', [])
+                all_models = parsed_data.get('models', [])
 
-        return specification
+                # Extract controller info
+                for endpoint in all_endpoints:
+                    controller_name = endpoint.get('controller', 'Unknown')
+                    if controller_name not in [c['name'] for c in all_controllers]:
+                        all_controllers.append({'name': controller_name})
 
-    def build_info(self, parsed_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Build API info section"""
-        return {
-            'title': 'API Specification',
-            'version': '1.0.0',
-            'description': 'Auto-generated API specification for testing'
+            elif 'results' in parsed_data:
+                # Multiple files format
+                for result in parsed_data.get('results', []):
+                    all_endpoints.extend(result.get('endpoints', []))
+                    all_models.extend(result.get('models', []))
+
+                    # Extract controller info
+                    for endpoint in result.get('endpoints', []):
+                        controller_name = endpoint.get('controller', 'Unknown')
+                        if controller_name not in [c['name'] for c in all_controllers]:
+                            all_controllers.append({'name': controller_name})
+
+        logger.info(f"Building spec with {len(all_endpoints)} endpoints, {len(all_models)} models")
+
+        specification = {
+            'openapi': '3.0.0',
+            'info': {
+                'title': 'Generated API Specification',
+                'version': '1.0.0'
+            },
+            'paths': self._build_paths(all_endpoints),
+            'endpoints': all_endpoints,  # CRITICAL: Keep raw endpoints
+            'controllers': all_controllers,
+            'models': all_models,
+            'components': {
+                'schemas': self._build_schemas(all_models)
+            }
         }
 
-    def build_servers(self, parsed_data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Build servers section"""
-        return [
-            {
-                'url': 'http://localhost:8080',
-                'description': 'Development server'
-            },
-            {
-                'url': 'https://api.example.com',
-                'description': 'Production server'
-            }
-        ]
+        logger.info(f"Specification built with {len(specification['endpoints'])} endpoints")
+        return specification
 
-    def build_paths(self, parsed_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Build paths section from endpoints"""
+    def _build_paths(self, endpoints: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Build OpenAPI paths from endpoints"""
         paths = {}
 
-        endpoints = parsed_data.get('endpoints', [])
-
         for endpoint in endpoints:
-            path = endpoint.get('path') or endpoint.get('route', '')
-            method = endpoint.get('method', 'get').lower()
+            path = endpoint.get('path') or endpoint.get('route', '/unknown')
+            method = endpoint.get('http_method', 'GET').lower()
 
             if path not in paths:
                 paths[path] = {}
 
-            paths[path][method] = self.build_operation(endpoint)
+            paths[path][method] = {
+                'operationId': endpoint.get('method_name', 'unknown'),
+                'parameters': self._build_parameters(endpoint.get('parameters', [])),
+                'responses': {
+                    '200': {'description': 'Successful response'},
+                    '400': {'description': 'Bad request'},
+                    '401': {'description': 'Unauthorized'},
+                    '404': {'description': 'Not found'},
+                    '500': {'description': 'Internal server error'}
+                }
+            }
+
+            # Add authorization info if present
+            if endpoint.get('authorization', {}).get('required'):
+                paths[path][method]['security'] = [{'BearerAuth': []}]
 
         return paths
 
-    def build_operation(self, endpoint: Dict[str, Any]) -> Dict[str, Any]:
-        """Build operation object for endpoint"""
-        operation = {
-            'summary': endpoint.get('name', 'Operation'),
-            'description': endpoint.get('description', ''),
-            'operationId': endpoint.get('name', 'operation'),
-            'parameters': self.build_parameters(endpoint),
-            'responses': self.build_responses(endpoint)
-        }
+    def _build_parameters(self, parameters: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Build OpenAPI parameters"""
+        openapi_params = []
 
-        # Add request body if needed
-        body_params = [p for p in endpoint.get('parameters', [])
-                       if p.get('source') == 'body' or p.get('in') == 'body']
-        if body_params:
-            operation['requestBody'] = self.build_request_body(body_params)
+        for param in parameters:
+            param_location = param.get('source', 'query')
 
-        # Add security if required
-        if endpoint.get('authorization', {}).get('required'):
-            operation['security'] = self.build_operation_security(endpoint)
+            # Map source to OpenAPI 'in' field
+            in_mapping = {
+                'query': 'query',
+                'route': 'path',
+                'path': 'path',
+                'body': 'body',
+                'header': 'header'
+            }
 
-        # Add tags
-        if endpoint.get('tags'):
-            operation['tags'] = endpoint['tags']
-
-        return operation
-
-    def build_parameters(self, endpoint: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Build parameters list"""
-        parameters = []
-
-        for param in endpoint.get('parameters', []):
-            if param.get('source') == 'body' or param.get('in') == 'body':
-                continue  # Handle in requestBody
-
-            parameter = {
-                'name': param.get('name', ''),
-                'in': param.get('in') or param.get('source', 'query'),
+            openapi_param = {
+                'name': param.get('name', 'unknown'),
+                'in': in_mapping.get(param_location, 'query'),
                 'required': param.get('required', False),
-                'description': param.get('description', ''),
-                'schema': self.build_schema(param)
-            }
-
-            parameters.append(parameter)
-
-        return parameters
-
-    def build_schema(self, param: Dict[str, Any]) -> Dict[str, Any]:
-        """Build schema for parameter or model"""
-        schema = {
-            'type': param.get('type', 'string')
-        }
-
-        # Add constraints
-        constraints = param.get('constraints', {})
-        for key, value in constraints.items():
-            if key in ['minLength', 'maxLength', 'minimum', 'maximum',
-                       'pattern', 'enum', 'format']:
-                schema[key] = value
-
-        # Add default value
-        if 'default' in param:
-            schema['default'] = param['default']
-
-        return schema
-
-    def build_request_body(self, body_params: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Build request body specification"""
-        # Assume first body parameter defines the schema
-        if not body_params:
-            return {}
-
-        param = body_params[0]
-
-        return {
-            'required': param.get('required', False),
-            'content': {
-                'application/json': {
-                    'schema': {
-                        'type': 'object',
-                        'properties': {
-                            param.get('name', 'body'): self.build_schema(param)
-                        }
-                    }
+                'schema': {
+                    'type': self._map_type(param.get('type', 'string'))
                 }
             }
-        }
 
-    def build_responses(self, endpoint: Dict[str, Any]) -> Dict[str, Any]:
-        """Build responses section"""
-        responses = {
-            '200': {
-                'description': 'Successful response',
-                'content': {
-                    'application/json': {
-                        'schema': {
-                            'type': 'object'
-                        }
-                    }
-                }
-            },
-            '400': {
-                'description': 'Bad request'
-            },
-            '401': {
-                'description': 'Unauthorized'
-            },
-            '404': {
-                'description': 'Not found'
-            },
-            '500': {
-                'description': 'Internal server error'
-            }
-        }
+            openapi_params.append(openapi_param)
 
-        return responses
+        return openapi_params
 
-    def build_components(self, parsed_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Build components section with schemas"""
-        components = {
-            'schemas': {},
-            'securitySchemes': {}
-        }
-
-        # Build schemas from models
-        models = parsed_data.get('models', [])
-        for model in models:
-            schema_name = model.get('name', 'Model')
-            components['schemas'][schema_name] = self.build_model_schema(model)
-
-        # Add security schemes
-        components['securitySchemes'] = {
-            'bearerAuth': {
-                'type': 'http',
-                'scheme': 'bearer',
-                'bearerFormat': 'JWT'
-            },
-            'apiKey': {
-                'type': 'apiKey',
-                'in': 'header',
-                'name': 'X-API-Key'
-            }
-        }
-
-        return components
-
-    def build_model_schema(self, model: Dict[str, Any]) -> Dict[str, Any]:
-        """Build schema for a model"""
-        properties = {}
-        required = []
-
-        for field in model.get('fields', []):
-            field_name = field.get('name', '')
-            properties[field_name] = {
-                'type': self.map_type_to_openapi(field.get('type', 'string'))
-            }
-
-            if field.get('required', False):
-                required.append(field_name)
-
-        schema = {
-            'type': 'object',
-            'properties': properties
-        }
-
-        if required:
-            schema['required'] = required
-
-        return schema
-
-    def map_type_to_openapi(self, type_str: str) -> str:
-        """Map language-specific types to OpenAPI types"""
+    def _map_type(self, csharp_type: str) -> str:
+        """Map C# types to OpenAPI types"""
         type_mapping = {
-            'string': 'string',
             'int': 'integer',
-            'integer': 'integer',
             'long': 'integer',
-            'float': 'number',
-            'double': 'number',
+            'string': 'string',
             'bool': 'boolean',
-            'boolean': 'boolean',
-            'array': 'array',
-            'list': 'array',
-            'object': 'object',
-            'dict': 'object',
-            'date': 'string',
-            'datetime': 'string',
-            'uuid': 'string'
+            'double': 'number',
+            'float': 'number',
+            'decimal': 'number',
+            'DateTime': 'string',
+            'DateOnly': 'string',
+            'Guid': 'string'
         }
 
-        # Handle generic types
-        base_type = type_str.lower().split('<')[0] if '<' in type_str else type_str.lower()
+        # Remove nullable marker
+        clean_type = csharp_type.replace('?', '')
 
-        return type_mapping.get(base_type, 'string')
+        # Check for generic types
+        if '<' in clean_type:
+            return 'object'
 
-    def build_security(self, parsed_data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Build security requirements"""
-        # Default security requirement
-        return [
-            {'bearerAuth': []}
-        ]
+        return type_mapping.get(clean_type, 'string')
 
-    def build_tags(self, parsed_data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Build tags for API grouping"""
-        tags = set()
+    def _build_schemas(self, models: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Build OpenAPI schemas from models"""
+        schemas = {}
 
-        # Extract tags from endpoints
-        for endpoint in parsed_data.get('endpoints', []):
-            if endpoint.get('tags'):
-                tags.update(endpoint['tags'])
-            if endpoint.get('controller'):
-                tags.add(endpoint['controller'])
+        for model in models:
+            model_name = model.get('name', 'UnknownModel')
+            properties = {}
 
-        return [{'name': tag, 'description': f'Operations related to {tag}'}
-                for tag in sorted(tags)]
+            for prop in model.get('properties', []):
+                properties[prop['name']] = {
+                    'type': self._map_type(prop['type']),
+                    'nullable': prop.get('nullable', False)
+                }
 
-    def extract_business_logic(self, parsed_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Extract business logic patterns"""
-        business_logic = {
-            'validations': [],
-            'exceptions': [],
-            'workflows': [],
-            'dependencies': []
-        }
+            schemas[model_name] = {
+                'type': 'object',
+                'properties': properties
+            }
 
-        # Extract validation logic
-        validators = parsed_data.get('validators', [])
-        for validator in validators:
-            business_logic['validations'].append({
-                'type': validator.get('type', 'unknown'),
-                'target': validator.get('model') or validator.get('field'),
-                'rules': validator.get('rules') or validator.get('validations', [])
-            })
-
-        # Extract exception handling
-        methods = parsed_data.get('methods', [])
-        for method in methods:
-            if 'throw' in str(method.get('body', '')):
-                business_logic['exceptions'].append({
-                    'method': method.get('name'),
-                    'exceptions': self.extract_exceptions(method.get('body', ''))
-                })
-
-        # Extract service dependencies
-        services = parsed_data.get('services', [])
-        for service in services:
-            business_logic['dependencies'].append({
-                'type': service.get('type'),
-                'name': service.get('name')
-            })
-
-        return business_logic
-
-    def extract_exceptions(self, method_body: str) -> List[str]:
-        """Extract exception types from method body"""
-        import re
-
-        exceptions = []
-
-        # Pattern for different languages
-        patterns = [
-            r'throw\s+new\s+(\w+Exception)',  # C#/Java
-            r'raise\s+(\w+)',  # Python
-            r'throw\s+(\w+)',  # C++/JavaScript
-        ]
-
-        for pattern in patterns:
-            matches = re.findall(pattern, method_body)
-            exceptions.extend(matches)
-
-        return list(set(exceptions))
-
-    def build_operation_security(self, endpoint: Dict[str, Any]) -> List[Dict[str, Any]]:
-        """Build security requirements for operation"""
-        auth = endpoint.get('authorization', {})
-
-        if auth.get('type') == 'bearer':
-            return [{'bearerAuth': auth.get('scopes', [])}]
-        elif auth.get('type') == 'apiKey':
-            return [{'apiKey': []}]
-        else:
-            return [{'bearerAuth': []}]  # Default
+        return schemas

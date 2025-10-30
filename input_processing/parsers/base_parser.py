@@ -17,6 +17,7 @@ class BaseParser(ABC):
         self.endpoints = []
         self.services = []
         self.validators = []
+        self.language = 'unknown'
 
     @abstractmethod
     def parse(self, code_files: List[str]) -> Dict[str, Any]:
@@ -115,13 +116,44 @@ class BaseParser(ABC):
             'services': [],
             'validators': [],
             'methods': [],
-            'models': []
+            'models': [],
+            'dependencies': []
         }
 
         for result in results:
             for key in combined.keys():
                 if key in result:
-                    combined[key].extend(result[key])
+                    if isinstance(result[key], list):
+                        combined[key].extend(result[key])
+
+        # Remove duplicates while preserving order
+        for key in combined.keys():
+            if not combined[key]:
+                continue
+
+            seen = set()
+            unique = []
+            for item in combined[key]:
+                # Create a hashable representation
+                if isinstance(item, dict):
+                    # Use endpoint path + method as unique key
+                    if 'path' in item and 'http_method' in item:
+                        item_key = f"{item.get('path')}_{item.get('http_method')}"
+                    elif 'name' in item:
+                        item_key = item.get('name')
+                    else:
+                        item_key = str(sorted(item.items()))
+                else:
+                    item_key = str(item)
+
+                if item_key not in seen:
+                    seen.add(item_key)
+                    unique.append(item)
+            combined[key] = unique
+
+        logger.info(f"Combined results: {len(combined['endpoints'])} endpoints, "
+                   f"{len(combined['models'])} models, "
+                   f"{len(combined['services'])} services")
 
         return combined
 
@@ -151,9 +183,22 @@ class BaseParser(ABC):
         # Default implementation - override in specific parsers
         return []
 
+    def extract_services(self, code: str) -> List[Dict[str, Any]]:
+        """
+        Extract service dependencies from code
+
+        Args:
+            code: Source code string
+
+        Returns:
+            List of service definitions
+        """
+        # Default implementation - override in specific parsers
+        return []
+
     def parse_file(self, file_path: str) -> Dict[str, Any]:
         """
-        Parse a source code file and extract API endpoints
+        Parse a single source code file
 
         Args:
             file_path: Path to the source code file
@@ -166,12 +211,17 @@ class BaseParser(ABC):
             with open(file_path, 'r', encoding='utf-8') as f:
                 source_code = f.read()
 
-            # Parse the source code
-            parsed_data = self.parse(source_code)
-
-            # Add file metadata
-            parsed_data['file_path'] = file_path
-            parsed_data['language'] = self.language
+            # Extract all components
+            parsed_data = {
+                'file_path': file_path,
+                'language': self.language,
+                'endpoints': self.extract_endpoints(source_code),
+                'methods': self.extract_methods(source_code),
+                'models': self.extract_models(source_code),
+                'services': self.extract_services(source_code),
+                'validators': self.extract_validation_rules(source_code),
+                'dependencies': self.extract_dependencies(source_code)
+            }
 
             logger.info(f"Successfully parsed {file_path}: found {len(parsed_data.get('endpoints', []))} endpoints")
 

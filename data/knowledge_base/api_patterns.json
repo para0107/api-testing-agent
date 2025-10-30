@@ -6,8 +6,8 @@
     "expected_status": 201,
     "description": "Verify that a new user can be created and no duplicate is created",
     "preconditions": "Database is accesible\nUser table exists",
-    "added_at": "2025-10-28T11:26:12.014325",
-    "id": "-5600928640113201412"
+    "added_at": "2025-10-30T11:25:31.787581",
+    "id": "1650705938047378828"
   },
   {
     "endpoint": "all",
@@ -16,8 +16,8 @@
     "expected_status": 200,
     "description": "Return all users",
     "preconditions": "User table exists and at least one user is created",
-    "added_at": "2025-10-28T11:26:12.015251",
-    "id": "7462078310293232370"
+    "added_at": "2025-10-30T11:25:31.788581",
+    "id": "2138742734122756020"
   },
   {
     "endpoint": "user",
@@ -26,8 +26,8 @@
     "expected_status": 200,
     "description": "Return a user by it's ID",
     "preconditions": "User table exists and at least user is created",
-    "added_at": "2025-10-28T11:26:12.016272",
-    "id": "-7680274069971892466"
+    "added_at": "2025-10-30T11:25:31.788581",
+    "id": "708162388325183353"
   },
   {
     "endpoint": "/users",
@@ -36,8 +36,8 @@
     "expected_status": 500,
     "description": "Create a user with a licence plate that already belongs to another user",
     "preconditions": "There is a user that already has a licence plate that the new user wants to use",
-    "added_at": "2025-10-28T11:26:12.016272",
-    "id": "6134269283112707650"
+    "added_at": "2025-10-30T11:25:31.789602",
+    "id": "-610048642595196271"
   },
   {
     "endpoint": "/user",
@@ -46,8 +46,8 @@
     "expected_status": 400,
     "description": "Create a new user with a non-boolean isAdmin value , eg. a string",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.017250",
-    "id": "-7325634342582915297"
+    "added_at": "2025-10-30T11:25:31.790620",
+    "id": "1475674575948459160"
   },
   {
     "endpoint": "/users",
@@ -56,8 +56,8 @@
     "expected_status": 200,
     "description": "Update an existing user's licence plate value with one that already belongs to one of the user's from the database",
     "preconditions": "There are at least two users in the database",
-    "added_at": "2025-10-28T11:26:12.018250",
-    "id": "-2467424490840335880"
+    "added_at": "2025-10-30T11:25:31.790620",
+    "id": "6158999779637823187"
   },
   {
     "endpoint": "request",
@@ -66,8 +66,8 @@
     "expected_status": 200,
     "description": "Testing if creating a user with an empty name works or not",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.018250",
-    "id": "-3648535354777094482"
+    "added_at": "2025-10-30T11:25:31.791606",
+    "id": "268347830594319859"
   },
   {
     "endpoint": "request",
@@ -76,8 +76,8 @@
     "expected_status": 422,
     "description": "Testing if creating a user with an empty password works or not",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.019440",
-    "id": "-7402482504362748352"
+    "added_at": "2025-10-30T11:25:31.792608",
+    "id": "3742649343272696204"
   },
   {
     "endpoint": "request",
@@ -86,8 +86,8 @@
     "expected_status": 200,
     "description": "Testing if creating a user with an empty lastname works or not",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.020445",
-    "id": "7956060698346075364"
+    "added_at": "2025-10-30T11:25:31.793608",
+    "id": "-6966968843462260921"
   },
   {
     "endpoint": "request",
@@ -96,8 +96,8 @@
     "expected_status": 200,
     "description": "Testing if creating a user with an empty email works or not",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.020445",
-    "id": "517286311657804646"
+    "added_at": "2025-10-30T11:25:31.793608",
+    "id": "1522764329964837698"
   },
   {
     "endpoint": "request",
@@ -106,8 +106,8 @@
     "expected_status": 200,
     "description": "Testing if creating a user with an empty isAdmin works or not",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.021449",
-    "id": "3530912628404051284"
+    "added_at": "2025-10-30T11:25:31.794606",
+    "id": "-2621370820684259003"
   },
   {
     "endpoint": "request",
@@ -116,8 +116,8 @@
     "expected_status": 200,
     "description": "Testing if updating a user with an empty licence plate works or not",
     "preconditions": "There exists at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.023452",
-    "id": "1359758666226790446"
+    "added_at": "2025-10-30T11:25:31.795606",
+    "id": "702465739223961187"
   },
   {
     "endpoint": "request",
@@ -126,8 +126,8 @@
     "expected_status": 200,
     "description": "Testing if creating a user with an empty licence plate works or not",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.025447",
-    "id": "-377750624049730182"
+    "added_at": "2025-10-30T11:25:31.795606",
+    "id": "-2700376720470594870"
   },
   {
     "endpoint": "request",
@@ -136,8 +136,8 @@
     "expected_status": 422,
     "description": "Testing if updating a user with an empty lastname works or not",
     "preconditions": "There exists at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.027460",
-    "id": "-138057890697015632"
+    "added_at": "2025-10-30T11:25:31.796613",
+    "id": "-7265618345722882710"
   },
   {
     "endpoint": "request",
@@ -146,8 +146,8 @@
     "expected_status": 200,
     "description": "Testing if updating a user with an empty name works or not",
     "preconditions": "There exists at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.028951",
-    "id": "-3518786956663475813"
+    "added_at": "2025-10-30T11:25:31.797606",
+    "id": "-3880123010362354926"
   },
   {
     "endpoint": "request",
@@ -156,8 +156,8 @@
     "expected_status": 200,
     "description": "Testing if updating a user with an password works or not",
     "preconditions": "There exists at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.030028",
-    "id": "-1350477989487079817"
+    "added_at": "2025-10-30T11:25:31.797606",
+    "id": "8512947052837532373"
   },
   {
     "endpoint": "request",
@@ -166,8 +166,8 @@
     "expected_status": 400,
     "description": "Try to create user that has as name a \"space\"",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.030687",
-    "id": "4139878471726729428"
+    "added_at": "2025-10-30T11:25:31.798616",
+    "id": "6324127706869363073"
   },
   {
     "endpoint": "request",
@@ -176,8 +176,8 @@
     "expected_status": 400,
     "description": "Try to create a new user that has \"space\" as license plate",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.031705",
-    "id": "8679463045197842729"
+    "added_at": "2025-10-30T11:25:31.799627",
+    "id": "1048842776966543770"
   },
   {
     "endpoint": "request",
@@ -186,8 +186,8 @@
     "expected_status": 200,
     "description": "Testing if the id is incremented correctly to each creation of a new user",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.032694",
-    "id": "-481495586284871915"
+    "added_at": "2025-10-30T11:25:31.800641",
+    "id": "-3400232481115198016"
   },
   {
     "endpoint": "request",
@@ -196,8 +196,8 @@
     "expected_status": 500,
     "description": "Create a user that has ' '(space) character in the first name field",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.034696",
-    "id": "-6440411714952190691"
+    "added_at": "2025-10-30T11:25:31.800641",
+    "id": "6485334515042422844"
   },
   {
     "endpoint": "request",
@@ -206,8 +206,8 @@
     "expected_status": 400,
     "description": "Creating a new user with special characters in their name",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.035697",
-    "id": "-7718721789844362309"
+    "added_at": "2025-10-30T11:25:31.801631",
+    "id": "-6761102620990524813"
   },
   {
     "endpoint": "request",
@@ -216,8 +216,8 @@
     "expected_status": 400,
     "description": "Testing if updating an user's lastname with a name that contains special characters works",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.036696",
-    "id": "8045627419728378642"
+    "added_at": "2025-10-30T11:25:31.802631",
+    "id": "-7799752454905947633"
   },
   {
     "endpoint": "request",
@@ -226,8 +226,8 @@
     "expected_status": 404,
     "description": "Testing if an user with an id that does not exist in the database returns a message",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.038206",
-    "id": "-1527010821259183069"
+    "added_at": "2025-10-30T11:25:31.803639",
+    "id": "5902693991879901975"
   },
   {
     "endpoint": "request",
@@ -236,8 +236,8 @@
     "expected_status": 400,
     "description": "Trying to delete a user that does not appear in the database",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.039213",
-    "id": "-3885067092322440116"
+    "added_at": "2025-10-30T11:25:31.803639",
+    "id": "4348514585284229306"
   },
   {
     "endpoint": "request",
@@ -246,8 +246,8 @@
     "expected_status": 422,
     "description": "Testing if a user can have characters like !,^ or \\* in their license plate(should not have)",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.042636",
-    "id": "-6042270005337406187"
+    "added_at": "2025-10-30T11:25:31.804631",
+    "id": "3047154142807305127"
   },
   {
     "endpoint": "request",
@@ -256,8 +256,8 @@
     "expected_status": 422,
     "description": "",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.044631",
-    "id": "1073221434625566881"
+    "added_at": "2025-10-30T11:25:31.805631",
+    "id": "400164674008653534"
   },
   {
     "endpoint": "request",
@@ -266,8 +266,8 @@
     "expected_status": 200,
     "description": "Creates a new key entity and checks that no duplicate key should be created",
     "preconditions": "Key table is created\nserial number has 10 special characters",
-    "added_at": "2025-10-28T11:26:12.045635",
-    "id": "-2212905131728106689"
+    "added_at": "2025-10-30T11:25:31.806640",
+    "id": "-5606527929565166750"
   },
   {
     "endpoint": "request",
@@ -276,8 +276,8 @@
     "expected_status": 200,
     "description": "Returns a list(or other ds) of all the keys",
     "preconditions": "Key table exists and at least one key is created",
-    "added_at": "2025-10-28T11:26:12.046906",
-    "id": "-4414935429464101984"
+    "added_at": "2025-10-30T11:25:31.807631",
+    "id": "-2851335798826617493"
   },
   {
     "endpoint": "request",
@@ -286,8 +286,8 @@
     "expected_status": 200,
     "description": "Returns a key after a specific key",
     "preconditions": "Key table exists and the key with the id exists",
-    "added_at": "2025-10-28T11:26:12.048419",
-    "id": "4747604419884828661"
+    "added_at": "2025-10-30T11:25:31.808638",
+    "id": "1564324006657067465"
   },
   {
     "endpoint": "request",
@@ -296,8 +296,8 @@
     "expected_status": 200,
     "description": "Completely update an existing key id",
     "preconditions": "At least one key is created",
-    "added_at": "2025-10-28T11:26:12.050851",
-    "id": "5700759599661941883"
+    "added_at": "2025-10-30T11:25:31.809658",
+    "id": "-4819915549006544686"
   },
   {
     "endpoint": "reques",
@@ -306,8 +306,8 @@
     "expected_status": 200,
     "description": "Test if the delete can be successfull done.",
     "preconditions": "There should be at least one key",
-    "added_at": "2025-10-28T11:26:12.053445",
-    "id": "-3423405706324317365"
+    "added_at": "2025-10-30T11:25:31.810679",
+    "id": "7363209930464149410"
   },
   {
     "endpoint": "to",
@@ -316,8 +316,8 @@
     "expected_status": 200,
     "description": "Create a key with a serial number that already belongs to another",
     "preconditions": "There is already a key in the database",
-    "added_at": "2025-10-28T11:26:12.057444",
-    "id": "-8323416974320706999"
+    "added_at": "2025-10-30T11:25:31.811338",
+    "id": "-8486108627423233003"
   },
   {
     "endpoint": "request",
@@ -326,8 +326,8 @@
     "expected_status": 200,
     "description": "Update an existing key with a serial nmber that belongs to n existing key",
     "preconditions": "There are at least 2 keys in the database",
-    "added_at": "2025-10-28T11:26:12.060462",
-    "id": "2288536737856530242"
+    "added_at": "2025-10-30T11:25:31.813355",
+    "id": "-2556172979224960483"
   },
   {
     "endpoint": "request",
@@ -336,8 +336,8 @@
     "expected_status": 200,
     "description": "Testing if deleting a key with id that does not exist is executed or not",
     "preconditions": "There is at least one key in the database",
-    "added_at": "2025-10-28T11:26:12.063487",
-    "id": "7575225576798182545"
+    "added_at": "2025-10-30T11:25:31.814342",
+    "id": "-8096199917283461359"
   },
   {
     "endpoint": "request",
@@ -346,8 +346,8 @@
     "expected_status": 400,
     "description": "",
     "preconditions": "A serial number with length different from 10",
-    "added_at": "2025-10-28T11:26:12.066471",
-    "id": "-7194774547579533982"
+    "added_at": "2025-10-30T11:25:31.815341",
+    "id": "8182959492244008151"
   },
   {
     "endpoint": "request",
@@ -356,8 +356,8 @@
     "expected_status": 400,
     "description": "",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.068976",
-    "id": "-6111943797636131533"
+    "added_at": "2025-10-30T11:25:31.816342",
+    "id": "-3510991518816370206"
   },
   {
     "endpoint": "request",
@@ -366,8 +366,8 @@
     "expected_status": 400,
     "description": "",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.071631",
-    "id": "-7667748380240809111"
+    "added_at": "2025-10-30T11:25:31.816342",
+    "id": "-7936522114642447207"
   },
   {
     "endpoint": "request",
@@ -376,8 +376,8 @@
     "expected_status": 404,
     "description": "",
     "preconditions": "There is at least one key in the database",
-    "added_at": "2025-10-28T11:26:12.074632",
-    "id": "-7971143053850746514"
+    "added_at": "2025-10-30T11:25:31.817342",
+    "id": "-7794967877264514428"
   },
   {
     "endpoint": "request",
@@ -386,8 +386,8 @@
     "expected_status": 400,
     "description": "",
     "preconditions": "There is at least one key in the database",
-    "added_at": "2025-10-28T11:26:12.076708",
-    "id": "2799962738702867483"
+    "added_at": "2025-10-30T11:25:31.818854",
+    "id": "-2087228606807745153"
   },
   {
     "endpoint": "request",
@@ -396,8 +396,8 @@
     "expected_status": 400,
     "description": "",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.079737",
-    "id": "-5382646478224595171"
+    "added_at": "2025-10-30T11:25:31.820321",
+    "id": "176325990868604934"
   },
   {
     "endpoint": "request",
@@ -406,8 +406,8 @@
     "expected_status": 200,
     "description": "",
     "preconditions": "There is at least one key in the database",
-    "added_at": "2025-10-28T11:26:12.081742",
-    "id": "8506121413562825452"
+    "added_at": "2025-10-30T11:25:31.821405",
+    "id": "2682997789530522955"
   },
   {
     "endpoint": "request",
@@ -416,8 +416,8 @@
     "expected_status": 404,
     "description": "",
     "preconditions": "There is at least one key in the database",
-    "added_at": "2025-10-28T11:26:12.083744",
-    "id": "1700051467102237801"
+    "added_at": "2025-10-30T11:25:31.823332",
+    "id": "528170787198801577"
   },
   {
     "endpoint": "request",
@@ -426,8 +426,8 @@
     "expected_status": 400,
     "description": "Testing if upper letters are handled as duplicates with one that has lower letters",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.086743",
-    "id": "4075928413272334903"
+    "added_at": "2025-10-30T11:25:31.824411",
+    "id": "-4132266326109338605"
   },
   {
     "endpoint": "request",
@@ -436,8 +436,8 @@
     "expected_status": 400,
     "description": "Checking if the update serial number is case sensitive",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.089262",
-    "id": "-4235234684179579270"
+    "added_at": "2025-10-30T11:25:31.825614",
+    "id": "-3727629799084084517"
   },
   {
     "endpoint": "request",
@@ -446,8 +446,8 @@
     "expected_status": 200,
     "description": "Create a new reservation that should belong to a user. Test if the reservation holds information about the user that made it(id). Test that the same user cannot do multiple reservations for the same date. Also, check that dates are correct(start\\_date is not after current date)",
     "preconditions": "There is at least one user in the table",
-    "added_at": "2025-10-28T11:26:12.091161",
-    "id": "-3415200872174909052"
+    "added_at": "2025-10-30T11:25:31.826617",
+    "id": "1965315791839232002"
   },
   {
     "endpoint": "request",
@@ -456,8 +456,8 @@
     "expected_status": 200,
     "description": "Test that an admin can only do a reservation for a different user in a single day. Also check that, if the user already has a reservation made by himself, the admin should not be able to make a reservation for that user",
     "preconditions": "There is at least an admin and a user",
-    "added_at": "2025-10-28T11:26:12.093191",
-    "id": "-1065144424565981757"
+    "added_at": "2025-10-30T11:25:31.827617",
+    "id": "5663692004008702180"
   },
   {
     "endpoint": "/reservation/{reservation_id}/{date}",
@@ -466,8 +466,8 @@
     "expected_status": 200,
     "description": "Check that the user can update the date of the reservation, but not move it to a date when there is also another reservation for the same user, and where there are no more than 24 reservations on that day(maximum amount)",
     "preconditions": "There is at least one user and one reservation for that user",
-    "added_at": "2025-10-28T11:26:12.095221",
-    "id": "1571107502804206972"
+    "added_at": "2025-10-30T11:25:31.828617",
+    "id": "6286038811457327565"
   },
   {
     "endpoint": "request",
@@ -476,8 +476,8 @@
     "expected_status": 200,
     "description": "Return a list of all reservations",
     "preconditions": "There is at least one user and one reservation",
-    "added_at": "2025-10-28T11:26:12.096231",
-    "id": "-353090605936665"
+    "added_at": "2025-10-30T11:25:31.829988",
+    "id": "-9130629066740750468"
   },
   {
     "endpoint": "request",
@@ -486,8 +486,8 @@
     "expected_status": 400,
     "description": "Testing if creating multiple reservations on the same date works or not(should not for a user)",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.097236",
-    "id": "6885017458183232462"
+    "added_at": "2025-10-30T11:25:31.831009",
+    "id": "-1323003748191729766"
   },
   {
     "endpoint": "request",
@@ -496,8 +496,8 @@
     "expected_status": 400,
     "description": "Testing if the start date is always before the end date",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.099366",
-    "id": "6471881048484932410"
+    "added_at": "2025-10-30T11:25:31.832568",
+    "id": "1511887118201433186"
   },
   {
     "endpoint": "request",
@@ -506,8 +506,8 @@
     "expected_status": 409,
     "description": "Testing if updating a reservation on a date when another reservation is done by the same user is possible(should not be)",
     "preconditions": "There are at least two reservations done by the same user in the db",
-    "added_at": "2025-10-28T11:26:12.101381",
-    "id": "1524495775360085612"
+    "added_at": "2025-10-30T11:25:31.833576",
+    "id": "-4390401262448250044"
   },
   {
     "endpoint": "request",
@@ -516,8 +516,8 @@
     "expected_status": 400,
     "description": "Testing if updating a reservation's start\\_date to be later than the end\\_date",
     "preconditions": "There is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.103379",
-    "id": "-6301598901020566931"
+    "added_at": "2025-10-30T11:25:31.834576",
+    "id": "4013892850499263377"
   },
   {
     "endpoint": "request",
@@ -526,8 +526,8 @@
     "expected_status": 200,
     "description": "Test if that dates are selectable, not fixed(generated when the reservation is created)",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.105374",
-    "id": "3920372241874576453"
+    "added_at": "2025-10-30T11:25:31.835568",
+    "id": "8535588927298522949"
   },
   {
     "endpoint": "request",
@@ -536,8 +536,8 @@
     "expected_status": 400,
     "description": "Test that a reservation cannot hold the id of a user that does not exist",
     "preconditions": "There are at least one reservation and one user in the database",
-    "added_at": "2025-10-28T11:26:12.106376",
-    "id": "5496515664589146082"
+    "added_at": "2025-10-30T11:25:31.837627",
+    "id": "-578515827138762078"
   },
   {
     "endpoint": "request",
@@ -546,8 +546,8 @@
     "expected_status": 404,
     "description": "Check that , if a non-existed id is introduced, the reservation cannot be updated",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.108376",
-    "id": "7862266971776367607"
+    "added_at": "2025-10-30T11:25:31.838636",
+    "id": "3739181287719285907"
   },
   {
     "endpoint": "request",
@@ -556,8 +556,8 @@
     "expected_status": 404,
     "description": "Check that a non-existed reservation cannot be deleted",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.109393",
-    "id": "311845901941372844"
+    "added_at": "2025-10-30T11:25:31.839654",
+    "id": "-2159518210830370255"
   },
   {
     "endpoint": "request",
@@ -566,8 +566,8 @@
     "expected_status": 400,
     "description": "Testing if a string, for example, instead of the month works(should not)",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.111478",
-    "id": "-6385823505340651810"
+    "added_at": "2025-10-30T11:25:31.840662",
+    "id": "4218350587486542315"
   },
   {
     "endpoint": "requests",
@@ -576,8 +576,8 @@
     "expected_status": 200,
     "description": "Create more than 24 reservations on a day",
     "preconditions": "There is at least one admin in the database",
-    "added_at": "2025-10-28T11:26:12.112464",
-    "id": "687697135934541427"
+    "added_at": "2025-10-30T11:25:31.842701",
+    "id": "36482631855871651"
   },
   {
     "endpoint": "request",
@@ -586,8 +586,8 @@
     "expected_status": 200,
     "description": "Updating a date with string instead of the day, for example(it should not work)",
     "preconditions": "There is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.114463",
-    "id": "-5577651954858904408"
+    "added_at": "2025-10-30T11:25:31.843710",
+    "id": "-5831007962511947921"
   },
   {
     "endpoint": "request",
@@ -596,8 +596,8 @@
     "expected_status": 200,
     "description": "Return a reservation by id",
     "preconditions": "There is at least one reservation in the db",
-    "added_at": "2025-10-28T11:26:12.116483",
-    "id": "-7625976196633963750"
+    "added_at": "2025-10-30T11:25:31.845221",
+    "id": "8968217582367179990"
   },
   {
     "endpoint": "request",
@@ -606,8 +606,8 @@
     "expected_status": 404,
     "description": "Return a reservation that does not exist",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.119932",
-    "id": "7217678882048183543"
+    "added_at": "2025-10-30T11:25:31.846233",
+    "id": "-1242563329305595839"
   },
   {
     "endpoint": "request",
@@ -616,8 +616,8 @@
     "expected_status": 400,
     "description": "Testing if I can update reservations s.t. there are more than 24 on the same day",
     "preconditions": "There are at least 24 reservations already in the database",
-    "added_at": "2025-10-28T11:26:12.121689",
-    "id": "-2422081140612371352"
+    "added_at": "2025-10-30T11:25:31.847233",
+    "id": "-5627938099431618877"
   },
   {
     "endpoint": "request",
@@ -626,8 +626,8 @@
     "expected_status": 422,
     "description": "Create a date before 08.2025(example)",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.126689",
-    "id": "8769989160422639555"
+    "added_at": "2025-10-30T11:25:31.849273",
+    "id": "-2685019600486808266"
   },
   {
     "endpoint": "request",
@@ -636,8 +636,8 @@
     "expected_status": 422,
     "description": "Update a reservation for previous date",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.129708",
-    "id": "853098308995768568"
+    "added_at": "2025-10-30T11:25:31.850287",
+    "id": "-6974148276345994726"
   },
   {
     "endpoint": "request",
@@ -646,8 +646,8 @@
     "expected_status": 422,
     "description": "Test if creating a reservation with invalid months and days works(like month 13)",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.131712",
-    "id": "-2801130337361174763"
+    "added_at": "2025-10-30T11:25:31.852302",
+    "id": "8454751470503410272"
   },
   {
     "endpoint": "request",
@@ -656,8 +656,8 @@
     "expected_status": 200,
     "description": "Update the user's reservation",
     "preconditions": "There are at least one user and one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.134718",
-    "id": "-5361476034170435410"
+    "added_at": "2025-10-30T11:25:31.854313",
+    "id": "3779167444922927411"
   },
   {
     "endpoint": "request",
@@ -666,8 +666,8 @@
     "expected_status": 200,
     "description": "Testing that updating the license plate is successfully done\n\n<br>",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.139327",
-    "id": "-7352247899705271954"
+    "added_at": "2025-10-30T11:25:31.855375",
+    "id": "-2549002847639947180"
   },
   {
     "endpoint": "request",
@@ -676,8 +676,8 @@
     "expected_status": 200,
     "description": "Testing that the json body for the request is correctly done",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.143688",
-    "id": "-6998714731237573143"
+    "added_at": "2025-10-30T11:25:31.857413",
+    "id": "9180584914113809592"
   },
   {
     "endpoint": "request",
@@ -686,8 +686,8 @@
     "expected_status": 400,
     "description": "Updating a user's license plate with a null value",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.146687",
-    "id": "-2509327876033595889"
+    "added_at": "2025-10-30T11:25:31.858980",
+    "id": "5948044091526013876"
   },
   {
     "endpoint": "request",
@@ -696,8 +696,8 @@
     "expected_status": 400,
     "description": "Updating a user with an empty password",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.149281",
-    "id": "-4275686846958183124"
+    "added_at": "2025-10-30T11:25:31.860508",
+    "id": "-8668238409098780624"
   },
   {
     "endpoint": "request",
@@ -706,8 +706,8 @@
     "expected_status": 200,
     "description": "Updating a user's password",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.152822",
-    "id": "2226836952124631204"
+    "added_at": "2025-10-30T11:25:31.861505",
+    "id": "-9184349272553555048"
   },
   {
     "endpoint": "request",
@@ -716,8 +716,8 @@
     "expected_status": 422,
     "description": "Updating a user's license plate with special characters",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.158268",
-    "id": "-1065591104416199649"
+    "added_at": "2025-10-30T11:25:31.863504",
+    "id": "15434035780666027"
   },
   {
     "endpoint": "request",
@@ -726,8 +726,8 @@
     "expected_status": 422,
     "description": "Updating a user's password by introducing in the old password field a password that is not his",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.165260",
-    "id": "-5698326993706391893"
+    "added_at": "2025-10-30T11:25:31.864504",
+    "id": "9188240602946328687"
   },
   {
     "endpoint": "request",
@@ -736,8 +736,8 @@
     "expected_status": 422,
     "description": "Updating a user's password with a new password that does not match the confirmation password field",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.169279",
-    "id": "6195471855237807406"
+    "added_at": "2025-10-30T11:25:31.866504",
+    "id": "-6364562096689825006"
   },
   {
     "endpoint": "request",
@@ -746,8 +746,8 @@
     "expected_status": 422,
     "description": "Use an id that does not belong to any user",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.175289",
-    "id": "2473296552418976891"
+    "added_at": "2025-10-30T11:25:31.868504",
+    "id": "-5169868806802580456"
   },
   {
     "endpoint": "request",
@@ -756,8 +756,8 @@
     "expected_status": 422,
     "description": "Use an id that does not belong to any user",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.180304",
-    "id": "-2929799608782563346"
+    "added_at": "2025-10-30T11:25:31.869603",
+    "id": "-303699859447489259"
   },
   {
     "endpoint": "request",
@@ -766,8 +766,8 @@
     "expected_status": 422,
     "description": "Use an id that does not belong to any user",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.186138",
-    "id": "720516649603163394"
+    "added_at": "2025-10-30T11:25:31.871221",
+    "id": "4148266802576694881"
   },
   {
     "endpoint": "request",
@@ -776,8 +776,8 @@
     "expected_status": 422,
     "description": "Use an id that does not belong to any user",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.193349",
-    "id": "784894856285325258"
+    "added_at": "2025-10-30T11:25:31.873235",
+    "id": "3775993313947647902"
   },
   {
     "endpoint": "request",
@@ -786,8 +786,8 @@
     "expected_status": 500,
     "description": "Verify that when an unwanted exception is thrown it is caught, and an error response is thrown instead of crash.",
     "preconditions": "Application is running and middleware handler is enabled",
-    "added_at": "2025-10-28T11:26:12.202605",
-    "id": "-6651467786954238024"
+    "added_at": "2025-10-30T11:25:31.875005",
+    "id": "2816900316492044271"
   },
   {
     "endpoint": "request",
@@ -796,8 +796,8 @@
     "expected_status": 400,
     "description": "Verify that a malformed JSON does not crash the application",
     "preconditions": "JSON body is accepted",
-    "added_at": "2025-10-28T11:26:12.209783",
-    "id": "-196046900093880573"
+    "added_at": "2025-10-30T11:25:31.876079",
+    "id": "-7524012375818782130"
   },
   {
     "endpoint": "request",
@@ -806,8 +806,8 @@
     "expected_status": 503,
     "description": "Ensure DB connection issues result in proper error response",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.217008",
-    "id": "436702762564896791"
+    "added_at": "2025-10-30T11:25:31.877067",
+    "id": "39506657016685267"
   },
   {
     "endpoint": "request",
@@ -816,8 +816,8 @@
     "expected_status": 400,
     "description": "Verify middleware rejects requests missing/invalid required fields and sends formatted error",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.220743",
-    "id": "5411288459769014834"
+    "added_at": "2025-10-30T11:25:31.879707",
+    "id": "-964255275535412385"
   },
   {
     "endpoint": "request",
@@ -826,8 +826,8 @@
     "expected_status": 200,
     "description": "Testing the log messages for creating correctly a new user",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.226876",
-    "id": "5789339331602393199"
+    "added_at": "2025-10-30T11:25:31.882055",
+    "id": "3410855545059314597"
   },
   {
     "endpoint": "request",
@@ -836,8 +836,8 @@
     "expected_status": 200,
     "description": "Testing if that calling correctly the update methods return displayes a message and the status code in loggers",
     "preconditions": "There is at least one user in the database",
-    "added_at": "2025-10-28T11:26:12.234123",
-    "id": "592271343064886911"
+    "added_at": "2025-10-30T11:25:31.884123",
+    "id": "8190329646649027858"
   },
   {
     "endpoint": "request",
@@ -846,8 +846,8 @@
     "expected_status": 200,
     "description": "Testing if that calling correctly the getAll method return displayes a message and the status code in loggers",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.242069",
-    "id": "2878938387144200778"
+    "added_at": "2025-10-30T11:25:31.886057",
+    "id": "2351662211344467541"
   },
   {
     "endpoint": "request",
@@ -856,8 +856,8 @@
     "expected_status": 200,
     "description": "Testing if that calling correctly the getbyId method return displayes a message and the status code in loggers",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.252089",
-    "id": "1117846235249085280"
+    "added_at": "2025-10-30T11:25:31.887049",
+    "id": "3554211491916021355"
   },
   {
     "endpoint": "request",
@@ -866,8 +866,8 @@
     "expected_status": 200,
     "description": "Testing if that calling correctly the delete methods displayes a message and the status code in loggers",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.262028",
-    "id": "4240420969668492268"
+    "added_at": "2025-10-30T11:25:31.889692",
+    "id": "1988095789938177777"
   },
   {
     "endpoint": "request",
@@ -876,8 +876,8 @@
     "expected_status": 400,
     "description": "Testing if that calling incorrectly the create methods displayes a message and the status code in loggers",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.268687",
-    "id": "-53285754266993514"
+    "added_at": "2025-10-30T11:25:31.891449",
+    "id": "5119957290238158680"
   },
   {
     "endpoint": "request",
@@ -886,8 +886,8 @@
     "expected_status": 404,
     "description": "Testing if that calling incorrectly the update methods displayes a message and the status code in loggers",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.275964",
-    "id": "-11702603586297733"
+    "added_at": "2025-10-30T11:25:31.893520",
+    "id": "7536808865999245685"
   },
   {
     "endpoint": "request",
@@ -896,8 +896,8 @@
     "expected_status": 404,
     "description": "Testing if that calling incorrectly the update methods displayes a message and the status code in loggers",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.281001",
-    "id": "5216881125405981726"
+    "added_at": "2025-10-30T11:25:31.895522",
+    "id": "-8629836283865461176"
   },
   {
     "endpoint": "request",
@@ -906,8 +906,8 @@
     "expected_status": 404,
     "description": "Testing if that calling incorrectly the update methods displayes a message and the status code in loggers",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.285002",
-    "id": "-2192516819910903978"
+    "added_at": "2025-10-30T11:25:31.897455",
+    "id": "5421891680380041575"
   },
   {
     "endpoint": "request",
@@ -916,8 +916,8 @@
     "expected_status": 200,
     "description": "Requests are correctly authenticated with a JWT.",
     "preconditions": "User exists in DB. A valid JWT is generated with the correct private key. API Server has the matching public key to validate the signature.",
-    "added_at": "2025-10-28T11:26:12.288606",
-    "id": "4708586351135738531"
+    "added_at": "2025-10-30T11:25:31.899112",
+    "id": "-824552504388491634"
   },
   {
     "endpoint": "request",
@@ -926,8 +926,8 @@
     "expected_status": 401,
     "description": "Verify API rejects a request with an invalid JWT signature",
     "preconditions": "User exists in DB. An invalid JWT is generated (alter payload/use incorrect key)",
-    "added_at": "2025-10-28T11:26:12.293158",
-    "id": "6247887675862376983"
+    "added_at": "2025-10-30T11:25:31.900719",
+    "id": "-7601263434610796036"
   },
   {
     "endpoint": "request",
@@ -936,8 +936,8 @@
     "expected_status": 401,
     "description": "API rejects malformed JWT (missing requiered parts).",
     "preconditions": "User exists in DB.",
-    "added_at": "2025-10-28T11:26:12.296236",
-    "id": "1905412651602694118"
+    "added_at": "2025-10-30T11:25:31.902705",
+    "id": "-8949681701755765426"
   },
   {
     "endpoint": "request",
@@ -946,8 +946,8 @@
     "expected_status": 403,
     "description": "Get All should return keys grouped in two groups : assigned and not assigned",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.299984",
-    "id": "8634703405872316447"
+    "added_at": "2025-10-30T11:25:31.904711",
+    "id": "-2930868317002306025"
   },
   {
     "endpoint": "request",
@@ -956,8 +956,8 @@
     "expected_status": 403,
     "description": "Checking that the current key contains the correct user",
     "preconditions": "There is at least one key assigned to a user",
-    "added_at": "2025-10-28T11:26:12.303123",
-    "id": "-5975424048043007045"
+    "added_at": "2025-10-30T11:25:31.906704",
+    "id": "2064473386289665561"
   },
   {
     "endpoint": "to",
@@ -966,8 +966,8 @@
     "expected_status": 403,
     "description": "Testing if a key returns information about any user",
     "preconditions": "At least one key and a user in the database",
-    "added_at": "2025-10-28T11:26:12.306050",
-    "id": "-7838592176689024790"
+    "added_at": "2025-10-30T11:25:31.908775",
+    "id": "4409395868532248274"
   },
   {
     "endpoint": "request",
@@ -976,8 +976,8 @@
     "expected_status": 403,
     "description": "The key assigned to other users multiple times should retain the information from the last user it was assigned to",
     "preconditions": "There is at least a key, an admin, and multiple users",
-    "added_at": "2025-10-28T11:26:12.312208",
-    "id": "511675977262572987"
+    "added_at": "2025-10-30T11:25:31.910208",
+    "id": "4244629467355241766"
   },
   {
     "endpoint": "requests",
@@ -986,8 +986,8 @@
     "expected_status": 403,
     "description": "Testing if a user can assign keys to other users",
     "preconditions": "There are at least two users in the database and one key",
-    "added_at": "2025-10-28T11:26:12.319310",
-    "id": "3298147847840347386"
+    "added_at": "2025-10-30T11:25:31.912695",
+    "id": "1686361636308239979"
   },
   {
     "endpoint": "request",
@@ -996,8 +996,8 @@
     "expected_status": 200,
     "description": "Checking if an admin can assign keys to multiple users",
     "preconditions": "Admin is logged in and tries to assign existing key to user",
-    "added_at": "2025-10-28T11:26:12.323836",
-    "id": "6490714539428387685"
+    "added_at": "2025-10-30T11:25:31.914687",
+    "id": "-2403663950590858411"
   },
   {
     "endpoint": "request",
@@ -1006,8 +1006,8 @@
     "expected_status": 200,
     "description": "Admin can see what keys are assigned",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.326829",
-    "id": "51339176960041423"
+    "added_at": "2025-10-30T11:25:31.916687",
+    "id": "6924478247499333000"
   },
   {
     "endpoint": "request",
@@ -1016,8 +1016,8 @@
     "expected_status": 200,
     "description": "Admin can see what keys are not assigned",
     "preconditions": "There exist multiple keys",
-    "added_at": "2025-10-28T11:26:12.330850",
-    "id": "5279470268074565391"
+    "added_at": "2025-10-30T11:25:31.919772",
+    "id": "4678420314707989980"
   },
   {
     "endpoint": "request",
@@ -1026,8 +1026,8 @@
     "expected_status": 200,
     "description": "Admin can visualize which users have assigned keys",
     "preconditions": "Multiple users and keys exist",
-    "added_at": "2025-10-28T11:26:12.332934",
-    "id": "-7637848531565759889"
+    "added_at": "2025-10-30T11:25:31.921776",
+    "id": "7927951498483530143"
   },
   {
     "endpoint": "request",
@@ -1036,8 +1036,8 @@
     "expected_status": 200,
     "description": "",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.336935",
-    "id": "-7753486751351916751"
+    "added_at": "2025-10-30T11:25:31.923776",
+    "id": "-2563958128267406495"
   },
   {
     "endpoint": "request",
@@ -1046,8 +1046,8 @@
     "expected_status": 200,
     "description": "Testing if the admin has access to all the keys",
     "preconditions": "There is at least one admin and multiple keys in the db",
-    "added_at": "2025-10-28T11:26:12.341169",
-    "id": "-6114761894361360520"
+    "added_at": "2025-10-30T11:25:31.925775",
+    "id": "-6890788500466087376"
   },
   {
     "endpoint": "request",
@@ -1056,8 +1056,8 @@
     "expected_status": 200,
     "description": "Testing if admins can assign different keys to multiple users",
     "preconditions": "There is at least one user and one admin in the database",
-    "added_at": "2025-10-28T11:26:12.344259",
-    "id": "-82062665335506046"
+    "added_at": "2025-10-30T11:25:31.927776",
+    "id": "-4021968599090847574"
   },
   {
     "endpoint": "requests",
@@ -1066,8 +1066,8 @@
     "expected_status": 200,
     "description": "Testing if assigning to the same user multiple keys will associate the last key to that user",
     "preconditions": "At least one user exists and multiple keys",
-    "added_at": "2025-10-28T11:26:12.348289",
-    "id": "542642997015088753"
+    "added_at": "2025-10-30T11:25:31.930879",
+    "id": "3531689297364540973"
   },
   {
     "endpoint": "request",
@@ -1076,8 +1076,8 @@
     "expected_status": 200,
     "description": "Checking if an assignment like this will destroy the other 2 relation of assignment",
     "preconditions": "There are at least 2 users and 2 keys",
-    "added_at": "2025-10-28T11:26:12.352753",
-    "id": "9184298973242962617"
+    "added_at": "2025-10-30T11:25:31.932893",
+    "id": "4155502226808331044"
   },
   {
     "endpoint": "request",
@@ -1086,8 +1086,8 @@
     "expected_status": 404,
     "description": "Admin tries to assign an inexistent key",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.356814",
-    "id": "-3842058647503100613"
+    "added_at": "2025-10-30T11:25:31.935883",
+    "id": "8143379670865895612"
   },
   {
     "endpoint": "request",
@@ -1096,8 +1096,8 @@
     "expected_status": 404,
     "description": "Admin tries to assign existent key to a user that does not exist",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.361672",
-    "id": "-4937006189163912310"
+    "added_at": "2025-10-30T11:25:31.938042",
+    "id": "-6163655698125681187"
   },
   {
     "endpoint": "request",
@@ -1106,8 +1106,8 @@
     "expected_status": 200,
     "description": "Getting all keys is an operation only for an admin",
     "preconditions": "Admin is logged in and there is at least one key in the db",
-    "added_at": "2025-10-28T11:26:12.364351",
-    "id": "-8176745448821464319"
+    "added_at": "2025-10-30T11:25:31.940052",
+    "id": "-9115020174497534363"
   },
   {
     "endpoint": "request",
@@ -1116,8 +1116,8 @@
     "expected_status": 200,
     "description": "Creating a key only possible for an admin",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.366643",
-    "id": "6448657997558797418"
+    "added_at": "2025-10-30T11:25:31.942055",
+    "id": "-3777752024046959211"
   },
   {
     "endpoint": "request",
@@ -1126,8 +1126,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in and there is at least one key in the db",
-    "added_at": "2025-10-28T11:26:12.371655",
-    "id": "-2689665391965860846"
+    "added_at": "2025-10-30T11:25:31.945548",
+    "id": "-8790591928688626279"
   },
   {
     "endpoint": "request",
@@ -1136,8 +1136,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in and there is at least one key in the db",
-    "added_at": "2025-10-28T11:26:12.376898",
-    "id": "6200904508954696939"
+    "added_at": "2025-10-30T11:25:31.948550",
+    "id": "3155793585686670726"
   },
   {
     "endpoint": "request",
@@ -1146,8 +1146,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.379937",
-    "id": "-7731647220921356921"
+    "added_at": "2025-10-30T11:25:31.950612",
+    "id": "-5213674208810783616"
   },
   {
     "endpoint": "request",
@@ -1156,8 +1156,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in and there is at least one user in the db",
-    "added_at": "2025-10-28T11:26:12.382934",
-    "id": "524993858872436254"
+    "added_at": "2025-10-30T11:25:31.952612",
+    "id": "4407478410485598978"
   },
   {
     "endpoint": "request",
@@ -1166,8 +1166,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in and there is at least one user in the db",
-    "added_at": "2025-10-28T11:26:12.388337",
-    "id": "-3541410075739437669"
+    "added_at": "2025-10-30T11:25:31.954660",
+    "id": "4666982981861899024"
   },
   {
     "endpoint": "request",
@@ -1176,8 +1176,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in and there is at least one user in the db",
-    "added_at": "2025-10-28T11:26:12.392955",
-    "id": "8152676449992440728"
+    "added_at": "2025-10-30T11:25:31.957660",
+    "id": "7724724203057626301"
   },
   {
     "endpoint": "request",
@@ -1186,8 +1186,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in and there is at least one user in the db",
-    "added_at": "2025-10-28T11:26:12.396575",
-    "id": "-8071926462766289854"
+    "added_at": "2025-10-30T11:25:31.960742",
+    "id": "-3442263384082241797"
   },
   {
     "endpoint": "request",
@@ -1196,8 +1196,8 @@
     "expected_status": 200,
     "description": "Operation only possible for an admin",
     "preconditions": "Admin is logged in and there is at least one user in the db",
-    "added_at": "2025-10-28T11:26:12.400161",
-    "id": "5390241747451946745"
+    "added_at": "2025-10-30T11:25:31.962419",
+    "id": "-1367166116381177857"
   },
   {
     "endpoint": "request",
@@ -1206,8 +1206,8 @@
     "expected_status": 403,
     "description": "User only should not be able to see all keys",
     "preconditions": "The user is logged in and there is at least one key and one different user in the db",
-    "added_at": "2025-10-28T11:26:12.403165",
-    "id": "1604892397324998438"
+    "added_at": "2025-10-30T11:25:31.965467",
+    "id": "-8845068265906847941"
   },
   {
     "endpoint": "request",
@@ -1216,8 +1216,8 @@
     "expected_status": 403,
     "description": "User only should not be able to create a key",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.406271",
-    "id": "-8733219260379360502"
+    "added_at": "2025-10-30T11:25:31.967467",
+    "id": "-4101822837737216778"
   },
   {
     "endpoint": "request",
@@ -1226,8 +1226,8 @@
     "expected_status": 403,
     "description": "User should not be able to return any key",
     "preconditions": "There should be a key in the db and user is logged in",
-    "added_at": "2025-10-28T11:26:12.411815",
-    "id": "-8971132436266761435"
+    "added_at": "2025-10-30T11:25:31.971543",
+    "id": "7411568434401379065"
   },
   {
     "endpoint": "request",
@@ -1236,8 +1236,8 @@
     "expected_status": 403,
     "description": "User should not be able to update a key",
     "preconditions": "there is at least one key and user is logged in",
-    "added_at": "2025-10-28T11:26:12.414823",
-    "id": "6678431282475179958"
+    "added_at": "2025-10-30T11:25:31.974546",
+    "id": "-1646667772330691762"
   },
   {
     "endpoint": "request",
@@ -1246,8 +1246,8 @@
     "expected_status": 403,
     "description": "user should not be able to return(see) all other users",
     "preconditions": "There are at least to users in the database and user is logged in",
-    "added_at": "2025-10-28T11:26:12.416814",
-    "id": "5854034631377027303"
+    "added_at": "2025-10-30T11:25:31.976630",
+    "id": "3336397659757496699"
   },
   {
     "endpoint": "request",
@@ -1256,8 +1256,8 @@
     "expected_status": 403,
     "description": "user should not be able to create new users",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.421989",
-    "id": "4652585212094998995"
+    "added_at": "2025-10-30T11:25:31.979668",
+    "id": "-7697007542798372691"
   },
   {
     "endpoint": "request",
@@ -1266,8 +1266,8 @@
     "expected_status": 403,
     "description": "user should not be able to see any other user",
     "preconditions": "there are at least 2 users in the db and user is logged in",
-    "added_at": "2025-10-28T11:26:12.426174",
-    "id": "-2427641634387694164"
+    "added_at": "2025-10-30T11:25:31.982768",
+    "id": "-7364699975974188963"
   },
   {
     "endpoint": "request",
@@ -1276,8 +1276,8 @@
     "expected_status": 403,
     "description": "user should not be able to update other user",
     "preconditions": "There are 2 users in the db and one user is logged in",
-    "added_at": "2025-10-28T11:26:12.431384",
-    "id": "-6295294864710749571"
+    "added_at": "2025-10-30T11:25:31.985823",
+    "id": "2182167362864662115"
   },
   {
     "endpoint": "request",
@@ -1286,8 +1286,8 @@
     "expected_status": 403,
     "description": "user should not be able to update other user",
     "preconditions": "There are at least 2 users in the db and user is logged in",
-    "added_at": "2025-10-28T11:26:12.440684",
-    "id": "-747292182740792735"
+    "added_at": "2025-10-30T11:25:31.989327",
+    "id": "8410300594846425503"
   },
   {
     "endpoint": "request",
@@ -1296,8 +1296,8 @@
     "expected_status": 403,
     "description": "user should not be able to update other user",
     "preconditions": "There are at least 2 users in the db and user is logged in",
-    "added_at": "2025-10-28T11:26:12.445811",
-    "id": "-1266417180341774103"
+    "added_at": "2025-10-30T11:25:31.992403",
+    "id": "-539759733796001333"
   },
   {
     "endpoint": "request",
@@ -1306,8 +1306,8 @@
     "expected_status": 403,
     "description": "user should not be able to update other user",
     "preconditions": "There are at least 2 users in the db and user is logged in",
-    "added_at": "2025-10-28T11:26:12.449321",
-    "id": "258038199976380254"
+    "added_at": "2025-10-30T11:25:31.996403",
+    "id": "-7921901594139786432"
   },
   {
     "endpoint": "request",
@@ -1316,8 +1316,8 @@
     "expected_status": 403,
     "description": "User should not be able to delete any user",
     "preconditions": "There are at least 2 users in the db and one is logged in",
-    "added_at": "2025-10-28T11:26:12.454928",
-    "id": "898080118687235574"
+    "added_at": "2025-10-30T11:25:32.002630",
+    "id": "-7502400807391630374"
   },
   {
     "endpoint": "request",
@@ -1326,8 +1326,8 @@
     "expected_status": 200,
     "description": "User should be able to only see its attributes",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.459227",
-    "id": "2866762109102183293"
+    "added_at": "2025-10-30T11:25:32.005631",
+    "id": "7931399857241899169"
   },
   {
     "endpoint": "request",
@@ -1336,8 +1336,8 @@
     "expected_status": 200,
     "description": "USer should only be able to update itself",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.463126",
-    "id": "5730372009453316603"
+    "added_at": "2025-10-30T11:25:32.008699",
+    "id": "-8936899684481244106"
   },
   {
     "endpoint": "request",
@@ -1346,8 +1346,8 @@
     "expected_status": 200,
     "description": "User should only be able to update itself",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.467146",
-    "id": "-4509982910412895207"
+    "added_at": "2025-10-30T11:25:32.011712",
+    "id": "-2176851710211914979"
   },
   {
     "endpoint": "request",
@@ -1356,8 +1356,8 @@
     "expected_status": 200,
     "description": "User should only be able to update itself",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.470298",
-    "id": "-8724093258645357722"
+    "added_at": "2025-10-30T11:25:32.013712",
+    "id": "-832214253599449119"
   },
   {
     "endpoint": "request",
@@ -1366,8 +1366,8 @@
     "expected_status": 200,
     "description": "User should only be able to update itself",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.474384",
-    "id": "-5241273204915529909"
+    "added_at": "2025-10-30T11:25:32.016711",
+    "id": "-8578822884746450152"
   },
   {
     "endpoint": "request",
@@ -1376,8 +1376,8 @@
     "expected_status": 200,
     "description": "a non-logged in user should only be able to log in",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.478670",
-    "id": "-2802978945724549057"
+    "added_at": "2025-10-30T11:25:32.019759",
+    "id": "6015062397581964032"
   },
   {
     "endpoint": "request",
@@ -1386,8 +1386,8 @@
     "expected_status": 401,
     "description": "a user that is not logged in should not be able to get all keys",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.482192",
-    "id": "4788975291839696459"
+    "added_at": "2025-10-30T11:25:32.022449",
+    "id": "2558674164274675077"
   },
   {
     "endpoint": "request",
@@ -1396,8 +1396,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to create keys",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.487192",
-    "id": "8714113970007752133"
+    "added_at": "2025-10-30T11:25:32.025525",
+    "id": "-7166814842890439432"
   },
   {
     "endpoint": "request",
@@ -1406,8 +1406,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to return a key",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.491275",
-    "id": "5504813560792410258"
+    "added_at": "2025-10-30T11:25:32.028526",
+    "id": "689135528876811475"
   },
   {
     "endpoint": "request",
@@ -1416,8 +1416,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to update a key",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.495382",
-    "id": "4776393469937102606"
+    "added_at": "2025-10-30T11:25:32.031966",
+    "id": "2532556818755554509"
   },
   {
     "endpoint": "request",
@@ -1426,8 +1426,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to see all users",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.499927",
-    "id": "8973876494241597144"
+    "added_at": "2025-10-30T11:25:32.034966",
+    "id": "2687189522458311861"
   },
   {
     "endpoint": "request",
@@ -1436,8 +1436,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to create new users",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.503534",
-    "id": "4167778567905412784"
+    "added_at": "2025-10-30T11:25:32.036966",
+    "id": "3704602960467646199"
   },
   {
     "endpoint": "request",
@@ -1446,8 +1446,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to see any user",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.507534",
-    "id": "1754694264225211846"
+    "added_at": "2025-10-30T11:25:32.040984",
+    "id": "1594181756922095914"
   },
   {
     "endpoint": "request",
@@ -1456,8 +1456,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to update any user",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.511102",
-    "id": "8430693820317943104"
+    "added_at": "2025-10-30T11:25:32.043983",
+    "id": "3240903064299361518"
   },
   {
     "endpoint": "request",
@@ -1466,8 +1466,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to update any user",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.517109",
-    "id": "-2781257492479177530"
+    "added_at": "2025-10-30T11:25:32.046497",
+    "id": "411527227838311994"
   },
   {
     "endpoint": "request",
@@ -1476,8 +1476,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to update any user",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.520758",
-    "id": "5005156165066106361"
+    "added_at": "2025-10-30T11:25:32.049564",
+    "id": "-3400391237771031900"
   },
   {
     "endpoint": "request",
@@ -1486,8 +1486,8 @@
     "expected_status": 401,
     "description": "a user/admin that is not logged in should not be able to update any user",
     "preconditions": "user is not logged in",
-    "added_at": "2025-10-28T11:26:12.523772",
-    "id": "-5922215353411516167"
+    "added_at": "2025-10-30T11:25:32.052569",
+    "id": "-8514672998800858866"
   },
   {
     "endpoint": "request",
@@ -1496,8 +1496,8 @@
     "expected_status": 200,
     "description": "Create a reservation as admin",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.527016",
-    "id": "-5185007459331343331"
+    "added_at": "2025-10-30T11:25:32.056569",
+    "id": "2347326604952033212"
   },
   {
     "endpoint": "request",
@@ -1506,8 +1506,8 @@
     "expected_status": 200,
     "description": "Create a reservation as user",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.532125",
-    "id": "7132670213939929706"
+    "added_at": "2025-10-30T11:25:32.059575",
+    "id": "-6078737487410764378"
   },
   {
     "endpoint": "request",
@@ -1516,8 +1516,8 @@
     "expected_status": 200,
     "description": "Create multiple(less than 24) reservations on same dates",
     "preconditions": "Admin is logged in nd there is at least one reservation in db",
-    "added_at": "2025-10-28T11:26:12.537328",
-    "id": "-7888717956409977640"
+    "added_at": "2025-10-30T11:25:32.062641",
+    "id": "5448184021727468442"
   },
   {
     "endpoint": "request",
@@ -1526,8 +1526,8 @@
     "expected_status": 400,
     "description": "Create at least 2 reservations as user",
     "preconditions": "User is logged in and there is at least one reservation for that user in the db",
-    "added_at": "2025-10-28T11:26:12.542069",
-    "id": "-2757914558606925065"
+    "added_at": "2025-10-30T11:25:32.065688",
+    "id": "-6801324475367837655"
   },
   {
     "endpoint": "request",
@@ -1536,8 +1536,8 @@
     "expected_status": 200,
     "description": "Create a reservation on a date that include dates that are already booked(user) or full(admin and user)- there should be done separate reservations or one valid reservation, shorter than the initial one",
     "preconditions": "User is logged in and there is at least one reservation for that user in the db",
-    "added_at": "2025-10-28T11:26:12.546070",
-    "id": "-1849332342204697096"
+    "added_at": "2025-10-30T11:25:32.069192",
+    "id": "-7132848436754076904"
   },
   {
     "endpoint": "request",
@@ -1546,8 +1546,8 @@
     "expected_status": 200,
     "description": "Get all avaliable dates for the admin(not full)",
     "preconditions": "Admin is logged in nd there is at least one reservation in db",
-    "added_at": "2025-10-28T11:26:12.551020",
-    "id": "4759404354412356488"
+    "added_at": "2025-10-30T11:25:32.071744",
+    "id": "-698521862834251143"
   },
   {
     "endpoint": "request",
@@ -1556,8 +1556,8 @@
     "expected_status": 200,
     "description": "Get al avaliable dates for user(not full or not booked)",
     "preconditions": "User is logged in and there is at least one reservation for that user in the db",
-    "added_at": "2025-10-28T11:26:12.555857",
-    "id": "-1466718674582522091"
+    "added_at": "2025-10-30T11:25:32.074743",
+    "id": "6747232155895149296"
   },
   {
     "endpoint": "request",
@@ -1566,8 +1566,8 @@
     "expected_status": 200,
     "description": "Admin should be able to see avaliable dates for other users",
     "preconditions": "Admin is logged in nd there is at least one reservation in db",
-    "added_at": "2025-10-28T11:26:12.559470",
-    "id": "-7132299454359784966"
+    "added_at": "2025-10-30T11:25:32.077744",
+    "id": "7466916195238315115"
   },
   {
     "endpoint": "request",
@@ -1576,8 +1576,8 @@
     "expected_status": 403,
     "description": "User should not be able to see avaliable dates of other users",
     "preconditions": "User is logged in and there is at least one reservation for that user in the db",
-    "added_at": "2025-10-28T11:26:12.566070",
-    "id": "-5774439897225097046"
+    "added_at": "2025-10-30T11:25:32.080735",
+    "id": "2413151269816084618"
   },
   {
     "endpoint": "request",
@@ -1586,8 +1586,8 @@
     "expected_status": 200,
     "description": "Testing if a user correctly gets his avaliable dates if there are both a full period and a booked period",
     "preconditions": "User is logged in and there is at least one reservation for that user in the db",
-    "added_at": "2025-10-28T11:26:12.571184",
-    "id": "-1171438305422132956"
+    "added_at": "2025-10-30T11:25:32.084732",
+    "id": "1211332663334415499"
   },
   {
     "endpoint": "request",
@@ -1596,8 +1596,8 @@
     "expected_status": 200,
     "description": "Testing if the method correctly jumps over the fully booked periods",
     "preconditions": "Admin is logged in nd there is at least one reservation in db",
-    "added_at": "2025-10-28T11:26:12.578397",
-    "id": "-5336663235745747173"
+    "added_at": "2025-10-30T11:25:32.087883",
+    "id": "-4110870562167144360"
   },
   {
     "endpoint": "/reservations",
@@ -1606,8 +1606,8 @@
     "expected_status": 200,
     "description": "Return a list of all reservations associated to a single user for the past or future",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.583523",
-    "id": "6439714503199440854"
+    "added_at": "2025-10-30T11:25:32.090405",
+    "id": "-4844529387284145053"
   },
   {
     "endpoint": "/reservations",
@@ -1616,8 +1616,8 @@
     "expected_status": 200,
     "description": "Reservations have the format \"YYYY-MM-DD\"",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.590856",
-    "id": "-7143981022172627652"
+    "added_at": "2025-10-30T11:25:32.093408",
+    "id": "5582947656468141797"
   },
   {
     "endpoint": "/reservations",
@@ -1626,8 +1626,8 @@
     "expected_status": 200,
     "description": "Ensure user reservations are retrieved grouped by month",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.595862",
-    "id": "-8438946865800551764"
+    "added_at": "2025-10-30T11:25:32.097409",
+    "id": "6335382835736427827"
   },
   {
     "endpoint": "reservations",
@@ -1636,8 +1636,8 @@
     "expected_status": 200,
     "description": "No reservations should appear",
     "preconditions": "User is logged in and has no reservations created",
-    "added_at": "2025-10-28T11:26:12.599967",
-    "id": "8799175449820961315"
+    "added_at": "2025-10-30T11:25:32.102118",
+    "id": "3993714735757424699"
   },
   {
     "endpoint": "request",
@@ -1646,8 +1646,8 @@
     "expected_status": 200,
     "description": "Admin can see all reservations",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.606437",
-    "id": "2197796290230012897"
+    "added_at": "2025-10-30T11:25:32.106206",
+    "id": "1273386586661822796"
   },
   {
     "endpoint": "request",
@@ -1656,8 +1656,8 @@
     "expected_status": 200,
     "description": "Admin can create a reservation for himself",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.610661",
-    "id": "-4799566090641647503"
+    "added_at": "2025-10-30T11:25:32.108718",
+    "id": "-2506207295282830362"
   },
   {
     "endpoint": "request",
@@ -1666,8 +1666,8 @@
     "expected_status": 200,
     "description": "Admin can see all reservations that belong to him",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.615539",
-    "id": "-2406753108066236630"
+    "added_at": "2025-10-30T11:25:32.112232",
+    "id": "-8216899010578213987"
   },
   {
     "endpoint": "request",
@@ -1676,8 +1676,8 @@
     "expected_status": 200,
     "description": "An admin can update any of his reservations",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.620794",
-    "id": "56950620498648290"
+    "added_at": "2025-10-30T11:25:32.116310",
+    "id": "-4457242739513017005"
   },
   {
     "endpoint": "request",
@@ -1686,8 +1686,8 @@
     "expected_status": 200,
     "description": "An admin can delete any of his reservations",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.625817",
-    "id": "-2306176551346099863"
+    "added_at": "2025-10-30T11:25:32.119480",
+    "id": "-3872950152740568681"
   },
   {
     "endpoint": "request",
@@ -1696,8 +1696,8 @@
     "expected_status": 200,
     "description": "An admin can see all of his reservaitons",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.630409",
-    "id": "-5176759743871839438"
+    "added_at": "2025-10-30T11:25:32.123487",
+    "id": "-6771649173291415582"
   },
   {
     "endpoint": "request",
@@ -1706,8 +1706,8 @@
     "expected_status": 200,
     "description": "An admin can see all possible dates that are available for any user",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.635529",
-    "id": "-8100094130747504016"
+    "added_at": "2025-10-30T11:25:32.126487",
+    "id": "-8976989184063926746"
   },
   {
     "endpoint": "request",
@@ -1716,8 +1716,8 @@
     "expected_status": 200,
     "description": "An admin can create a reservation for any other user(or guest)",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.639031",
-    "id": "8955929186235268709"
+    "added_at": "2025-10-30T11:25:32.130500",
+    "id": "7254739950519512294"
   },
   {
     "endpoint": "request",
@@ -1726,8 +1726,8 @@
     "expected_status": 200,
     "description": "An admin can see all reservations",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.645096",
-    "id": "-2813699303165905187"
+    "added_at": "2025-10-30T11:25:32.133240",
+    "id": "-8680298568193801440"
   },
   {
     "endpoint": "request",
@@ -1736,8 +1736,8 @@
     "expected_status": 200,
     "description": "An admin can delete any reservation",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.650888",
-    "id": "-4640767053507993792"
+    "added_at": "2025-10-30T11:25:32.137263",
+    "id": "2366329269751384783"
   },
   {
     "endpoint": "request",
@@ -1746,8 +1746,8 @@
     "expected_status": 200,
     "description": "An admin can update any reservation",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.655396",
-    "id": "-3163416949883064928"
+    "added_at": "2025-10-30T11:25:32.140547",
+    "id": "3041812672875566342"
   },
   {
     "endpoint": "request",
@@ -1756,8 +1756,8 @@
     "expected_status": 200,
     "description": "An admin can see all available dates for himself",
     "preconditions": "Admin is logged in and there is at least one reservation in the database",
-    "added_at": "2025-10-28T11:26:12.661851",
-    "id": "1315936177741554821"
+    "added_at": "2025-10-30T11:25:32.143552",
+    "id": "3865253874978689709"
   },
   {
     "endpoint": "request",
@@ -1766,8 +1766,8 @@
     "expected_status": 200,
     "description": "A user should be able to create a reservation for himself",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.668549",
-    "id": "-7193272231634744457"
+    "added_at": "2025-10-30T11:25:32.147195",
+    "id": "8365964525860803414"
   },
   {
     "endpoint": "request",
@@ -1776,8 +1776,8 @@
     "expected_status": 200,
     "description": "A user should be able to delete a reservation for himself",
     "preconditions": "User is logged in and there is at least one reservation that belong to that user",
-    "added_at": "2025-10-28T11:26:12.674042",
-    "id": "6407946875022440638"
+    "added_at": "2025-10-30T11:25:32.150206",
+    "id": "-4927703761009117709"
   },
   {
     "endpoint": "request",
@@ -1786,8 +1786,8 @@
     "expected_status": 200,
     "description": "A user should be able to get all reservations for himself",
     "preconditions": "User is logged in and there is at least one reservation that belong to that user",
-    "added_at": "2025-10-28T11:26:12.678179",
-    "id": "-5438667410921887296"
+    "added_at": "2025-10-30T11:25:32.153421",
+    "id": "441110807245800017"
   },
   {
     "endpoint": "request",
@@ -1796,8 +1796,8 @@
     "expected_status": 200,
     "description": "A user should be able to see all the avaliable dates when he can create a reservation",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.683833",
-    "id": "2670466230173048502"
+    "added_at": "2025-10-30T11:25:32.157354",
+    "id": "4907093083663764421"
   },
   {
     "endpoint": "request",
@@ -1806,8 +1806,8 @@
     "expected_status": 200,
     "description": "A user should be able to update a reservation for himself",
     "preconditions": "User is logged in and there is at least one reservation that belong to that user",
-    "added_at": "2025-10-28T11:26:12.690525",
-    "id": "-7887224156483437639"
+    "added_at": "2025-10-30T11:25:32.160584",
+    "id": "6493915176576198065"
   },
   {
     "endpoint": "request",
@@ -1816,8 +1816,8 @@
     "expected_status": 403,
     "description": "User should not be able to see all reservations",
     "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
-    "added_at": "2025-10-28T11:26:12.696588",
-    "id": "-1764754098187562188"
+    "added_at": "2025-10-30T11:25:32.164634",
+    "id": "-649468003340436438"
   },
   {
     "endpoint": "request",
@@ -1826,8 +1826,8 @@
     "expected_status": 403,
     "description": "User should not be able to create a reservation for anyone else",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.702623",
-    "id": "-286353190834948370"
+    "added_at": "2025-10-30T11:25:32.167638",
+    "id": "6600191700623636133"
   },
   {
     "endpoint": "request",
@@ -1836,8 +1836,8 @@
     "expected_status": 403,
     "description": "User should not be able to see a reservation that it is not his",
     "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
-    "added_at": "2025-10-28T11:26:12.710386",
-    "id": "-8162740808385877349"
+    "added_at": "2025-10-30T11:25:32.171496",
+    "id": "1117377342605376253"
   },
   {
     "endpoint": "request",
@@ -1846,8 +1846,8 @@
     "expected_status": 403,
     "description": "User should not be able to update a reservation that it is not his",
     "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
-    "added_at": "2025-10-28T11:26:12.715975",
-    "id": "7885663824482732237"
+    "added_at": "2025-10-30T11:25:32.175508",
+    "id": "-1884034270857035360"
   },
   {
     "endpoint": "request",
@@ -1856,8 +1856,8 @@
     "expected_status": 403,
     "description": "User should not be able to see reservations of another user",
     "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
-    "added_at": "2025-10-28T11:26:12.723036",
-    "id": "5455734202158805487"
+    "added_at": "2025-10-30T11:25:32.178575",
+    "id": "936050871231805317"
   },
   {
     "endpoint": "request",
@@ -1866,8 +1866,8 @@
     "expected_status": 403,
     "description": "User should not be able to see avaliable dates from other user",
     "preconditions": "User is logged in and there is at least one reservation that do not belong to him",
-    "added_at": "2025-10-28T11:26:12.728400",
-    "id": "4610640321299815648"
+    "added_at": "2025-10-30T11:25:32.182141",
+    "id": "7416678024950702756"
   },
   {
     "endpoint": "request",
@@ -1876,8 +1876,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to get all reservations",
     "preconditions": "User is not logged in and there is at least one reservation is on db",
-    "added_at": "2025-10-28T11:26:12.734744",
-    "id": "6320314017159770406"
+    "added_at": "2025-10-30T11:25:32.186133",
+    "id": "-3381810670836382173"
   },
   {
     "endpoint": "request",
@@ -1886,8 +1886,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to create a reservation",
     "preconditions": "User is not logged in",
-    "added_at": "2025-10-28T11:26:12.740853",
-    "id": "7805574813029421302"
+    "added_at": "2025-10-30T11:25:32.188653",
+    "id": "4358472297004524316"
   },
   {
     "endpoint": "request",
@@ -1896,8 +1896,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to see any specific reservation",
     "preconditions": "User is not logged in and there is at least one reservation is on db",
-    "added_at": "2025-10-28T11:26:12.746850",
-    "id": "-7492614713150727927"
+    "added_at": "2025-10-30T11:25:32.192887",
+    "id": "-1069122031834061889"
   },
   {
     "endpoint": "request",
@@ -1906,8 +1906,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to update any reservation",
     "preconditions": "User is not logged in and there is at least one reservation is on db",
-    "added_at": "2025-10-28T11:26:12.754711",
-    "id": "240867190495487368"
+    "added_at": "2025-10-30T11:25:32.196897",
+    "id": "-4638041175883494349"
   },
   {
     "endpoint": "request",
@@ -1916,8 +1916,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to delete any reservation",
     "preconditions": "User is not logged in and there is at least one reservation is on db",
-    "added_at": "2025-10-28T11:26:12.759191",
-    "id": "7461531936203919382"
+    "added_at": "2025-10-30T11:25:32.200429",
+    "id": "-7239599440609646864"
   },
   {
     "endpoint": "request",
@@ -1926,8 +1926,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to see all reservations from any user",
     "preconditions": "User is not logged in and there is at least one reservation is on db",
-    "added_at": "2025-10-28T11:26:12.763008",
-    "id": "-3538681091392516973"
+    "added_at": "2025-10-30T11:25:32.204417",
+    "id": "-8294599252937425912"
   },
   {
     "endpoint": "request",
@@ -1936,8 +1936,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to see dates of any user",
     "preconditions": "User is not logged in and there is at least one reservation is on db",
-    "added_at": "2025-10-28T11:26:12.767095",
-    "id": "-5513573174585485680"
+    "added_at": "2025-10-30T11:25:32.209020",
+    "id": "-270504839916529717"
   },
   {
     "endpoint": "request",
@@ -1946,8 +1946,8 @@
     "expected_status": 200,
     "description": "Admin should be able to see all keys",
     "preconditions": "Admin is logged in and one key is in db",
-    "added_at": "2025-10-28T11:26:12.773288",
-    "id": "1922507569106687607"
+    "added_at": "2025-10-30T11:25:32.213109",
+    "id": "6355513471152952030"
   },
   {
     "endpoint": "request",
@@ -1956,8 +1956,8 @@
     "expected_status": 200,
     "description": "Admin should be able to create a new key",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.777394",
-    "id": "5329035961221238416"
+    "added_at": "2025-10-30T11:25:32.216110",
+    "id": "-6262527148356628484"
   },
   {
     "endpoint": "request",
@@ -1966,8 +1966,8 @@
     "expected_status": 200,
     "description": "Admin should be able to see any key",
     "preconditions": "Admin is logged in and one key is in db",
-    "added_at": "2025-10-28T11:26:12.782619",
-    "id": "5187396130594667389"
+    "added_at": "2025-10-30T11:25:32.220376",
+    "id": "1531819378337144170"
   },
   {
     "endpoint": "request",
@@ -1976,8 +1976,8 @@
     "expected_status": 200,
     "description": "Admin should be able to update any key",
     "preconditions": "Admin is logged in and one key is in db",
-    "added_at": "2025-10-28T11:26:12.786626",
-    "id": "-3197002361121663882"
+    "added_at": "2025-10-30T11:25:32.223399",
+    "id": "-7451141809919305408"
   },
   {
     "endpoint": "request",
@@ -1986,8 +1986,8 @@
     "expected_status": 200,
     "description": "Admin should be able to delete any key",
     "preconditions": "Admin is logged in and one key is in db",
-    "added_at": "2025-10-28T11:26:12.791715",
-    "id": "-1618515590902101860"
+    "added_at": "2025-10-30T11:25:32.227386",
+    "id": "-1860037695156807116"
   },
   {
     "endpoint": "request",
@@ -1996,8 +1996,8 @@
     "expected_status": 403,
     "description": "User should not be able to see all keys",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.794803",
-    "id": "1268899752953424951"
+    "added_at": "2025-10-30T11:25:32.231319",
+    "id": "8615839622243375017"
   },
   {
     "endpoint": "request",
@@ -2006,8 +2006,8 @@
     "expected_status": 403,
     "description": "User should not be able to create a new key",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.799360",
-    "id": "-4810923251175605352"
+    "added_at": "2025-10-30T11:25:32.236334",
+    "id": "-31860192895855301"
   },
   {
     "endpoint": "request",
@@ -2016,8 +2016,8 @@
     "expected_status": 403,
     "description": "User should not be able to update a new key",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.805949",
-    "id": "-6348582791315448765"
+    "added_at": "2025-10-30T11:25:32.240663",
+    "id": "-5153458601808913765"
   },
   {
     "endpoint": "request",
@@ -2026,8 +2026,8 @@
     "expected_status": 403,
     "description": "User should not be able to delete any key",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.811975",
-    "id": "645407491334152012"
+    "added_at": "2025-10-30T11:25:32.243721",
+    "id": "-4028928665723205551"
   },
   {
     "endpoint": "request",
@@ -2036,8 +2036,8 @@
     "expected_status": 403,
     "description": "User should not be able to see any\n user's key",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.816114",
-    "id": "-7351266116591723065"
+    "added_at": "2025-10-30T11:25:32.248608",
+    "id": "1549104058836075763"
   },
   {
     "endpoint": "request",
@@ -2046,8 +2046,8 @@
     "expected_status": 401,
     "description": "User that is not logged in should not be able to see all keys",
     "preconditions": "User is not logged in",
-    "added_at": "2025-10-28T11:26:12.821986",
-    "id": "-5346254394527304441"
+    "added_at": "2025-10-30T11:25:32.252869",
+    "id": "-8343886620026891531"
   },
   {
     "endpoint": "request",
@@ -2056,8 +2056,8 @@
     "expected_status": 401,
     "description": "User that is not logged in should not be able to create a new key",
     "preconditions": "User is not logged in",
-    "added_at": "2025-10-28T11:26:12.825953",
-    "id": "-7208928239157095653"
+    "added_at": "2025-10-30T11:25:32.256874",
+    "id": "8673709793570991641"
   },
   {
     "endpoint": "request",
@@ -2066,8 +2066,8 @@
     "expected_status": 401,
     "description": "User that is not logged in should not be able to see any key",
     "preconditions": "User is not logged in",
-    "added_at": "2025-10-28T11:26:12.830991",
-    "id": "-3859513205093489719"
+    "added_at": "2025-10-30T11:25:32.260626",
+    "id": "-1630372894766227116"
   },
   {
     "endpoint": "request",
@@ -2076,8 +2076,8 @@
     "expected_status": 401,
     "description": "User that is not logged in should not be able to update any key",
     "preconditions": "User is not logged in",
-    "added_at": "2025-10-28T11:26:12.839014",
-    "id": "-3501434247688954222"
+    "added_at": "2025-10-30T11:25:32.265257",
+    "id": "-602595724560517312"
   },
   {
     "endpoint": "request",
@@ -2086,8 +2086,8 @@
     "expected_status": 401,
     "description": "User that is not logged in should not be able to delete any key",
     "preconditions": "User is not logged in",
-    "added_at": "2025-10-28T11:26:12.844740",
-    "id": "7517939264094618067"
+    "added_at": "2025-10-30T11:25:32.268780",
+    "id": "6736005230047939390"
   },
   {
     "endpoint": "request",
@@ -2096,8 +2096,8 @@
     "expected_status": 200,
     "description": "Retrieve users sorted by owning/ not owning key (firstly the ones with the keys and then the ones that do not have a key assigned)",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.849387",
-    "id": "-7996597617721117911"
+    "added_at": "2025-10-30T11:25:32.272831",
+    "id": "-6768097749589556031"
   },
   {
     "endpoint": "request",
@@ -2106,8 +2106,8 @@
     "expected_status": 200,
     "description": "Admins should be able to generate the file",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.854700",
-    "id": "6452749888131709892"
+    "added_at": "2025-10-30T11:25:32.276792",
+    "id": "-8971493828123466550"
   },
   {
     "endpoint": "request",
@@ -2116,8 +2116,8 @@
     "expected_status": 403,
     "description": "User should not be able to export the file",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.859208",
-    "id": "-4413789038643319692"
+    "added_at": "2025-10-30T11:25:32.281221",
+    "id": "-5967541171071451086"
   },
   {
     "endpoint": "request",
@@ -2126,8 +2126,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to generate files",
     "preconditions": "User is not logged in",
-    "added_at": "2025-10-28T11:26:12.867278",
-    "id": "-5917135476111838804"
+    "added_at": "2025-10-30T11:25:32.285457",
+    "id": "1412097656411969726"
   },
   {
     "endpoint": "request",
@@ -2136,8 +2136,8 @@
     "expected_status": 200,
     "description": "Retrieve all history of a specific key",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.871297",
-    "id": "1684650166271030218"
+    "added_at": "2025-10-30T11:25:32.289385",
+    "id": "-2040515495223999346"
   },
   {
     "endpoint": "request",
@@ -2146,8 +2146,8 @@
     "expected_status": 200,
     "description": "The history of key is fully retrieved and grouped by year and month",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.882204",
-    "id": "-3221745473863026085"
+    "added_at": "2025-10-30T11:25:32.293199",
+    "id": "628635384911604084"
   },
   {
     "endpoint": "request",
@@ -2156,8 +2156,8 @@
     "expected_status": 200,
     "description": "Key history provides user\u2019s full name",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.888719",
-    "id": "-5633295767071835557"
+    "added_at": "2025-10-30T11:25:32.297610",
+    "id": "-8267921753261879412"
   },
   {
     "endpoint": "request",
@@ -2166,8 +2166,8 @@
     "expected_status": 200,
     "description": "Sending an email to the new user",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.892226",
-    "id": "8312277889850418140"
+    "added_at": "2025-10-30T11:25:32.301493",
+    "id": "8081882484365008275"
   },
   {
     "endpoint": "request",
@@ -2176,8 +2176,8 @@
     "expected_status": 200,
     "description": "An admin should be only to request data about reservation",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.895311",
-    "id": "2909799354726099674"
+    "added_at": "2025-10-30T11:25:32.306505",
+    "id": "8353307343676664358"
   },
   {
     "endpoint": "request",
@@ -2186,8 +2186,8 @@
     "expected_status": 403,
     "description": "User should not be able to request data about reservations",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.901818",
-    "id": "-8294161222711176778"
+    "added_at": "2025-10-30T11:25:32.310562",
+    "id": "-5263768141725219646"
   },
   {
     "endpoint": "request",
@@ -2196,8 +2196,8 @@
     "expected_status": 200,
     "description": "Checking if the email contains credentials of the user",
     "preconditions": "The user with new credentials does not exist",
-    "added_at": "2025-10-28T11:26:12.913068",
-    "id": "-6182324304994278607"
+    "added_at": "2025-10-30T11:25:32.314620",
+    "id": "-7576153581495859444"
   },
   {
     "endpoint": "request",
@@ -2206,8 +2206,8 @@
     "expected_status": 200,
     "description": "Email sent is at the same adress as the address of the user created",
     "preconditions": "",
-    "added_at": "2025-10-28T11:26:12.918144",
-    "id": "-7128293011594686074"
+    "added_at": "2025-10-30T11:25:32.318613",
+    "id": "-4774746123116594799"
   },
   {
     "endpoint": "request",
@@ -2216,8 +2216,8 @@
     "expected_status": 200,
     "description": "Deleting an user also deletes his reservations",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.922628",
-    "id": "513244674284298082"
+    "added_at": "2025-10-30T11:25:32.322518",
+    "id": "-3985020965234673854"
   },
   {
     "endpoint": "request",
@@ -2226,8 +2226,8 @@
     "expected_status": 200,
     "description": "Deleting an user unnasigns his keys",
     "preconditions": "Admin is signed in",
-    "added_at": "2025-10-28T11:26:12.926621",
-    "id": "5124012380030169644"
+    "added_at": "2025-10-30T11:25:32.326512",
+    "id": "5229771428235483611"
   },
   {
     "endpoint": "request",
@@ -2236,8 +2236,8 @@
     "expected_status": 400,
     "description": "Get all reservations if in that year there are no reservations",
     "preconditions": "There is a year with no reservations",
-    "added_at": "2025-10-28T11:26:12.931708",
-    "id": "7442227346807710854"
+    "added_at": "2025-10-30T11:25:32.331568",
+    "id": "-6729395012336596701"
   },
   {
     "endpoint": "request",
@@ -2246,8 +2246,8 @@
     "expected_status": 200,
     "description": "Get all reservations if in that year there are reservations",
     "preconditions": "There are reservations in a year",
-    "added_at": "2025-10-28T11:26:12.935912",
-    "id": "9135702680021610429"
+    "added_at": "2025-10-30T11:25:32.335580",
+    "id": "-687110145934377779"
   },
   {
     "endpoint": "request",
@@ -2256,8 +2256,8 @@
     "expected_status": 200,
     "description": "Get all no.of reservations for an admin that is currently logged in",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.938969",
-    "id": "-5556991238449600127"
+    "added_at": "2025-10-30T11:25:32.339811",
+    "id": "696672605822890721"
   },
   {
     "endpoint": "request",
@@ -2266,8 +2266,8 @@
     "expected_status": 400,
     "description": "Getting all reservations for the admin who is currently logged in, but he has no reservation",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.942984",
-    "id": "-4506150696395841037"
+    "added_at": "2025-10-30T11:25:32.343665",
+    "id": "2426086852351563556"
   },
   {
     "endpoint": "request",
@@ -2276,8 +2276,8 @@
     "expected_status": 200,
     "description": "Admin who is logged in should see other user's statistics",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.948482",
-    "id": "3656721906638876787"
+    "added_at": "2025-10-30T11:25:32.348701",
+    "id": "-6152895438324057489"
   },
   {
     "endpoint": "request",
@@ -2286,8 +2286,8 @@
     "expected_status": 404,
     "description": "Admin should be able to see other user's reservations and return a 404 status code if he has none",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:12.952607",
-    "id": "5232613823740413324"
+    "added_at": "2025-10-30T11:25:32.353247",
+    "id": "757927888539327020"
   },
   {
     "endpoint": "request",
@@ -2296,8 +2296,8 @@
     "expected_status": 200,
     "description": "Data should be sorted from the calendar order",
     "preconditions": "There is at least one reservation in the database, in order to test this functionality",
-    "added_at": "2025-10-28T11:26:12.956679",
-    "id": "8680030566791646478"
+    "added_at": "2025-10-30T11:25:32.357256",
+    "id": "2687423787150599076"
   },
   {
     "endpoint": "request",
@@ -2306,8 +2306,8 @@
     "expected_status": 200,
     "description": "As the userId field is optional, all the reservation's number should be displayed",
     "preconditions": "No userId is inserted",
-    "added_at": "2025-10-28T11:26:12.962171",
-    "id": "-8578953240942214354"
+    "added_at": "2025-10-30T11:25:32.361525",
+    "id": "2018951977019515921"
   },
   {
     "endpoint": "request",
@@ -2316,8 +2316,8 @@
     "expected_status": 200,
     "description": "Number of reservations is correctly calculated(fact check)",
     "preconditions": "There is at least one reservation, to have valid data to export",
-    "added_at": "2025-10-28T11:26:12.971769",
-    "id": "-7166469040354514750"
+    "added_at": "2025-10-30T11:25:32.365618",
+    "id": "6733736027912631111"
   },
   {
     "endpoint": "request",
@@ -2326,8 +2326,8 @@
     "expected_status": 404,
     "description": "An user that does not exist in the database should return an error",
     "preconditions": "a non-existent userId is inserted in the UserId field",
-    "added_at": "2025-10-28T11:26:12.975768",
-    "id": "-1169099681181531459"
+    "added_at": "2025-10-30T11:25:32.369615",
+    "id": "-8110381081048438707"
   },
   {
     "endpoint": "request",
@@ -2336,8 +2336,8 @@
     "expected_status": 200,
     "description": "User should be able to see only his reservations",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.980853",
-    "id": "1020035064779656446"
+    "added_at": "2025-10-30T11:25:32.374668",
+    "id": "-8856947915665988863"
   },
   {
     "endpoint": "request",
@@ -2346,8 +2346,8 @@
     "expected_status": 403,
     "description": "User should not be able to see other user's statistics",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:12.989038",
-    "id": "1604533329796799230"
+    "added_at": "2025-10-30T11:25:32.378618",
+    "id": "1589473323339002680"
   },
   {
     "endpoint": "request",
@@ -2356,8 +2356,8 @@
     "expected_status": 400,
     "description": "If the year is not selected, then no reservation number should be displayed",
     "preconditions": "Year field is left empty",
-    "added_at": "2025-10-28T11:26:12.999107",
-    "id": "8031265868491381266"
+    "added_at": "2025-10-30T11:25:32.384049",
+    "id": "-2904735620135237796"
   },
   {
     "endpoint": "request",
@@ -2366,8 +2366,8 @@
     "expected_status": 200,
     "description": "An admin should see his reservations from last month",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.005292",
-    "id": "-1216240965626038357"
+    "added_at": "2025-10-30T11:25:32.387225",
+    "id": "-722380331964161755"
   },
   {
     "endpoint": "request",
@@ -2376,8 +2376,8 @@
     "expected_status": 200,
     "description": "Admin should be able to see other user's reservation number",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.015261",
-    "id": "7336797909407422970"
+    "added_at": "2025-10-30T11:25:32.392939",
+    "id": "-410338093778191841"
   },
   {
     "endpoint": "request",
@@ -2386,8 +2386,8 @@
     "expected_status": 200,
     "description": "User should see his number of reservations from last month",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.022301",
-    "id": "-4688207814028763515"
+    "added_at": "2025-10-30T11:25:32.396948",
+    "id": "6357385968736390618"
   },
   {
     "endpoint": "request",
@@ -2396,8 +2396,8 @@
     "expected_status": 403,
     "description": "USer should not see other user's reservation",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.026301",
-    "id": "4528472544901684203"
+    "added_at": "2025-10-30T11:25:32.402053",
+    "id": "8947717972160707549"
   },
   {
     "endpoint": "request",
@@ -2406,8 +2406,8 @@
     "expected_status": 404,
     "description": "Insert an userId that does not exist in the db",
     "preconditions": "User does not exist in the db",
-    "added_at": "2025-10-28T11:26:13.034522",
-    "id": "-1204400971797025605"
+    "added_at": "2025-10-30T11:25:32.405985",
+    "id": "8741375203613998492"
   },
   {
     "endpoint": "request",
@@ -2416,8 +2416,8 @@
     "expected_status": 401,
     "description": "User that is not logged in should not see any statistics",
     "preconditions": "No one is logged in",
-    "added_at": "2025-10-28T11:26:13.040056",
-    "id": "-929049348698108935"
+    "added_at": "2025-10-30T11:25:32.411647",
+    "id": "149808323450540975"
   },
   {
     "endpoint": "request",
@@ -2426,8 +2426,8 @@
     "expected_status": 200,
     "description": "There is no past reservation for admin",
     "preconditions": "There is no reservation in the last month for the user",
-    "added_at": "2025-10-28T11:26:13.045048",
-    "id": "-7882953371035016126"
+    "added_at": "2025-10-30T11:25:32.416666",
+    "id": "-9042979272100822767"
   },
   {
     "endpoint": "request",
@@ -2436,8 +2436,8 @@
     "expected_status": 200,
     "description": "User has one reservation on multiple days and the number of days should be returned correctly, all days should be taken into consideration",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.049076",
-    "id": "-6715675983312000717"
+    "added_at": "2025-10-30T11:25:32.421872",
+    "id": "-7614340833690500982"
   },
   {
     "endpoint": "request",
@@ -2446,8 +2446,8 @@
     "expected_status": 200,
     "description": "From such a reservation should be counted only days from the last 30 days",
     "preconditions": "There is at least one reservation in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.055102",
-    "id": "-7725775316272219656"
+    "added_at": "2025-10-30T11:25:32.426872",
+    "id": "-9031836115024218650"
   },
   {
     "endpoint": "request",
@@ -2456,8 +2456,8 @@
     "expected_status": 200,
     "description": "The reservation started before this 30 days period and ends before the last 30 days. No day should be counted",
     "preconditions": "There is at least one reservation in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.065872",
-    "id": "-9219962633520791403"
+    "added_at": "2025-10-30T11:25:32.431429",
+    "id": "5560809353372947498"
   },
   {
     "endpoint": "request",
@@ -2466,8 +2466,8 @@
     "expected_status": 200,
     "description": "User has a reservation that started before the 30 days period and ends in the future. The number of reservations should be counted as of yesterday, today should not be counted. Only reservations from the last 30 days should be counted",
     "preconditions": "There is at least one reservation in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.075018",
-    "id": "-3885380738598203948"
+    "added_at": "2025-10-30T11:25:32.436437",
+    "id": "-8238081558651077054"
   },
   {
     "endpoint": "request",
@@ -2476,8 +2476,8 @@
     "expected_status": 200,
     "description": "Admin has multiple reservations on same days. Each reservation should be counted, even if there are more on the same day",
     "preconditions": "There is at least 2 reservations in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.083731",
-    "id": "-7086740588896220782"
+    "added_at": "2025-10-30T11:25:32.440665",
+    "id": "2762511774668663888"
   },
   {
     "endpoint": "request",
@@ -2486,8 +2486,8 @@
     "expected_status": 200,
     "description": "Today is not considered as of last 30 days",
     "preconditions": "There is at least one reservation in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.095152",
-    "id": "8807612194236721221"
+    "added_at": "2025-10-30T11:25:32.447135",
+    "id": "6462864033614779347"
   },
   {
     "endpoint": "request",
@@ -2496,8 +2496,8 @@
     "expected_status": 200,
     "description": "Start date is within the last days and end date is in the future",
     "preconditions": "There is at least one reservation in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.103136",
-    "id": "1679397600222769678"
+    "added_at": "2025-10-30T11:25:32.451149",
+    "id": "-1092497147456023791"
   },
   {
     "endpoint": "request",
@@ -2506,8 +2506,8 @@
     "expected_status": 200,
     "description": "The end date is on 23rd july(exactly 30 days ago)",
     "preconditions": "There is at least one reservation in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.118949",
-    "id": "-2208691822223894210"
+    "added_at": "2025-10-30T11:25:32.456149",
+    "id": "8364567314560621572"
   },
   {
     "endpoint": "request",
@@ -2516,8 +2516,8 @@
     "expected_status": 200,
     "description": "Start date of a reservation is on 23rd july-exactly 30 days ago",
     "preconditions": "There is at least one reservation in the db that respects this case's conditions",
-    "added_at": "2025-10-28T11:26:13.124732",
-    "id": "-368378696746357496"
+    "added_at": "2025-10-30T11:25:32.460981",
+    "id": "-5413450754284830902"
   },
   {
     "endpoint": "request",
@@ -2526,8 +2526,8 @@
     "expected_status": 200,
     "description": "No parameter given. It should be the total reservation number from the last 30 days(by default)",
     "preconditions": "There is no parameter entered for this method",
-    "added_at": "2025-10-28T11:26:13.133978",
-    "id": "7961770062316121221"
+    "added_at": "2025-10-30T11:25:32.466106",
+    "id": "-8677364882212575483"
   },
   {
     "endpoint": "request",
@@ -2536,8 +2536,8 @@
     "expected_status": 200,
     "description": "No user id passed, only start and end date, reservation number should be from that period, taken from all users",
     "preconditions": "No userId entered as parameter, only data range",
-    "added_at": "2025-10-28T11:26:13.139000",
-    "id": "-4615189693451645498"
+    "added_at": "2025-10-30T11:25:32.471172",
+    "id": "71983210217977919"
   },
   {
     "endpoint": "request",
@@ -2546,8 +2546,8 @@
     "expected_status": 200,
     "description": "Check that data is correctly displayed as format",
     "preconditions": "There is at least one reservation that belongs to a non-keyholder and one key holder with a reservation",
-    "added_at": "2025-10-28T11:26:13.145825",
-    "id": "1001521051831553864"
+    "added_at": "2025-10-30T11:25:32.475300",
+    "id": "4055112243477492517"
   },
   {
     "endpoint": "request",
@@ -2556,8 +2556,8 @@
     "expected_status": 200,
     "description": "Admin should be able to see every user's no of reservation on each selected date",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.150606",
-    "id": "-4139436533229583915"
+    "added_at": "2025-10-30T11:25:32.480394",
+    "id": "-5443545788579366275"
   },
   {
     "endpoint": "request",
@@ -2566,8 +2566,8 @@
     "expected_status": 200,
     "description": "Admin should be able to see reservations for himself",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.155605",
-    "id": "6604426847413508300"
+    "added_at": "2025-10-30T11:25:32.485381",
+    "id": "-2387883118715381337"
   },
   {
     "endpoint": "request",
@@ -2576,8 +2576,8 @@
     "expected_status": 200,
     "description": "User should be able to see no of reservations only for himself",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.161952",
-    "id": "-5852013479031273584"
+    "added_at": "2025-10-30T11:25:32.490404",
+    "id": "7580763246871595956"
   },
   {
     "endpoint": "request",
@@ -2586,8 +2586,8 @@
     "expected_status": 403,
     "description": "User should not see other user's number of reservations",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.172514",
-    "id": "7847708936684162434"
+    "added_at": "2025-10-30T11:25:32.495007",
+    "id": "-5291576039106639876"
   },
   {
     "endpoint": "request",
@@ -2596,8 +2596,8 @@
     "expected_status": 400,
     "description": "Start date should not be after the end date",
     "preconditions": "Start date is after end date as params",
-    "added_at": "2025-10-28T11:26:13.185878",
-    "id": "-5064260693233619400"
+    "added_at": "2025-10-30T11:25:32.499502",
+    "id": "-3019321374650328473"
   },
   {
     "endpoint": "request",
@@ -2606,8 +2606,8 @@
     "expected_status": 404,
     "description": "A user that does not exist in the database should not be able to see anything",
     "preconditions": "There is no userId in the db",
-    "added_at": "2025-10-28T11:26:13.192929",
-    "id": "-2151357217339825512"
+    "added_at": "2025-10-30T11:25:32.503845",
+    "id": "6869483385316152253"
   },
   {
     "endpoint": "request",
@@ -2616,8 +2616,8 @@
     "expected_status": 200,
     "description": "Outside of the interval reservations should not affect the counter",
     "preconditions": "There are reservations outside the selected interval",
-    "added_at": "2025-10-28T11:26:13.196931",
-    "id": "4784618644329359956"
+    "added_at": "2025-10-30T11:25:32.509351",
+    "id": "290240724687464662"
   },
   {
     "endpoint": "request",
@@ -2626,8 +2626,8 @@
     "expected_status": 400,
     "description": "Bad format of data should display an error",
     "preconditions": "Data is in bad format(eg '2025-08')",
-    "added_at": "2025-10-28T11:26:13.201407",
-    "id": "2662538868091913496"
+    "added_at": "2025-10-30T11:25:32.514966",
+    "id": "-4764222674092089198"
   },
   {
     "endpoint": "request",
@@ -2636,8 +2636,8 @@
     "expected_status": 200,
     "description": "New parameters added(year and month)",
     "preconditions": "The method is already implemented, only the filter by year and month is implemented",
-    "added_at": "2025-10-28T11:26:13.206557",
-    "id": "3713722832412657965"
+    "added_at": "2025-10-30T11:25:32.519472",
+    "id": "8939645314882822563"
   },
   {
     "endpoint": "request",
@@ -2646,8 +2646,8 @@
     "expected_status": 200,
     "description": "Reservations only from the selected period are displayed completely",
     "preconditions": "Admin is logged in and there is at least one reservation in that period",
-    "added_at": "2025-10-28T11:26:13.211133",
-    "id": "5511122472769643402"
+    "added_at": "2025-10-30T11:25:32.526741",
+    "id": "-5474139289788503965"
   },
   {
     "endpoint": "request",
@@ -2656,8 +2656,8 @@
     "expected_status": 200,
     "description": "Only admins can still request data",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.218710",
-    "id": "2791914409760550197"
+    "added_at": "2025-10-30T11:25:32.531896",
+    "id": "-5391097344505541911"
   },
   {
     "endpoint": "request",
@@ -2666,8 +2666,8 @@
     "expected_status": 403,
     "description": "User should not be able to request data",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.222350",
-    "id": "-8112934306794061764"
+    "added_at": "2025-10-30T11:25:32.536896",
+    "id": "-2030256124079545863"
   },
   {
     "endpoint": "request",
@@ -2676,8 +2676,8 @@
     "expected_status": 200,
     "description": "Data in the excel file still comes with full information about user(userId, name, email), as it was implemented previously",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.227528",
-    "id": "4567622663929456501"
+    "added_at": "2025-10-30T11:25:32.542407",
+    "id": "1520096860453948631"
   },
   {
     "endpoint": "request",
@@ -2686,8 +2686,8 @@
     "expected_status": 200,
     "description": "Admin should receive the data on the same email address as the one he is logged in with",
     "preconditions": "Admin is logged in with his email",
-    "added_at": "2025-10-28T11:26:13.232626",
-    "id": "4044380593357462040"
+    "added_at": "2025-10-30T11:25:32.546914",
+    "id": "-8320546506584889243"
   },
   {
     "endpoint": "request",
@@ -2696,8 +2696,8 @@
     "expected_status": 200,
     "description": "Data about reservations is complete(no reservation is missing)",
     "preconditions": "There is at least one reservation, in order to test this case and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.236874",
-    "id": "8491411005798708322"
+    "added_at": "2025-10-30T11:25:32.551420",
+    "id": "-6231712253115178457"
   },
   {
     "endpoint": "request",
@@ -2706,8 +2706,8 @@
     "expected_status": 200,
     "description": "There is no reservation in that selected month and year, so the file should be empty",
     "preconditions": "No reservation in that period of time and the admin is logged in",
-    "added_at": "2025-10-28T11:26:13.242031",
-    "id": "3053330700769601299"
+    "added_at": "2025-10-30T11:25:32.557432",
+    "id": "-7099563586858599641"
   },
   {
     "endpoint": "request",
@@ -2716,8 +2716,8 @@
     "expected_status": 400,
     "description": "Testing that not entering anything at the year field causes an error",
     "preconditions": "The year field is left empty and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.248620",
-    "id": "-9217462228168102661"
+    "added_at": "2025-10-30T11:25:32.562502",
+    "id": "8783189967714001445"
   },
   {
     "endpoint": "request",
@@ -2726,8 +2726,8 @@
     "expected_status": 400,
     "description": "Testing to see if not filling the month param returns an error",
     "preconditions": "There is no value in the month param and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.258239",
-    "id": "-8702529370174191955"
+    "added_at": "2025-10-30T11:25:32.568504",
+    "id": "-6354077453654704151"
   },
   {
     "endpoint": "request",
@@ -2736,8 +2736,8 @@
     "expected_status": 400,
     "description": "Testing to see if entering a bad format for the year field returns an error",
     "preconditions": "Year format is empty and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.264859",
-    "id": "8681845929347491017"
+    "added_at": "2025-10-30T11:25:32.576284",
+    "id": "-7172986619745586532"
   },
   {
     "endpoint": "request",
@@ -2746,8 +2746,8 @@
     "expected_status": 400,
     "description": "Testing to see if entering a bad format in the month field returns a bad error",
     "preconditions": "Month field is empty and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.269873",
-    "id": "645483450129572658"
+    "added_at": "2025-10-30T11:25:32.582356",
+    "id": "-4334786854547708458"
   },
   {
     "endpoint": "request",
@@ -2756,8 +2756,8 @@
     "expected_status": 400,
     "description": "Testing to see if entering a bad format in the month field returns a bad error",
     "preconditions": "Month field is empty and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.280185",
-    "id": "-5789849880478608590"
+    "added_at": "2025-10-30T11:25:32.587420",
+    "id": "-7117848011560299445"
   },
   {
     "endpoint": "request",
@@ -2766,8 +2766,8 @@
     "expected_status": 400,
     "description": "Testing if month name is case sensitive(should not be)",
     "preconditions": "Month is empty and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.292533",
-    "id": "-4632744438702625679"
+    "added_at": "2025-10-30T11:25:32.592502",
+    "id": "-167335229776406702"
   },
   {
     "endpoint": "request",
@@ -2776,8 +2776,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not export data",
     "preconditions": "No one is logged in",
-    "added_at": "2025-10-28T11:26:13.299092",
-    "id": "-198712847210519523"
+    "added_at": "2025-10-30T11:25:32.596586",
+    "id": "7686266932571324588"
   },
   {
     "endpoint": "request",
@@ -2786,8 +2786,8 @@
     "expected_status": 200,
     "description": "Default value for dates to see is today",
     "preconditions": "No range is selected",
-    "added_at": "2025-10-28T11:26:13.304139",
-    "id": "2453054380882567604"
+    "added_at": "2025-10-30T11:25:32.603689",
+    "id": "-1257693837906557900"
   },
   {
     "endpoint": "request",
@@ -2796,8 +2796,8 @@
     "expected_status": 200,
     "description": "Admin can see all reservations from the selected range",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.313684",
-    "id": "3291287042817352163"
+    "added_at": "2025-10-30T11:25:32.608590",
+    "id": "-6176095748965524398"
   },
   {
     "endpoint": "request",
@@ -2806,8 +2806,8 @@
     "expected_status": 200,
     "description": "Admin can see all reservation from the selected range that belong to a certain user",
     "preconditions": "Admin is logged in and there are reservations of that user",
-    "added_at": "2025-10-28T11:26:13.321412",
-    "id": "-770304489151200567"
+    "added_at": "2025-10-30T11:25:32.613715",
+    "id": "7207333466382660040"
   },
   {
     "endpoint": "request",
@@ -2816,8 +2816,8 @@
     "expected_status": 403,
     "description": "An user should not be able see any reservations, not even his",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.327412",
-    "id": "-5500557329641229373"
+    "added_at": "2025-10-30T11:25:32.619741",
+    "id": "-4554986843883524514"
   },
   {
     "endpoint": "request",
@@ -2826,8 +2826,8 @@
     "expected_status": 200,
     "description": "Reservation are correctly colected and counted for the range selected",
     "preconditions": "There is at least one reservation in that range , in order to test this case",
-    "added_at": "2025-10-28T11:26:13.332686",
-    "id": "-1829083414421984569"
+    "added_at": "2025-10-30T11:25:32.625397",
+    "id": "6536741010687564477"
   },
   {
     "endpoint": "request",
@@ -2836,8 +2836,8 @@
     "expected_status": 404,
     "description": "Admin tries to see reservation that belong to a user that does not exist in the db",
     "preconditions": "An userId that belong to no user is entered",
-    "added_at": "2025-10-28T11:26:13.339228",
-    "id": "-1623806374798581060"
+    "added_at": "2025-10-30T11:25:32.631459",
+    "id": "3952632299098448598"
   },
   {
     "endpoint": "request",
@@ -2846,8 +2846,8 @@
     "expected_status": 200,
     "description": "Testing if , there are no reservation are displayed, there is a message telling that there are no reservations",
     "preconditions": "There is no reservations selected for that range",
-    "added_at": "2025-10-28T11:26:13.352554",
-    "id": "1567580373755089520"
+    "added_at": "2025-10-30T11:25:32.636930",
+    "id": "-4593054510522381557"
   },
   {
     "endpoint": "request",
@@ -2856,8 +2856,8 @@
     "expected_status": 400,
     "description": "Checking if bad formats for date are allowed",
     "preconditions": "Dates are left as years only , eg. 2024",
-    "added_at": "2025-10-28T11:26:13.359067",
-    "id": "959219453701233281"
+    "added_at": "2025-10-30T11:25:32.641883",
+    "id": "7535177272573867071"
   },
   {
     "endpoint": "request",
@@ -2866,8 +2866,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in tries to see data about reservations",
     "preconditions": "User(or admin) is not logged in",
-    "added_at": "2025-10-28T11:26:13.364665",
-    "id": "-9098255941170784279"
+    "added_at": "2025-10-30T11:25:32.647457",
+    "id": "1881286832162055632"
   },
   {
     "endpoint": "request",
@@ -2876,8 +2876,8 @@
     "expected_status": 200,
     "description": "Testing if an admin logging in using Microsoft login method has all admin privileges(testing on seeing all users)",
     "preconditions": "Admin is logged in successfully",
-    "added_at": "2025-10-28T11:26:13.375841",
-    "id": "8699820261923105730"
+    "added_at": "2025-10-30T11:25:32.651595",
+    "id": "-1574957909824640242"
   },
   {
     "endpoint": "request",
@@ -2886,8 +2886,8 @@
     "expected_status": 200,
     "description": "Testing that being logged in successfully as user has user priveleges(eg. creating a valid reservation for himself)",
     "preconditions": "User is logged in successfully",
-    "added_at": "2025-10-28T11:26:13.381864",
-    "id": "-8666727431644099265"
+    "added_at": "2025-10-30T11:25:32.656679",
+    "id": "8276875614609816867"
   },
   {
     "endpoint": "request",
@@ -2896,8 +2896,8 @@
     "expected_status": 403,
     "description": "Testing that , being logged in as user using Microsoft login method, there is no admin method that the user can call(eg. seeing all users)",
     "preconditions": "USer is logged successfully with Microsoft account(using Microsoft login method)",
-    "added_at": "2025-10-28T11:26:13.386866",
-    "id": "-1599126231164366098"
+    "added_at": "2025-10-30T11:25:32.662317",
+    "id": "301353060354657708"
   },
   {
     "endpoint": "request",
@@ -2906,8 +2906,8 @@
     "expected_status": 200,
     "description": "Testing that, right after creating a valid account, the user can log in successfully",
     "preconditions": "The account does not exist in the database",
-    "added_at": "2025-10-28T11:26:13.392592",
-    "id": "-4326914159891438019"
+    "added_at": "2025-10-30T11:25:32.667660",
+    "id": "8747505052617860958"
   },
   {
     "endpoint": "request",
@@ -2916,8 +2916,8 @@
     "expected_status": 200,
     "description": "Testing that , if an user has a Microsoft account, he can also log in normally. It can be seen in JWT.io that the tokens that are received by being logged in normally and using Microsoft encrypt the same user(same user ID)",
     "preconditions": "User has a Microsoft account and is not logged in",
-    "added_at": "2025-10-28T11:26:13.397593",
-    "id": "-8109504161474990009"
+    "added_at": "2025-10-30T11:25:32.672646",
+    "id": "3337602516284951088"
   },
   {
     "endpoint": "request",
@@ -2926,8 +2926,8 @@
     "expected_status": 200,
     "description": "Testing that , if an user has a HTEC Microsoft account, he can log in using both methods and the user is being identified the same(has the same id being logged in either way). This can be tested by retrieving the userId",
     "preconditions": "User is registered with HTEC account",
-    "added_at": "2025-10-28T11:26:13.402022",
-    "id": "7165091335132441285"
+    "added_at": "2025-10-30T11:25:32.677663",
+    "id": "367808646237903340"
   },
   {
     "endpoint": "request",
@@ -2936,8 +2936,8 @@
     "expected_status": 200,
     "description": "Default values for page is 1 and for size is 5",
     "preconditions": "There is no value entered on page and size\nAdmin is logged in",
-    "added_at": "2025-10-28T11:26:13.407129",
-    "id": "3412263221888209371"
+    "added_at": "2025-10-30T11:25:32.683897",
+    "id": "1884812546181832641"
   },
   {
     "endpoint": "request",
@@ -2946,8 +2946,8 @@
     "expected_status": 200,
     "description": "This method is admin only",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.412354",
-    "id": "4662124704358051373"
+    "added_at": "2025-10-30T11:25:32.689571",
+    "id": "-8950550485153259541"
   },
   {
     "endpoint": "request",
@@ -2956,8 +2956,8 @@
     "expected_status": 403,
     "description": "User should not be able to call this method",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.417486",
-    "id": "-3576894893624816617"
+    "added_at": "2025-10-30T11:25:32.695077",
+    "id": "-2847810006370785731"
   },
   {
     "endpoint": "request",
@@ -2966,8 +2966,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "preconditions": "No one is logged in",
-    "added_at": "2025-10-28T11:26:13.422756",
-    "id": "3273254393579036568"
+    "added_at": "2025-10-30T11:25:32.700120",
+    "id": "3060181632098330389"
   },
   {
     "endpoint": "request",
@@ -2976,8 +2976,8 @@
     "expected_status": 422,
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "preconditions": "Admin is logged in and the value for size is 0",
-    "added_at": "2025-10-28T11:26:13.428311",
-    "id": "-2125475567896486747"
+    "added_at": "2025-10-30T11:25:32.705332",
+    "id": "3793888491754169783"
   },
   {
     "endpoint": "request",
@@ -2986,8 +2986,8 @@
     "expected_status": 422,
     "description": "Page field should not be 0(index starts at 1)",
     "preconditions": "Admin is logged in and the page value is 0",
-    "added_at": "2025-10-28T11:26:13.435450",
-    "id": "3075813324287632008"
+    "added_at": "2025-10-30T11:25:32.711376",
+    "id": "-2150855720487182639"
   },
   {
     "endpoint": "request",
@@ -2996,8 +2996,8 @@
     "expected_status": 422,
     "description": "Size should not be left unfilled",
     "preconditions": "Admin is logged in and there is no value in the size field",
-    "added_at": "2025-10-28T11:26:13.440529",
-    "id": "7785900462510891958"
+    "added_at": "2025-10-30T11:25:32.716374",
+    "id": "-5667271249662740645"
   },
   {
     "endpoint": "request",
@@ -3006,8 +3006,8 @@
     "expected_status": 400,
     "description": "Page field should not be left unfilled",
     "preconditions": "Page is left unfilled and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.451759",
-    "id": "3429614202282562110"
+    "added_at": "2025-10-30T11:25:32.721977",
+    "id": "6275288199536686518"
   },
   {
     "endpoint": "request",
@@ -3016,8 +3016,8 @@
     "expected_status": 200,
     "description": "On the last page, number of users should be lower than the number of size(data should not be fully displayed)",
     "preconditions": "Admin is logged in and is on the last page",
-    "added_at": "2025-10-28T11:26:13.459013",
-    "id": "-4105463206893109044"
+    "added_at": "2025-10-30T11:25:32.727022",
+    "id": "-3770937808303425967"
   },
   {
     "endpoint": "request",
@@ -3026,8 +3026,8 @@
     "expected_status": 200,
     "description": "Number of pages == (no\\_of\\_users)/size, if (no\\_of\\_user)%size ==0, else \nNumber of pages == (no\\_of\\_user)/size+1.\n No of pages is the first line returned in the body response",
     "preconditions": "Admin is logged in and enters valid values for the size and page.",
-    "added_at": "2025-10-28T11:26:13.469059",
-    "id": "-5802470912290887429"
+    "added_at": "2025-10-30T11:25:32.733040",
+    "id": "855899731029659837"
   },
   {
     "endpoint": "request",
@@ -3036,8 +3036,8 @@
     "expected_status": 200,
     "description": "The number of users on any page, except from the last one, is equal to the size parameter",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.477073",
-    "id": "5002188549538497137"
+    "added_at": "2025-10-30T11:25:32.738636",
+    "id": "3116951612128399442"
   },
   {
     "endpoint": "request",
@@ -3046,8 +3046,8 @@
     "expected_status": 200,
     "description": "Entering valid values for size and page results in getting users grouped by the number of size on each page, for the number\\_of\\_pages pages(max value). Users also are displayed complete(with id, password, email, firstname, lastname, isAdmin, licensePlate, keyId, keySerialNumber)",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.482801",
-    "id": "-5325498963929569727"
+    "added_at": "2025-10-30T11:25:32.749680",
+    "id": "4673070595273538188"
   },
   {
     "endpoint": "request",
@@ -3056,8 +3056,8 @@
     "expected_status": 200,
     "description": "Users are sorted by the userId, increasingly, on each page",
     "preconditions": "Admin is logged in and enters valid credentials for page and size",
-    "added_at": "2025-10-28T11:26:13.489495",
-    "id": "-8957378769915525629"
+    "added_at": "2025-10-30T11:25:32.756686",
+    "id": "-2517888211298597576"
   },
   {
     "endpoint": "request",
@@ -3066,8 +3066,8 @@
     "expected_status": 200,
     "description": "If there is only one page, all users should be displayed at once, and totalPages ==1.",
     "preconditions": "Admin is logged in and enters 1 at the page field and the size>=number of users",
-    "added_at": "2025-10-28T11:26:13.496583",
-    "id": "7430385374242886225"
+    "added_at": "2025-10-30T11:25:32.762306",
+    "id": "-3318653665988454821"
   },
   {
     "endpoint": "request",
@@ -3076,8 +3076,8 @@
     "expected_status": 200,
     "description": "On the page after the last one, there should not be any users displayed-math was correctly done",
     "preconditions": "Admin is logged and is on the page after the last one",
-    "added_at": "2025-10-28T11:26:13.503898",
-    "id": "-1843868663568106058"
+    "added_at": "2025-10-30T11:25:32.768870",
+    "id": "1571375209717268150"
   },
   {
     "endpoint": "request",
@@ -3086,8 +3086,8 @@
     "expected_status": 200,
     "description": "Default values for page is 1 and for size is 5",
     "preconditions": "There is no value entered on page and size\nAdmin is logged in",
-    "added_at": "2025-10-28T11:26:13.510123",
-    "id": "5815878159682821304"
+    "added_at": "2025-10-30T11:25:32.773964",
+    "id": "-7814667661449597198"
   },
   {
     "endpoint": "request",
@@ -3096,8 +3096,8 @@
     "expected_status": 200,
     "description": "This method is admin only",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.516206",
-    "id": "-5923869445794880483"
+    "added_at": "2025-10-30T11:25:32.779474",
+    "id": "-8288204670327035026"
   },
   {
     "endpoint": "request",
@@ -3106,8 +3106,8 @@
     "expected_status": 403,
     "description": "User should not be able to call this method",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.522894",
-    "id": "-2887407603285865808"
+    "added_at": "2025-10-30T11:25:32.785559",
+    "id": "-3489492271141774063"
   },
   {
     "endpoint": "request",
@@ -3116,8 +3116,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "preconditions": "No one is logged in",
-    "added_at": "2025-10-28T11:26:13.528926",
-    "id": "7637274915953189918"
+    "added_at": "2025-10-30T11:25:32.792151",
+    "id": "-1266495056179214049"
   },
   {
     "endpoint": "request",
@@ -3126,8 +3126,8 @@
     "expected_status": 422,
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "preconditions": "Admin is logged in and the value for size is 0",
-    "added_at": "2025-10-28T11:26:13.541272",
-    "id": "-1764509670169447049"
+    "added_at": "2025-10-30T11:25:32.797151",
+    "id": "370610498863078633"
   },
   {
     "endpoint": "request",
@@ -3136,8 +3136,8 @@
     "expected_status": 422,
     "description": "Page field should not be 0(index starts at 1)",
     "preconditions": "Admin is logged in and the page value is 0",
-    "added_at": "2025-10-28T11:26:13.549350",
-    "id": "-5495387263464143653"
+    "added_at": "2025-10-30T11:25:32.803708",
+    "id": "-8596062613993967848"
   },
   {
     "endpoint": "request",
@@ -3146,8 +3146,8 @@
     "expected_status": 400,
     "description": "Size should not be left unfilled",
     "preconditions": "Admin is logged in and there is no value in the size field",
-    "added_at": "2025-10-28T11:26:13.560126",
-    "id": "8805762896030615022"
+    "added_at": "2025-10-30T11:25:32.809250",
+    "id": "-1253368137072684496"
   },
   {
     "endpoint": "request",
@@ -3156,8 +3156,8 @@
     "expected_status": 400,
     "description": "Page field should not be left unfilled",
     "preconditions": "Page is left unfilled and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.566648",
-    "id": "3788168327279120578"
+    "added_at": "2025-10-30T11:25:32.814896",
+    "id": "4897001559238431895"
   },
   {
     "endpoint": "request",
@@ -3166,8 +3166,8 @@
     "expected_status": 200,
     "description": "On the last page, number of users should be lower than the number of size(data should not be fully displayed)",
     "preconditions": "Admin is logged in and is on the last page",
-    "added_at": "2025-10-28T11:26:13.575577",
-    "id": "-2314031509855553589"
+    "added_at": "2025-10-30T11:25:32.821492",
+    "id": "7828151257232156875"
   },
   {
     "endpoint": "request",
@@ -3176,8 +3176,8 @@
     "expected_status": 200,
     "description": "Number of pages == (no\\_of\\_users)/size, if (no\\_of\\_user)%size ==0, else \nNumber of pages == (no\\_of\\_user)/size+1.\n No of pages is the first line returned in the body response",
     "preconditions": "Admin is logged in and enters valid values for the size and page.",
-    "added_at": "2025-10-28T11:26:13.581104",
-    "id": "-4382743148175722767"
+    "added_at": "2025-10-30T11:25:32.827597",
+    "id": "-3767879119485434110"
   },
   {
     "endpoint": "request",
@@ -3186,8 +3186,8 @@
     "expected_status": 200,
     "description": "The number of users on any page, except from the last one, is equal to the size parameter",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.589212",
-    "id": "-5774265248672175315"
+    "added_at": "2025-10-30T11:25:32.834201",
+    "id": "-597732625670567545"
   },
   {
     "endpoint": "request",
@@ -3196,8 +3196,8 @@
     "expected_status": 200,
     "description": "Entering valid values for size and page results in getting users grouped by the number of size on each page, for the number\\_of\\_pages pages(max value). Users also are displayed complete(with id, firstname, lastname,hasKey,lastReservationDate, keySerialNumber,reservedDaysLastMonth)",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.597564",
-    "id": "293603839722796118"
+    "added_at": "2025-10-30T11:25:32.840739",
+    "id": "3028504526052217572"
   },
   {
     "endpoint": "request",
@@ -3206,8 +3206,8 @@
     "expected_status": 200,
     "description": "If there is only one page, all users should be displayed at once, and totalPages ==1.",
     "preconditions": "Admin is logged in and enters 1 at the page field and the size>=number of users",
-    "added_at": "2025-10-28T11:26:13.604163",
-    "id": "-2360533127658874994"
+    "added_at": "2025-10-30T11:25:32.848547",
+    "id": "-4745697361648670913"
   },
   {
     "endpoint": "request",
@@ -3216,8 +3216,8 @@
     "expected_status": 200,
     "description": "On the page after the last one, there should not be any users displayed-math was correctly done",
     "preconditions": "Admin is logged and is on the page after the last one",
-    "added_at": "2025-10-28T11:26:13.609190",
-    "id": "4005002506072686725"
+    "added_at": "2025-10-30T11:25:32.855371",
+    "id": "3039479670650078074"
   },
   {
     "endpoint": "request",
@@ -3226,8 +3226,8 @@
     "expected_status": 200,
     "description": "User are grouped by being key holders-they appear first, and non-key holders appear after",
     "preconditions": "Admin is logged in and valid credentials are entered",
-    "added_at": "2025-10-28T11:26:13.614951",
-    "id": "-4782204692156277751"
+    "added_at": "2025-10-30T11:25:32.861356",
+    "id": "8311233953215157628"
   },
   {
     "endpoint": "request",
@@ -3236,8 +3236,8 @@
     "expected_status": 200,
     "description": "After being grouped, users are sorted by the number of reservations from the last 30 days",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.620871",
-    "id": "-8770217758519231205"
+    "added_at": "2025-10-30T11:25:32.867351",
+    "id": "1229161009339752285"
   },
   {
     "endpoint": "request",
@@ -3246,8 +3246,8 @@
     "expected_status": 200,
     "description": "Default values for page is 1 and for size is 5",
     "preconditions": "There is no value entered on page and size\nAdmin is logged in",
-    "added_at": "2025-10-28T11:26:13.632410",
-    "id": "-4608718428959712243"
+    "added_at": "2025-10-30T11:25:32.873994",
+    "id": "-2643959159816431735"
   },
   {
     "endpoint": "request",
@@ -3256,8 +3256,8 @@
     "expected_status": 200,
     "description": "This method can be used by the admin for any user",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.640273",
-    "id": "-3126620899038572753"
+    "added_at": "2025-10-30T11:25:32.884777",
+    "id": "7746555856289994517"
   },
   {
     "endpoint": "request",
@@ -3266,8 +3266,8 @@
     "expected_status": 200,
     "description": "User should be able to call this method only for himself",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.649652",
-    "id": "-3137771783109332525"
+    "added_at": "2025-10-30T11:25:32.890864",
+    "id": "5952937845664944382"
   },
   {
     "endpoint": "request",
@@ -3276,8 +3276,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "preconditions": "No one is logged in",
-    "added_at": "2025-10-28T11:26:13.655529",
-    "id": "84702933900134107"
+    "added_at": "2025-10-30T11:25:32.896919",
+    "id": "-3043922624051037981"
   },
   {
     "endpoint": "request",
@@ -3286,8 +3286,8 @@
     "expected_status": 422,
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "preconditions": "Admin is logged in and the value for size is 0",
-    "added_at": "2025-10-28T11:26:13.661039",
-    "id": "-7291859353127295815"
+    "added_at": "2025-10-30T11:25:32.902490",
+    "id": "-5444421398766453003"
   },
   {
     "endpoint": "request",
@@ -3296,8 +3296,8 @@
     "expected_status": 422,
     "description": "Page field should not be 0(index starts at 1)",
     "preconditions": "Admin is logged in and the page value is 0",
-    "added_at": "2025-10-28T11:26:13.668990",
-    "id": "-647619339268509496"
+    "added_at": "2025-10-30T11:25:32.908540",
+    "id": "-187184508888130127"
   },
   {
     "endpoint": "request",
@@ -3306,8 +3306,8 @@
     "expected_status": 400,
     "description": "Size should not be left unfilled",
     "preconditions": "Admin is logged in and there is no value in the size field",
-    "added_at": "2025-10-28T11:26:13.676843",
-    "id": "-9161155074179645181"
+    "added_at": "2025-10-30T11:25:32.914669",
+    "id": "1452778150505934541"
   },
   {
     "endpoint": "request",
@@ -3316,8 +3316,8 @@
     "expected_status": 400,
     "description": "Page field should not be left unfilled",
     "preconditions": "Page is left unfilled and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.683894",
-    "id": "2004681186494936757"
+    "added_at": "2025-10-30T11:25:32.920817",
+    "id": "-1783318986801899147"
   },
   {
     "endpoint": "request",
@@ -3326,8 +3326,8 @@
     "expected_status": 200,
     "description": "On the last page, number of reservations should be lower than the number of size(data should not be fully displayed)",
     "preconditions": "Admin is logged in and is on the last page",
-    "added_at": "2025-10-28T11:26:13.688939",
-    "id": "7549557355008899368"
+    "added_at": "2025-10-30T11:25:32.926855",
+    "id": "-8735825056987666181"
   },
   {
     "endpoint": "request",
@@ -3336,8 +3336,8 @@
     "expected_status": 200,
     "description": "Number of pages == (no\\_of\\_res)/size, if (no\\_of\\_res)%size ==0, else\nNumber of pages == (no\\_of\\_res)/size+1.\nNo of pages is the first line returned in the body response",
     "preconditions": "Admin is logged in and enters valid values for the timeFilter , size and page.",
-    "added_at": "2025-10-28T11:26:13.700362",
-    "id": "-3000368817188772699"
+    "added_at": "2025-10-30T11:25:32.933378",
+    "id": "7542868220076175314"
   },
   {
     "endpoint": "request",
@@ -3346,8 +3346,8 @@
     "expected_status": 200,
     "description": "The number of reservations on any page, except from the last one, is equal to the size parameter",
     "preconditions": "Admin is logged in and enters valid values for size and page and timeFilter",
-    "added_at": "2025-10-28T11:26:13.705515",
-    "id": "-6926237220545856998"
+    "added_at": "2025-10-30T11:25:32.939430",
+    "id": "-87953604644868363"
   },
   {
     "endpoint": "request",
@@ -3356,8 +3356,8 @@
     "expected_status": 200,
     "description": "Entering valid values for size and page results in getting reservations grouped by the number of size on each page, for the number\\_of\\_pages pages(max value). Reservations also are displayed complete(id and reservationId)",
     "preconditions": "Admin is logged in and enters valid values for size and page and timeFilter",
-    "added_at": "2025-10-28T11:26:13.712103",
-    "id": "7761037881279864972"
+    "added_at": "2025-10-30T11:25:32.946592",
+    "id": "-7750614515569454699"
   },
   {
     "endpoint": "request",
@@ -3366,8 +3366,8 @@
     "expected_status": 200,
     "description": "If there is only one page, all reservations should be displayed at once, and totalPages ==1.",
     "preconditions": "Admin is logged in and enters 1 at the page field and the size>=number of reservations",
-    "added_at": "2025-10-28T11:26:13.717103",
-    "id": "1452643284619981789"
+    "added_at": "2025-10-30T11:25:32.952637",
+    "id": "-2934155497541023859"
   },
   {
     "endpoint": "request",
@@ -3376,8 +3376,8 @@
     "expected_status": 200,
     "description": "On the page after the last one, there should not be any reservations displayed-math was correctly done",
     "preconditions": "Admin is logged and is on the page after the last one",
-    "added_at": "2025-10-28T11:26:13.722764",
-    "id": "5845727644059445775"
+    "added_at": "2025-10-30T11:25:32.959145",
+    "id": "8495631844368468137"
   },
   {
     "endpoint": "request",
@@ -3386,8 +3386,8 @@
     "expected_status": 403,
     "description": "User should not be able to see other user's reservations",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.728275",
-    "id": "-1957407263580615020"
+    "added_at": "2025-10-30T11:25:32.965329",
+    "id": "2616477608333795374"
   },
   {
     "endpoint": "request",
@@ -3396,8 +3396,8 @@
     "expected_status": 400,
     "description": "TimeFilter should be set to show reservations from past or future",
     "preconditions": "Admin is logged in and TimeFilter is left unselected",
-    "added_at": "2025-10-28T11:26:13.734698",
-    "id": "-401771110747951738"
+    "added_at": "2025-10-30T11:25:32.970530",
+    "id": "6599471577093582581"
   },
   {
     "endpoint": "request",
@@ -3406,8 +3406,8 @@
     "expected_status": 200,
     "description": "If past is selected for timeFilter, all reservations that belong to the userId from past should be displayed",
     "preconditions": "Admin is logged in and timeFilter is set to past",
-    "added_at": "2025-10-28T11:26:13.743949",
-    "id": "-6063020323300598499"
+    "added_at": "2025-10-30T11:25:32.978259",
+    "id": "3246442157876367660"
   },
   {
     "endpoint": "request",
@@ -3416,8 +3416,8 @@
     "expected_status": 200,
     "description": "If future is selected for timeFilter, all reservations that belong to the userId from past should be displayed",
     "preconditions": "Admin is logged in and timeFilter is set to future",
-    "added_at": "2025-10-28T11:26:13.753106",
-    "id": "-6105548989405898271"
+    "added_at": "2025-10-30T11:25:32.984963",
+    "id": "-6432743883991438388"
   },
   {
     "endpoint": "request",
@@ -3426,8 +3426,8 @@
     "expected_status": 200,
     "description": "Reservations should be sorted cronologically",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.761990",
-    "id": "-8750039358186446460"
+    "added_at": "2025-10-30T11:25:32.991201",
+    "id": "-2929670019977535696"
   },
   {
     "endpoint": "request",
@@ -3436,8 +3436,8 @@
     "expected_status": 404,
     "description": "Admin searches reservations for a user that does not exist",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.770349",
-    "id": "-2212594767469391505"
+    "added_at": "2025-10-30T11:25:32.998789",
+    "id": "8850301412283806484"
   },
   {
     "endpoint": "request",
@@ -3446,8 +3446,8 @@
     "expected_status": 200,
     "description": "Default values for page is 1 and for size is 5",
     "preconditions": "There is no value entered on page and size\nAdmin is logged in",
-    "added_at": "2025-10-28T11:26:13.777344",
-    "id": "4091735490326312303"
+    "added_at": "2025-10-30T11:25:33.003938",
+    "id": "8597294208132339959"
   },
   {
     "endpoint": "request",
@@ -3456,8 +3456,8 @@
     "expected_status": 200,
     "description": "This method is admin only",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.784959",
-    "id": "3517315092848245374"
+    "added_at": "2025-10-30T11:25:33.010616",
+    "id": "-4174686447414150841"
   },
   {
     "endpoint": "request",
@@ -3466,8 +3466,8 @@
     "expected_status": 403,
     "description": "User should not be able to call this method",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.795396",
-    "id": "2303992731266153880"
+    "added_at": "2025-10-30T11:25:33.016654",
+    "id": "2654056126936879790"
   },
   {
     "endpoint": "request",
@@ -3476,8 +3476,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "preconditions": "No one is logged in",
-    "added_at": "2025-10-28T11:26:13.801616",
-    "id": "-8574191015725607413"
+    "added_at": "2025-10-30T11:25:33.023102",
+    "id": "-158125937241730487"
   },
   {
     "endpoint": "request",
@@ -3486,8 +3486,8 @@
     "expected_status": 422,
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "preconditions": "Admin is logged in and the value for size is 0",
-    "added_at": "2025-10-28T11:26:13.808119",
-    "id": "1601928350590091488"
+    "added_at": "2025-10-30T11:25:33.029387",
+    "id": "-3296086342325297866"
   },
   {
     "endpoint": "request",
@@ -3496,8 +3496,8 @@
     "expected_status": 422,
     "description": "Page field should not be 0(index starts at 1)",
     "preconditions": "Admin is logged in and the page value is 0",
-    "added_at": "2025-10-28T11:26:13.813735",
-    "id": "-6203320386430562844"
+    "added_at": "2025-10-30T11:25:33.036393",
+    "id": "-7267628720815613229"
   },
   {
     "endpoint": "request",
@@ -3506,8 +3506,8 @@
     "expected_status": 422,
     "description": "Size should not be left unfilled",
     "preconditions": "Admin is logged in and there is no value in the size field",
-    "added_at": "2025-10-28T11:26:13.821963",
-    "id": "-8502650413394528190"
+    "added_at": "2025-10-30T11:25:33.043124",
+    "id": "5045700241440334301"
   },
   {
     "endpoint": "request",
@@ -3516,8 +3516,8 @@
     "expected_status": 400,
     "description": "Page field should not be left unfilled",
     "preconditions": "Page is left unfilled and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.828625",
-    "id": "4327013049109118748"
+    "added_at": "2025-10-30T11:25:33.050772",
+    "id": "6122246741385730122"
   },
   {
     "endpoint": "request",
@@ -3526,8 +3526,8 @@
     "expected_status": 200,
     "description": "On the last page, number of keys should be lower than the number of size(data should not be fully displayed)",
     "preconditions": "Admin is logged in and is on the last page",
-    "added_at": "2025-10-28T11:26:13.837312",
-    "id": "-1219564090938796142"
+    "added_at": "2025-10-30T11:25:33.056770",
+    "id": "3694427841327712695"
   },
   {
     "endpoint": "request",
@@ -3536,8 +3536,8 @@
     "expected_status": 200,
     "description": "Number of pages == (no\\_of\\_keys)/size, if (no\\_of\\_keys)%size ==0, else\nNumber of pages == (no\\_of\\_keys)/size+1.\nNo of pages is the first line returned in the body response",
     "preconditions": "Admin is logged in and enters valid values for the size and page.",
-    "added_at": "2025-10-28T11:26:13.844196",
-    "id": "8040966880701096967"
+    "added_at": "2025-10-30T11:25:33.063876",
+    "id": "-1391347374196817554"
   },
   {
     "endpoint": "request",
@@ -3546,8 +3546,8 @@
     "expected_status": 200,
     "description": "The number of keys on any page, except from the last one, is equal to the size parameter",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.852159",
-    "id": "-4363214994260660096"
+    "added_at": "2025-10-30T11:25:33.070384",
+    "id": "3791501855347047194"
   },
   {
     "endpoint": "request",
@@ -3556,8 +3556,8 @@
     "expected_status": 200,
     "description": "Entering valid values for size and page results in getting keys grouped by the number of size on each page, for the number\\_of\\_pages pages(max value). Keys also are displayed complete(with id, serial number, is assigned, user)",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.861278",
-    "id": "9123090106039529282"
+    "added_at": "2025-10-30T11:25:33.077418",
+    "id": "-5272725036419753457"
   },
   {
     "endpoint": "request",
@@ -3566,8 +3566,8 @@
     "expected_status": 200,
     "description": "Keys are sorted by the keyId, increasingly, on each page",
     "preconditions": "Admin is logged in and enters valid credentials for page and size",
-    "added_at": "2025-10-28T11:26:13.869917",
-    "id": "-4478062633051305471"
+    "added_at": "2025-10-30T11:25:33.084547",
+    "id": "-1474550964860536973"
   },
   {
     "endpoint": "request",
@@ -3576,8 +3576,8 @@
     "expected_status": 200,
     "description": "If there is only one page, all keys should be displayed at once, and totalPages ==1.",
     "preconditions": "Admin is logged in and enters 1 at the page field and the size>=number of keys",
-    "added_at": "2025-10-28T11:26:13.876323",
-    "id": "1453488580871061567"
+    "added_at": "2025-10-30T11:25:33.092186",
+    "id": "5245237094959881540"
   },
   {
     "endpoint": "request",
@@ -3586,8 +3586,8 @@
     "expected_status": 200,
     "description": "On the page after the last one, there should not be any keys displayed-math was correctly done",
     "preconditions": "Admin is logged and is on the page after the last one",
-    "added_at": "2025-10-28T11:26:13.883555",
-    "id": "-7266273486030569052"
+    "added_at": "2025-10-30T11:25:33.098413",
+    "id": "6503968525408655897"
   },
   {
     "endpoint": "request",
@@ -3596,8 +3596,8 @@
     "expected_status": 200,
     "description": "Keys are grouped, firstly, those that are assigned to users, and then those that are unassigned",
     "preconditions": "Admin is logged in and enters valid values for params",
-    "added_at": "2025-10-28T11:26:13.890087",
-    "id": "7763521063106870466"
+    "added_at": "2025-10-30T11:25:33.105466",
+    "id": "1232379564930011258"
   },
   {
     "endpoint": "request",
@@ -3606,8 +3606,8 @@
     "expected_status": 200,
     "description": "Default values for page is 1 and for size is 5",
     "preconditions": "There is no value entered on page and size\nAdmin is logged in",
-    "added_at": "2025-10-28T11:26:13.896725",
-    "id": "5391946736349187125"
+    "added_at": "2025-10-30T11:25:33.111036",
+    "id": "-1357038368839047628"
   },
   {
     "endpoint": "request",
@@ -3616,8 +3616,8 @@
     "expected_status": 200,
     "description": "This method is admin only",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:13.903844",
-    "id": "5521771801816578533"
+    "added_at": "2025-10-30T11:25:33.119687",
+    "id": "1420903968411866170"
   },
   {
     "endpoint": "request",
@@ -3626,8 +3626,8 @@
     "expected_status": 403,
     "description": "User should not be able to call this method",
     "preconditions": "User is logged in",
-    "added_at": "2025-10-28T11:26:13.910793",
-    "id": "-7626630984952625922"
+    "added_at": "2025-10-30T11:25:33.125784",
+    "id": "-931680748970522497"
   },
   {
     "endpoint": "request",
@@ -3636,8 +3636,8 @@
     "expected_status": 401,
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "preconditions": "No one is logged in",
-    "added_at": "2025-10-28T11:26:13.916875",
-    "id": "1143295100064990387"
+    "added_at": "2025-10-30T11:25:33.132842",
+    "id": "1850287472138945132"
   },
   {
     "endpoint": "request",
@@ -3646,8 +3646,8 @@
     "expected_status": 422,
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "preconditions": "Admin is logged in and the value for size is 0",
-    "added_at": "2025-10-28T11:26:13.923478",
-    "id": "-949210345159102169"
+    "added_at": "2025-10-30T11:25:33.139392",
+    "id": "6235313455665917895"
   },
   {
     "endpoint": "request",
@@ -3656,8 +3656,8 @@
     "expected_status": 422,
     "description": "Page field should not be 0(index starts at 1)",
     "preconditions": "Admin is logged in and the page value is 0",
-    "added_at": "2025-10-28T11:26:13.930713",
-    "id": "7296190165660702154"
+    "added_at": "2025-10-30T11:25:33.145981",
+    "id": "6371982969610181161"
   },
   {
     "endpoint": "request",
@@ -3666,8 +3666,8 @@
     "expected_status": 422,
     "description": "Size should not be left unfilled",
     "preconditions": "Admin is logged in and there is no value in the size field",
-    "added_at": "2025-10-28T11:26:13.939255",
-    "id": "2622987947493940549"
+    "added_at": "2025-10-30T11:25:33.152622",
+    "id": "-5442097904430818582"
   },
   {
     "endpoint": "request",
@@ -3676,8 +3676,8 @@
     "expected_status": 400,
     "description": "Page field should not be left unfilled",
     "preconditions": "Page is left unfilled and admin is logged in",
-    "added_at": "2025-10-28T11:26:13.945439",
-    "id": "9040613715568292788"
+    "added_at": "2025-10-30T11:25:33.159700",
+    "id": "-1494494457473956616"
   },
   {
     "endpoint": "request",
@@ -3686,8 +3686,8 @@
     "expected_status": 200,
     "description": "On the last page, number of actions for keys should be lower than the number of size(data should not be fully displayed)",
     "preconditions": "Admin is logged in and is on the last page",
-    "added_at": "2025-10-28T11:26:13.951830",
-    "id": "-5002541100763087216"
+    "added_at": "2025-10-30T11:25:33.167716",
+    "id": "1150129677293827623"
   },
   {
     "endpoint": "request",
@@ -3696,8 +3696,8 @@
     "expected_status": 200,
     "description": "Number of pages == (no\\_of\\_key\\_actions)/size, if (no\\_of\\_key\\_actions)%size ==0, else\nNumber of pages == (no\\_of\\_key\\_actions)/size+1.\nNo of pages is the first line returned in the body response",
     "preconditions": "Admin is logged in and enters valid values for the size and page.",
-    "added_at": "2025-10-28T11:26:13.958321",
-    "id": "-8668408129063583704"
+    "added_at": "2025-10-30T11:25:33.174399",
+    "id": "2943562356586284478"
   },
   {
     "endpoint": "request",
@@ -3706,8 +3706,8 @@
     "expected_status": 200,
     "description": "The number of key actions on any page, except from the last one, is equal to the size parameter",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.964342",
-    "id": "787728408200308055"
+    "added_at": "2025-10-30T11:25:33.181438",
+    "id": "2459429599217151838"
   },
   {
     "endpoint": "request",
@@ -3716,8 +3716,8 @@
     "expected_status": 200,
     "description": "Entering valid values for size and page results in getting keys grouped by the number of size on each page, for the number\\_of\\_pages pages(max value). Key actions also are displayed complete(with id, actionDateTime, action, previousHolder, currentHolder, actionMaker)",
     "preconditions": "Admin is logged in and enters valid values for size and page",
-    "added_at": "2025-10-28T11:26:13.970879",
-    "id": "-9021119220243465611"
+    "added_at": "2025-10-30T11:25:33.188478",
+    "id": "8541210973502445264"
   },
   {
     "endpoint": "request",
@@ -3726,8 +3726,8 @@
     "expected_status": 200,
     "description": "If there is only one page, all key actions should be displayed at once, and totalPages ==1.",
     "preconditions": "Admin is logged in and enters 1 at the page field and the size>=number of key actions",
-    "added_at": "2025-10-28T11:26:13.982209",
-    "id": "-5258043947203322953"
+    "added_at": "2025-10-30T11:25:33.196104",
+    "id": "6707665275328569343"
   },
   {
     "endpoint": "request",
@@ -3736,8 +3736,8 @@
     "expected_status": 200,
     "description": "On the page after the last one, there should not be any key actions displayed-math was correctly done",
     "preconditions": "Admin is logged and is on the page after the last one",
-    "added_at": "2025-10-28T11:26:13.995922",
-    "id": "-5236432172130956254"
+    "added_at": "2025-10-30T11:25:33.204143",
+    "id": "-1140259352689998776"
   },
   {
     "endpoint": "request",
@@ -3746,8 +3746,8 @@
     "expected_status": 200,
     "description": "Key actions should be ordered cronologically, descending, from the newest action to the latest",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:14.005112",
-    "id": "2105495289292743173"
+    "added_at": "2025-10-30T11:25:33.210689",
+    "id": "1151728396962133080"
   },
   {
     "endpoint": "request",
@@ -3756,8 +3756,8 @@
     "expected_status": 200,
     "description": "Key actions are grouped by month and year",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:14.011813",
-    "id": "6756662633458848943"
+    "added_at": "2025-10-30T11:25:33.217705",
+    "id": "-2527663802791313631"
   },
   {
     "endpoint": "request",
@@ -3766,8 +3766,8 @@
     "expected_status": 200,
     "description": "When data is seeded, some keys should be assigned correctly to users, some should not",
     "preconditions": "Users and keys tables are seeded",
-    "added_at": "2025-10-28T11:26:14.019332",
-    "id": "1384004746011510911"
+    "added_at": "2025-10-30T11:25:33.224745",
+    "id": "7098958966378984161"
   },
   {
     "endpoint": "request",
@@ -3776,8 +3776,8 @@
     "expected_status": 200,
     "description": "Check that the ids from PreviousHolder column belong to actual users from the database",
     "preconditions": "User and keyactions tables are seeded into the database",
-    "added_at": "2025-10-28T11:26:14.030985",
-    "id": "-4762164083270481634"
+    "added_at": "2025-10-30T11:25:33.231272",
+    "id": "6067716300183331885"
   },
   {
     "endpoint": "request",
@@ -3786,8 +3786,8 @@
     "expected_status": 200,
     "description": "Check that the id from the CurrentHolder field exists in the user table",
     "preconditions": "keyactions and user tables are seeded with data",
-    "added_at": "2025-10-28T11:26:14.037136",
-    "id": "-7071143790079447257"
+    "added_at": "2025-10-30T11:25:33.238777",
+    "id": "-3603760014456674837"
   },
   {
     "endpoint": "request",
@@ -3796,8 +3796,8 @@
     "expected_status": 200,
     "description": "Id from the action maker of a key must appear in the users list",
     "preconditions": "Keyactions and users tables are seeded with data",
-    "added_at": "2025-10-28T11:26:14.043753",
-    "id": "-4154982544457769554"
+    "added_at": "2025-10-30T11:25:33.246036",
+    "id": "-5420310854078493372"
   },
   {
     "endpoint": "request",
@@ -3806,8 +3806,8 @@
     "expected_status": 200,
     "description": "Emails should respect the regex-to end in an popular email provider(outlook, yahoo or gmail) and to contain '@' character",
     "preconditions": "user table is populated with data",
-    "added_at": "2025-10-28T11:26:14.050524",
-    "id": "3824720319317098803"
+    "added_at": "2025-10-30T11:25:33.253726",
+    "id": "-2724542626004940101"
   },
   {
     "endpoint": "request",
@@ -3816,8 +3816,8 @@
     "expected_status": 200,
     "description": "first name should contain only alphabetic characters and to contain only one string-the space(' ') character should not appear",
     "preconditions": "User table is populated with data",
-    "added_at": "2025-10-28T11:26:14.056519",
-    "id": "2086156247095476256"
+    "added_at": "2025-10-30T11:25:33.260752",
+    "id": "6072860345600164"
   },
   {
     "endpoint": "request",
@@ -3826,8 +3826,8 @@
     "expected_status": 200,
     "description": "Check that the last name respect regex-no more than 2 separate strings and only contains alphabetical characters",
     "preconditions": "User table is populated with data",
-    "added_at": "2025-10-28T11:26:14.062288",
-    "id": "-116815404585924365"
+    "added_at": "2025-10-30T11:25:33.267838",
+    "id": "-8027982468802683764"
   },
   {
     "endpoint": "request",
@@ -3836,8 +3836,8 @@
     "expected_status": 200,
     "description": "Licence plate should respect the regex-at most 10 characters, alphanumeric characters, can only contain '-' as special characters and only uppercase letters",
     "preconditions": "User table is populated with data",
-    "added_at": "2025-10-28T11:26:14.069329",
-    "id": "-1172299034850559660"
+    "added_at": "2025-10-30T11:25:33.275365",
+    "id": "5718375315333858088"
   },
   {
     "endpoint": "request",
@@ -3846,8 +3846,8 @@
     "expected_status": 200,
     "description": "Check that currentHolder column in keyActions corresponds to the actual holder of the key",
     "preconditions": "User, keyactions and key tables are seeded with data",
-    "added_at": "2025-10-28T11:26:14.084660",
-    "id": "6757945952007333531"
+    "added_at": "2025-10-30T11:25:33.281931",
+    "id": "3127759034360919161"
   },
   {
     "endpoint": "request",
@@ -3856,7 +3856,7 @@
     "expected_status": 200,
     "description": "Email about reservation export",
     "preconditions": "Admin is logged in",
-    "added_at": "2025-10-28T11:26:14.093764",
-    "id": "-5814290238289509901"
+    "added_at": "2025-10-30T11:25:33.289441",
+    "id": "946505673577076280"
   }
 ]

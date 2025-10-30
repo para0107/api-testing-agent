@@ -4,79 +4,79 @@
     "field": "email",
     "endpoint": "",
     "description": "Testing if creating a user with an email that another user already has works or not",
-    "added_at": "2025-10-28T11:26:11.999051",
-    "id": "-4212700966722131767"
+    "added_at": "2025-10-30T11:25:31.778715",
+    "id": "2195052442642012537"
   },
   {
     "rule_type": "uniqueness",
     "field": "license",
     "endpoint": "/users",
     "description": "Create a user with a licence plate that already belongs to another user",
-    "added_at": "2025-10-28T11:26:12.001165",
-    "id": "-8707230592158529495"
+    "added_at": "2025-10-30T11:25:31.779798",
+    "id": "4929122291191693643"
   },
   {
     "rule_type": "uniqueness",
     "field": "plate",
     "endpoint": "/users",
     "description": "Update an existing user's licence plate value with one that already belongs to one of the user's from the database",
-    "added_at": "2025-10-28T11:26:12.002168",
-    "id": "3508748457504277016"
+    "added_at": "2025-10-30T11:25:31.780852",
+    "id": "-6982844551229396980"
   },
   {
     "rule_type": "uniqueness",
     "field": "unknown",
     "endpoint": "to",
     "description": "Create a key with a serial number that already belongs to another",
-    "added_at": "2025-10-28T11:26:12.003162",
-    "id": "-5224018364618160163"
+    "added_at": "2025-10-30T11:25:31.781574",
+    "id": "-5174286480172538074"
   },
   {
     "rule_type": "uniqueness",
     "field": "unknown",
     "endpoint": "request",
     "description": "Update an existing key with a serial nmber that belongs to n existing key",
-    "added_at": "2025-10-28T11:26:12.007002",
-    "id": "-3336169546422644554"
+    "added_at": "2025-10-30T11:25:31.782579",
+    "id": "1464365334252922678"
   },
   {
     "rule_type": "uniqueness",
     "field": "unknown",
     "endpoint": "request",
     "description": "Testing if upper letters are handled as duplicates with one that has lower letters",
-    "added_at": "2025-10-28T11:26:12.007002",
-    "id": "-6429317446014745584"
+    "added_at": "2025-10-30T11:25:31.783580",
+    "id": "876958780811346269"
   },
   {
     "rule_type": "uniqueness",
     "field": "email",
     "endpoint": "",
     "description": "Each user must have its unique email",
-    "added_at": "2025-10-28T11:26:12.009137",
-    "id": "6450130472990283134"
+    "added_at": "2025-10-30T11:25:31.783580",
+    "id": "8747732247571773448"
   },
   {
     "rule_type": "uniqueness",
     "field": "email",
     "endpoint": "",
     "description": "Each user must have its unique email",
-    "added_at": "2025-10-28T11:26:12.010992",
-    "id": "5210718902299428516"
+    "added_at": "2025-10-30T11:25:31.784579",
+    "id": "2371860954647932353"
   },
   {
     "rule_type": "uniqueness",
     "field": "unknown",
     "endpoint": "",
     "description": "Each key must have its unique serial number",
-    "added_at": "2025-10-28T11:26:12.012078",
-    "id": "-4589529440096609870"
+    "added_at": "2025-10-30T11:25:31.785580",
+    "id": "6218194000226802606"
   },
   {
     "rule_type": "uniqueness",
     "field": "unknown",
     "endpoint": "",
     "description": "Each key should have one unique current holder",
-    "added_at": "2025-10-28T11:26:12.013329",
-    "id": "-1338337309653020582"
+    "added_at": "2025-10-30T11:25:31.785580",
+    "id": "6190188482017396609"
   }
 ]

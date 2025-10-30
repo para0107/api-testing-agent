@@ -10152,7 +10152,7 @@
     ]
   },
   {
-    "id": "7555401285237707064",
+    "id": "649410058465063125",
     "name": "Test User entity-Create-Succesfull",
     "description": "Verify that a new user can be created and no duplicate is created",
     "test_type": "validation",
@@ -10173,10 +10173,10 @@
     "expected_status": 201,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.576426"
+    "added_at": "2025-10-30T11:25:29.753464"
   },
   {
-    "id": "-3270935821838979997",
+    "id": "-2629967765153771822",
     "name": "User entity-Create a user with duplicate email-Succesfull",
     "description": "Testing if creating a user with an email that another user already has works or not",
     "test_type": "validation",
@@ -10228,10 +10228,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.588136"
+    "added_at": "2025-10-30T11:25:29.763225"
   },
   {
-    "id": "-2513056000434505787",
+    "id": "-6138337984543306515",
     "name": "Create user-duplicate license plate-Successful",
     "description": "Create a user with a licence plate that already belongs to another user",
     "test_type": "validation",
@@ -10295,10 +10295,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.596647"
+    "added_at": "2025-10-30T11:25:29.775314"
   },
   {
-    "id": "9108269966632514103",
+    "id": "6209040556023735567",
     "name": "User-update a duplicate licence plate-successful",
     "description": "Update an existing user's licence plate value with one that already belongs to one of the user's from the database",
     "test_type": "validation",
@@ -10326,10 +10326,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.606130"
+    "added_at": "2025-10-30T11:25:29.787035"
   },
   {
-    "id": "-2476992628503919759",
+    "id": "-4613827103399489412",
     "name": "User-Create a user with empty first name-successful",
     "description": "Testing if creating a user with an empty name works or not",
     "test_type": "edge_case",
@@ -10357,10 +10357,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.616137"
+    "added_at": "2025-10-30T11:25:29.796729"
   },
   {
-    "id": "4788048081261853081",
+    "id": "8047255416306891178",
     "name": "User-Create a user with empty password-successful*",
     "description": "Testing if creating a user with an empty password works or not",
     "test_type": "edge_case",
@@ -10388,10 +10388,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.624967"
+    "added_at": "2025-10-30T11:25:29.809535"
   },
   {
-    "id": "-1684257940830006545",
+    "id": "-9056848034993408622",
     "name": "User-Create a user with empty lastname-successful",
     "description": "Testing if creating a user with an empty lastname works or not",
     "test_type": "edge_case",
@@ -10419,10 +10419,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.634489"
+    "added_at": "2025-10-30T11:25:29.820555"
   },
   {
-    "id": "4839119171543279865",
+    "id": "6995922610040965078",
     "name": "User-Create a user with empty email-successful",
     "description": "Testing if creating a user with an empty email works or not",
     "test_type": "edge_case",
@@ -10450,10 +10450,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.643676"
+    "added_at": "2025-10-30T11:25:29.831306"
   },
   {
-    "id": "-1779738825218991898",
+    "id": "6342006048618703613",
     "name": "User-Create a user with empty isAdmin-succesfull",
     "description": "Testing if creating a user with an empty isAdmin works or not",
     "test_type": "edge_case",
@@ -10481,10 +10481,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.657426"
+    "added_at": "2025-10-30T11:25:29.842035"
   },
   {
-    "id": "-8642202759495758847",
+    "id": "3669732386787243920",
     "name": "User-Update an user with empty licence plate-successful",
     "description": "Testing if updating a user with an empty licence plate works or not",
     "test_type": "edge_case",
@@ -10512,10 +10512,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.669135"
+    "added_at": "2025-10-30T11:25:29.851870"
   },
   {
-    "id": "7368217691459253785",
+    "id": "-9033972047464612720",
     "name": "User-Create a user with empty licence plate-successful",
     "description": "Testing if creating a user with an empty licence plate works or not",
     "test_type": "edge_case",
@@ -10543,10 +10543,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.683232"
+    "added_at": "2025-10-30T11:25:29.861949"
   },
   {
-    "id": "-9172969650233121439",
+    "id": "-4317994744406062988",
     "name": "User-Update an user with empty lastname-successful*",
     "description": "Testing if updating a user with an empty lastname works or not",
     "test_type": "edge_case",
@@ -10574,10 +10574,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.696276"
+    "added_at": "2025-10-30T11:25:29.872489"
   },
   {
-    "id": "-1961600575752693614",
+    "id": "1122284365067557919",
     "name": "User-Update an user with empty name-successful",
     "description": "Testing if updating a user with an empty name works or not",
     "test_type": "edge_case",
@@ -10605,10 +10605,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.714003"
+    "added_at": "2025-10-30T11:25:29.882498"
   },
   {
-    "id": "-7232421659878732646",
+    "id": "3545476824303376749",
     "name": "User-Update an user with empty password-successful*",
     "description": "Testing if updating a user with an password works or not",
     "test_type": "edge_case",
@@ -10636,10 +10636,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.725839"
+    "added_at": "2025-10-30T11:25:29.892095"
   },
   {
-    "id": "419374962133277709",
+    "id": "2520296466186179017",
     "name": "User-create user with special characters in lastname(except '-')-succesfull",
     "description": "Creating a new user with special characters in their name",
     "test_type": "functional",
@@ -10660,10 +10660,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.736994"
+    "added_at": "2025-10-30T11:25:29.901434"
   },
   {
-    "id": "2189191528510591756",
+    "id": "8602822018287012730",
     "name": "User-update name of a user to contain special characters-successful*",
     "description": "Testing if updating an user's lastname with a name that contains special characters works",
     "test_type": "happy_path",
@@ -10684,10 +10684,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.746065"
+    "added_at": "2025-10-30T11:25:29.911189"
   },
   {
-    "id": "6411932044605380757",
+    "id": "6399998746487467194",
     "name": "Create user with license plate that contains special characters-negative-successful",
     "description": "Testing if a user can have characters like !,^ or \\* in their license plate(should not have)",
     "test_type": "validation",
@@ -10708,10 +10708,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.766429"
+    "added_at": "2025-10-30T11:25:29.921537"
   },
   {
-    "id": "7357573514140445787",
+    "id": "-8981966009059974303",
     "name": "Update license plate to contain special characters-negative-successful*",
     "description": "",
     "test_type": "validation",
@@ -10732,10 +10732,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.779688"
+    "added_at": "2025-10-30T11:25:29.931500"
   },
   {
-    "id": "7969661121273825092",
+    "id": "8550573348248388810",
     "name": "Key Entity-Create-successful",
     "description": "Creates a new key entity and checks that no duplicate key should be created",
     "test_type": "validation",
@@ -10769,10 +10769,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.804153"
+    "added_at": "2025-10-30T11:25:29.941624"
   },
   {
-    "id": "-5805627182553043994",
+    "id": "7145979369843286388",
     "name": "Key-create with duplicate serial number-successful",
     "description": "Create a key with a serial number that already belongs to another",
     "test_type": "validation",
@@ -10800,10 +10800,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.813863"
+    "added_at": "2025-10-30T11:25:29.951665"
   },
   {
-    "id": "-6365881318918857750",
+    "id": "-6788408951433281480",
     "name": "Key-update with duplicate serial number-successful",
     "description": "Update an existing key with a serial nmber that belongs to n existing key",
     "test_type": "validation",
@@ -10824,10 +10824,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.823093"
+    "added_at": "2025-10-30T11:25:29.962345"
   },
   {
-    "id": "585970484215106709",
+    "id": "6733373530270683110",
     "name": "Key-create with special characters-successsful",
     "description": "",
     "test_type": "functional",
@@ -10848,10 +10848,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.831710"
+    "added_at": "2025-10-30T11:25:29.972933"
   },
   {
-    "id": "-822933292873968290",
+    "id": "-6917364327102247617",
     "name": "Update a key with special characters in serial number-successful",
     "description": "",
     "test_type": "happy_path",
@@ -10872,10 +10872,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.841214"
+    "added_at": "2025-10-30T11:25:29.983012"
   },
   {
-    "id": "2546943545287005355",
+    "id": "-2289191185060395104",
     "name": "Create a duplicate key with duplicate upper letters-successful(not case sensitive)",
     "description": "Testing if upper letters are handled as duplicates with one that has lower letters",
     "test_type": "validation",
@@ -10896,10 +10896,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.850361"
+    "added_at": "2025-10-30T11:25:29.993400"
   },
   {
-    "id": "-7616281133595715604",
+    "id": "-3828670135532446724",
     "name": "Reservation-Update as admin-positive-successful",
     "description": "Check that the user can update the date of the reservation, but not move it to a date when there is also another reservation for the same user, and where there are no more than 24 reservations on that day(maximum amount)",
     "test_type": "happy_path",
@@ -10939,10 +10939,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.870734"
+    "added_at": "2025-10-30T11:25:30.003448"
   },
   {
-    "id": "3288570813528037403",
+    "id": "-6002393375589985994",
     "name": "Create multiple reservations on same date(user)-negative-successful",
     "description": "Testing if creating multiple reservations on the same date works or not(should not for a user)",
     "test_type": "validation",
@@ -10963,10 +10963,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.886876"
+    "added_at": "2025-10-30T11:25:30.014059"
   },
   {
-    "id": "-517311077469163297",
+    "id": "62993384921021736",
     "name": "Create reservation s.t. the start date is after the end date-negative-successful",
     "description": "Testing if the start date is always before the end date",
     "test_type": "validation",
@@ -11000,10 +11000,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.897407"
+    "added_at": "2025-10-30T11:25:30.024069"
   },
   {
-    "id": "3550406223125101225",
+    "id": "6322169917898473",
     "name": "Update a reservation s.t. there are 2 on the same day(from same user)-negative-successful",
     "description": "Testing if updating a reservation on a date when another reservation is done by the same user is possible(should not be)",
     "test_type": "validation",
@@ -11037,10 +11037,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.906927"
+    "added_at": "2025-10-30T11:25:30.034081"
   },
   {
-    "id": "160121854493032222",
+    "id": "4241184573148658914",
     "name": "Update a reservation s.t. there is the start date after the end date-negative-successful",
     "description": "Testing if updating a reservation's start\\_date to be later than the end\\_date",
     "test_type": "validation",
@@ -11074,10 +11074,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.919000"
+    "added_at": "2025-10-30T11:25:30.043522"
   },
   {
-    "id": "3925607757880690396",
+    "id": "8732570815633690456",
     "name": "Test that a reservation is not done by a non-existent user-negative-successful",
     "description": "Test that a reservation cannot hold the id of a user that does not exist",
     "test_type": "validation",
@@ -11098,10 +11098,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.929237"
+    "added_at": "2025-10-30T11:25:30.054495"
   },
   {
-    "id": "-4753210121169292192",
+    "id": "149561085823857219",
     "name": "update a reservation that does not exist in the database(non-existent id in the db)-negative-successful",
     "description": "Check that , if a non-existed id is introduced, the reservation cannot be updated",
     "test_type": "validation",
@@ -11122,10 +11122,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.940803"
+    "added_at": "2025-10-30T11:25:30.066560"
   },
   {
-    "id": "1652898204114048956",
+    "id": "-3289008663341793767",
     "name": "Delete non-existent reservation-negative-successful",
     "description": "Check that a non-existed reservation cannot be deleted",
     "test_type": "validation",
@@ -11153,10 +11153,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.955094"
+    "added_at": "2025-10-30T11:25:30.076651"
   },
   {
-    "id": "2922935378590206110",
+    "id": "3589521113975730901",
     "name": "Bad format for date creation is approved-negative-successful",
     "description": "Testing if a string, for example, instead of the month works(should not)",
     "test_type": "validation",
@@ -11177,10 +11177,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.965944"
+    "added_at": "2025-10-30T11:25:30.088795"
   },
   {
-    "id": "1498568038584728249",
+    "id": "3186030592699431625",
     "name": "Create more than 24 reservations on a day-negative-successful",
     "description": "Create more than 24 reservations on a day",
     "test_type": "validation",
@@ -11201,10 +11201,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.977160"
+    "added_at": "2025-10-30T11:25:30.100439"
   },
   {
-    "id": "4021116907040587332",
+    "id": "-7110149503142590587",
     "name": "Update a reservation with bad date format-negative-successful",
     "description": "Updating a date with string instead of the day, for example(it should not work)",
     "test_type": "validation",
@@ -11225,10 +11225,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.987010"
+    "added_at": "2025-10-30T11:25:30.111217"
   },
   {
-    "id": "-2912516070640877364",
+    "id": "-1469812301852225597",
     "name": "Get by Id that does not exist-negative-successful",
     "description": "Return a reservation that does not exist",
     "test_type": "validation",
@@ -11249,10 +11249,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:08.998749"
+    "added_at": "2025-10-30T11:25:30.121487"
   },
   {
-    "id": "5366992284959448183",
+    "id": "5538529527760848315",
     "name": "Update reservations such that there are more than 24 in a day-negative-successful",
     "description": "Testing if I can update reservations s.t. there are more than 24 on the same day",
     "test_type": "validation",
@@ -11273,10 +11273,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.017207"
+    "added_at": "2025-10-30T11:25:30.131672"
   },
   {
-    "id": "6273821198227362729",
+    "id": "-7465207614676437677",
     "name": "Create reservation with previous date than today-negative-successful",
     "description": "Create a date before 08.2025(example)",
     "test_type": "validation",
@@ -11297,10 +11297,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.028866"
+    "added_at": "2025-10-30T11:25:30.141173"
   },
   {
-    "id": "-615929462028558798",
+    "id": "-5435679405846160774",
     "name": "Update reservation with previous dates than today-negative-successful",
     "description": "Update a reservation for previous date",
     "test_type": "validation",
@@ -11321,10 +11321,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.040262"
+    "added_at": "2025-10-30T11:25:30.152089"
   },
   {
-    "id": "9185363884559260876",
+    "id": "-4873359364113617143",
     "name": "Create reservation with invalid months and days-negative-successful",
     "description": "Test if creating a reservation with invalid months and days works(like month 13)",
     "test_type": "validation",
@@ -11345,10 +11345,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.058676"
+    "added_at": "2025-10-30T11:25:30.162290"
   },
   {
-    "id": "3546509522643732420",
+    "id": "-2393738047599754545",
     "name": "Update reservation with invalid months and dates-negative-successful",
     "description": "Test if updating a reservation with invalid months and days works(like month 13)",
     "test_type": "validation",
@@ -11369,10 +11369,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.068777"
+    "added_at": "2025-10-30T11:25:30.172398"
   },
   {
-    "id": "2320804957418891436",
+    "id": "4129044464624078060",
     "name": "Patch for empty license-negative-succesfully",
     "description": "Updating a user's license plate with a null value",
     "test_type": "validation",
@@ -11393,10 +11393,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.083483"
+    "added_at": "2025-10-30T11:25:30.183514"
   },
   {
-    "id": "942683758425222560",
+    "id": "-7237752462454836033",
     "name": "Patch for empty password-negative-succesfully",
     "description": "Updating a user with an empty password",
     "test_type": "validation",
@@ -11417,10 +11417,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.095791"
+    "added_at": "2025-10-30T11:25:30.193689"
   },
   {
-    "id": "5210628565101659567",
+    "id": "2088961777046265944",
     "name": "Update license plate to contain special characters-negative-successful",
     "description": "Updating a user's license plate with special characters",
     "test_type": "validation",
@@ -11441,10 +11441,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.111240"
+    "added_at": "2025-10-30T11:25:30.204634"
   },
   {
-    "id": "-10155419261547057",
+    "id": "-8369749732264964404",
     "name": "Update with an invalid old Password-negative-successful",
     "description": "Updating a user's password by introducing in the old password field a password that is not his",
     "test_type": "validation",
@@ -11465,10 +11465,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.127278"
+    "added_at": "2025-10-30T11:25:30.215919"
   },
   {
-    "id": "5043134861108436684",
+    "id": "871575351344612101",
     "name": "Update for unmatching confirmation password with the new password field-negative-successful",
     "description": "Updating a user's password with a new password that does not match the confirmation password field",
     "test_type": "validation",
@@ -11489,10 +11489,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.144089"
+    "added_at": "2025-10-30T11:25:30.226949"
   },
   {
-    "id": "1820921902806140207",
+    "id": "-4661121379356171297",
     "name": "Update password of a user that does not exist-negative-successful",
     "description": "Use an id that does not belong to any user",
     "test_type": "validation",
@@ -11513,10 +11513,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.153782"
+    "added_at": "2025-10-30T11:25:30.239649"
   },
   {
-    "id": "2421444057141206760",
+    "id": "462937818970362037",
     "name": "Update license plate of a user that does not exist-negative-successful",
     "description": "Use an id that does not belong to any user",
     "test_type": "validation",
@@ -11537,10 +11537,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.170911"
+    "added_at": "2025-10-30T11:25:30.250916"
   },
   {
-    "id": "-1801873678555217228",
+    "id": "-1115518780000133722",
     "name": "Update first name of a user that does not exist-negative-successful",
     "description": "Use an id that does not belong to any user",
     "test_type": "validation",
@@ -11561,10 +11561,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.180988"
+    "added_at": "2025-10-30T11:25:30.262548"
   },
   {
-    "id": "-6361702831896706445",
+    "id": "-2133568500815750689",
     "name": "Update last name of a user that does not exist-negative-successful",
     "description": "Use an id that does not belong to any user",
     "test_type": "validation",
@@ -11585,10 +11585,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.191074"
+    "added_at": "2025-10-30T11:25:30.275217"
   },
   {
-    "id": "-4371929220519238125",
+    "id": "1763679512728826088",
     "name": "Invalid JSON Body Handling-successful",
     "description": "Verify that a malformed JSON does not crash the application",
     "test_type": "validation",
@@ -11615,10 +11615,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.201668"
+    "added_at": "2025-10-30T11:25:30.287474"
   },
   {
-    "id": "-2616732640151594417",
+    "id": "1183102675944533923",
     "name": "Validation Error - Missing required fields-successful",
     "description": "Verify middleware rejects requests missing/invalid required fields and sends formatted error",
     "test_type": "validation",
@@ -11639,10 +11639,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.215004"
+    "added_at": "2025-10-30T11:25:30.299415"
   },
   {
-    "id": "894428313369971414",
+    "id": "-5644331967264674529",
     "name": "Invalid token signature-successful",
     "description": "Verify API rejects a request with an invalid JWT signature",
     "test_type": "validation",
@@ -11681,10 +11681,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.235055"
+    "added_at": "2025-10-30T11:25:30.310427"
   },
   {
-    "id": "1427098550451798686",
+    "id": "-4434109895003828937",
     "name": "GetAll() method modified-negative-successful",
     "description": "Get All should return keys grouped in two groups : assigned and not assigned",
     "test_type": "validation",
@@ -11705,10 +11705,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.251912"
+    "added_at": "2025-10-30T11:25:30.322060"
   },
   {
-    "id": "1475279087102547492",
+    "id": "-5382233117203653078",
     "name": "Assigned key returns information about user that holds it-negative-successful",
     "description": "Checking that the current key contains the correct user",
     "test_type": "validation",
@@ -11742,10 +11742,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.263734"
+    "added_at": "2025-10-30T11:25:30.333678"
   },
   {
-    "id": "1574312827869106469",
+    "id": "5074120657513646267",
     "name": "An unassigned key returns information about any user-negative - successful",
     "description": "Testing if a key returns information about any user",
     "test_type": "validation",
@@ -11779,10 +11779,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.280107"
+    "added_at": "2025-10-30T11:25:30.343726"
   },
   {
-    "id": "-7672016351554203246",
+    "id": "6031740060020852915",
     "name": "Same key is assigned multiple times-negative-successful",
     "description": "The key assigned to other users multiple times should retain the information from the last user it was assigned to",
     "test_type": "validation",
@@ -11822,10 +11822,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.292697"
+    "added_at": "2025-10-30T11:25:30.356448"
   },
   {
-    "id": "8139558831667224990",
+    "id": "3439745503464594950",
     "name": "User assigns key-negative-successful",
     "description": "Testing if a user can assign keys to other users",
     "test_type": "validation",
@@ -11859,10 +11859,10 @@
       }
     ],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.312532"
+    "added_at": "2025-10-30T11:25:30.367015"
   },
   {
-    "id": "6845590228451352349",
+    "id": "1499786117290384124",
     "name": "Get all keys-negative-successful",
     "description": "a user that is not logged in should not be able to get all keys",
     "test_type": "validation",
@@ -11883,10 +11883,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.336002"
+    "added_at": "2025-10-30T11:25:30.379618"
   },
   {
-    "id": "7132485275521064942",
+    "id": "-157714972340531688",
     "name": "Create key-negative-successful",
     "description": "a user/admin that is not logged in should not be able to create keys",
     "test_type": "validation",
@@ -11907,10 +11907,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.347503"
+    "added_at": "2025-10-30T11:25:30.390419"
   },
   {
-    "id": "9173535491468779987",
+    "id": "-2238104715151609596",
     "name": "Search key by ID-negative-successful",
     "description": "a user/admin that is not logged in should not be able to return a key",
     "test_type": "validation",
@@ -11931,10 +11931,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.359119"
+    "added_at": "2025-10-30T11:25:30.401789"
   },
   {
-    "id": "5887025123155074827",
+    "id": "-2102338108536429161",
     "name": "Update the serial number of a key-negative-successful",
     "description": "a user/admin that is not logged in should not be able to update a key",
     "test_type": "validation",
@@ -11955,10 +11955,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.370938"
+    "added_at": "2025-10-30T11:25:30.414356"
   },
   {
-    "id": "-1453292372933250121",
+    "id": "7062516072746736242",
     "name": "Delete key-negative-successful",
     "description": "a user/admin that is not logged in should not be able to delete a key",
     "test_type": "validation",
@@ -11979,10 +11979,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.382000"
+    "added_at": "2025-10-30T11:25:30.426032"
   },
   {
-    "id": "2874195436462465380",
+    "id": "4995494075456445249",
     "name": "Get all users-negative-successful",
     "description": "a user/admin that is not logged in should not be able to see all users",
     "test_type": "validation",
@@ -12003,10 +12003,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.394662"
+    "added_at": "2025-10-30T11:25:30.437048"
   },
   {
-    "id": "-9075548477985338044",
+    "id": "-3502042383853130692",
     "name": "Create user-negative-successful",
     "description": "a user/admin that is not logged in should not be able to create new users",
     "test_type": "validation",
@@ -12027,10 +12027,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.411467"
+    "added_at": "2025-10-30T11:25:30.449499"
   },
   {
-    "id": "-2241919199098747792",
+    "id": "-144740738466793159",
     "name": "Get user by Id-negative-successful",
     "description": "a user/admin that is not logged in should not be able to see any user",
     "test_type": "validation",
@@ -12051,10 +12051,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.427184"
+    "added_at": "2025-10-30T11:25:30.460798"
   },
   {
-    "id": "7476809307715841741",
+    "id": "5640484649429806430",
     "name": "Delete user-negative-successful",
     "description": "a user/admin that is not logged in should not be able to delete any user",
     "test_type": "validation",
@@ -12075,10 +12075,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.450746"
+    "added_at": "2025-10-30T11:25:30.471732"
   },
   {
-    "id": "-4466589697012149033",
+    "id": "-8842440892340441718",
     "name": "Update user by first-name-negative-successful",
     "description": "a user/admin that is not logged in should not be able to update any user",
     "test_type": "validation",
@@ -12099,10 +12099,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.464886"
+    "added_at": "2025-10-30T11:25:30.483443"
   },
   {
-    "id": "7245956849740687380",
+    "id": "3622278291483095679",
     "name": "Update user by last-name-negative-successful",
     "description": "a user/admin that is not logged in should not be able to update any user",
     "test_type": "validation",
@@ -12123,10 +12123,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.476970"
+    "added_at": "2025-10-30T11:25:30.496761"
   },
   {
-    "id": "-4681696628187837965",
+    "id": "199228071991910911",
     "name": "Update user by license plate-negative-successful",
     "description": "a user/admin that is not logged in should not be able to update any user",
     "test_type": "validation",
@@ -12147,10 +12147,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.495020"
+    "added_at": "2025-10-30T11:25:30.509602"
   },
   {
-    "id": "3311451881702016161",
+    "id": "-6148087752853126170",
     "name": "Update user by password-negative-successful",
     "description": "a user/admin that is not logged in should not be able to update any user",
     "test_type": "validation",
@@ -12171,10 +12171,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.511744"
+    "added_at": "2025-10-30T11:25:30.523735"
   },
   {
-    "id": "102140970152695257",
+    "id": "-1001648826809613262",
     "name": "Create multiple reservations on same date-user-negative-successful",
     "description": "Create at least 2 reservations as user",
     "test_type": "validation",
@@ -12195,10 +12195,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.537124"
+    "added_at": "2025-10-30T11:25:30.536476"
   },
   {
-    "id": "3740304032516081716",
+    "id": "1633614331845501935",
     "name": "Get avaliable dates for other user-user-negative-successful",
     "description": "User should not be able to see avaliable dates of other users",
     "test_type": "validation",
@@ -12219,10 +12219,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.548322"
+    "added_at": "2025-10-30T11:25:30.547906"
   },
   {
-    "id": "5345117689866901076",
+    "id": "2814714184128100865",
     "name": "Export as user-negative-successful",
     "description": "User should not be able to export the file",
     "test_type": "validation",
@@ -12243,10 +12243,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.563333"
+    "added_at": "2025-10-30T11:25:30.560036"
   },
   {
-    "id": "7855502282051346691",
+    "id": "-7503888107071837830",
     "name": "Export as not logged in-negative-successful",
     "description": "Someone who is not logged in should not be able to generate files",
     "test_type": "validation",
@@ -12267,10 +12267,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.580120"
+    "added_at": "2025-10-30T11:25:30.574516"
   },
   {
-    "id": "7601105704823264481",
+    "id": "5559961692141906530",
     "name": "If there is no reservation, document should be empty-successful",
     "description": "The document should be empty if there is no reservation",
     "test_type": "edge_case",
@@ -12284,10 +12284,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.598627"
+    "added_at": "2025-10-30T11:25:30.589757"
   },
   {
-    "id": "6597491833972090312",
+    "id": "-1872220994918673699",
     "name": "Send email about reminding reservation to users who have a key and  have a reservation in the last 2 weeks-1-negative-successful",
     "description": "Send a key-job email to users who do have a reservation in the past 2 weeks",
     "test_type": "validation",
@@ -12308,10 +12308,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.617071"
+    "added_at": "2025-10-30T11:25:30.602010"
   },
   {
-    "id": "-1983407417204291953",
+    "id": "4557612493050989186",
     "name": "Send email about reminding reservation to users who do not have a key and  have a reservation in the last 2 weeks-1-negative-successful",
     "description": "Send a key-job email to users who do not have a key",
     "test_type": "validation",
@@ -12332,10 +12332,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.630954"
+    "added_at": "2025-10-30T11:25:30.616281"
   },
   {
-    "id": "7610983813965788470",
+    "id": "1679291993291929487",
     "name": "Send a reservation remainder to users who had reservation's start date earlier than 2 weeks ago and end date later than 2 weeks ago-negative-successful",
     "description": "Send an email to users whose reservations intercalates the 2 week period(should not happen)",
     "test_type": "validation",
@@ -12356,10 +12356,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.649216"
+    "added_at": "2025-10-30T11:25:30.630861"
   },
   {
-    "id": "174300034813672788",
+    "id": "9061566781209656146",
     "name": "Send a reservation remainder to a user with a reservation starting later than 2 weeks ago and ending after today-negative-successful",
     "description": "Send an email to a user whose reservation starts in the 2 weeks period and ends in the future",
     "test_type": "validation",
@@ -12380,10 +12380,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.668136"
+    "added_at": "2025-10-30T11:25:30.645078"
   },
   {
-    "id": "5839303518471900315",
+    "id": "3063750878368831650",
     "name": "Send a reservation to a user who has a reservation starting earlier than 2 weeks ago and ending in the future-negative-successful",
     "description": "Send a reservation that starts previously than the 2 weeks period and ends in the future",
     "test_type": "validation",
@@ -12404,10 +12404,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.682935"
+    "added_at": "2025-10-30T11:25:30.659594"
   },
   {
-    "id": "-2098806012435011640",
+    "id": "-2465987083027516243",
     "name": "Send a reservation remainder to users who have a reservations in the last 2 weeks-negative-successful",
     "description": "Send an email to users whose reservations are in the last two weeks",
     "test_type": "validation",
@@ -12428,10 +12428,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.696048"
+    "added_at": "2025-10-30T11:25:30.675386"
   },
   {
-    "id": "-8818319266880186400",
+    "id": "-497132224276928539",
     "name": "User tries to assign key with valid user JWT token-negative-successful",
     "description": "Ensure user without admin rights can't assign keys",
     "test_type": "validation",
@@ -12452,10 +12452,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.715868"
+    "added_at": "2025-10-30T11:25:30.688702"
   },
   {
-    "id": "-8381276251452337015",
+    "id": "2988270041303561110",
     "name": "User tries to assign key without JWT token-negative-successful",
     "description": "Ensure un unauthenticated user can't assign keys",
     "test_type": "validation",
@@ -12476,10 +12476,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.736354"
+    "added_at": "2025-10-30T11:25:30.705061"
   },
   {
-    "id": "4727438206495061132",
+    "id": "1060567641589608111",
     "name": "User tries to assign key with invalid/expired JWT token-negative-successful",
     "description": "Ensure that requests with invalid/expired JWT token are rejected",
     "test_type": "validation",
@@ -12500,10 +12500,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.754906"
+    "added_at": "2025-10-30T11:25:30.718763"
   },
   {
-    "id": "-6577641212789033690",
+    "id": "-8667410480297312233",
     "name": "User tries to assign key to themselves-negative-successful",
     "description": "Ensure user can't assign key to themselves",
     "test_type": "validation",
@@ -12524,10 +12524,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.781035"
+    "added_at": "2025-10-30T11:25:30.735471"
   },
   {
-    "id": "5681579631808367200",
+    "id": "3144130013633350984",
     "name": "User tries to assign key to another user -negative-successful",
     "description": "Ensure that a user can't assign a key to another user",
     "test_type": "validation",
@@ -12548,10 +12548,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.796029"
+    "added_at": "2025-10-30T11:25:30.752860"
   },
   {
-    "id": "-3864759380142027975",
+    "id": "-5722943932268229095",
     "name": "User tries to reassign key to another user -negative-successful",
     "description": "Ensure that a user can't reassign key from another user to themselves or someone else",
     "test_type": "validation",
@@ -12572,10 +12572,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.815563"
+    "added_at": "2025-10-30T11:25:30.768827"
   },
   {
-    "id": "8463621842497446573",
+    "id": "-7373206662330346035",
     "name": "User tries to assign non-existent key-negative-successful",
     "description": "Ensure users can't manipulate payloads to assign fake keys",
     "test_type": "validation",
@@ -12596,10 +12596,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.837186"
+    "added_at": "2025-10-30T11:25:30.783987"
   },
   {
-    "id": "-3030941000396262627",
+    "id": "7842126617271178651",
     "name": "User attempts to assign key to another user using another's user valid JWT token-negative-successful",
     "description": "Ensure that a user can't impersonate another user by reusing their JWT token",
     "test_type": "validation",
@@ -12620,10 +12620,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.860245"
+    "added_at": "2025-10-30T11:25:30.797225"
   },
   {
-    "id": "-6431244506456248812",
+    "id": "-4177720974503737167",
     "name": "Send reservation data to user-negative-successful",
     "description": "User should not be able to request data about reservations",
     "test_type": "validation",
@@ -12644,10 +12644,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.874411"
+    "added_at": "2025-10-30T11:25:30.810790"
   },
   {
-    "id": "-8857892500611896043",
+    "id": "-8479913196002353348",
     "name": "Get all reservations for a year when there are no reservations-negative-successful",
     "description": "Get all reservations if in that year there are no reservations",
     "test_type": "validation",
@@ -12668,10 +12668,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.895011"
+    "added_at": "2025-10-30T11:25:30.824140"
   },
   {
-    "id": "-8954152085066010518",
+    "id": "-2019448218736958762",
     "name": "Get all no. of reservations for the logged in admin(he has no reservations)-negative-successful",
     "description": "Getting all reservations for the admin who is currently logged in, but he has no reservation",
     "test_type": "validation",
@@ -12692,10 +12692,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.917460"
+    "added_at": "2025-10-30T11:25:30.837254"
   },
   {
-    "id": "8829722796835797848",
+    "id": "5736256047801051303",
     "name": "Get all no. of reservations for other user(logged in as admin and user has no reservation)-negative-successful",
     "description": "Admin should be able to see other user's reservations and return a 404 status code if he has none",
     "test_type": "validation",
@@ -12716,10 +12716,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.935514"
+    "added_at": "2025-10-30T11:25:30.851458"
   },
   {
-    "id": "2900511749463847143",
+    "id": "8916451502396892660",
     "name": "Get all no. of reservations for a userId that does not exist-negative-successful",
     "description": "An user that does not exist in the database should return an error",
     "test_type": "validation",
@@ -12740,10 +12740,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.956331"
+    "added_at": "2025-10-30T11:25:30.864656"
   },
   {
-    "id": "5900392031365254451",
+    "id": "6781816201809696309",
     "name": "Get all reservations for other user than the current one who is logged in-negative-successful",
     "description": "User should not be able to see other user's statistics",
     "test_type": "validation",
@@ -12764,10 +12764,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.979119"
+    "added_at": "2025-10-30T11:25:30.877271"
   },
   {
-    "id": "1602900581886007273",
+    "id": "5876884210078993959",
     "name": "Get no.of reservations and do not select the year-negative-successful",
     "description": "If the year is not selected, then no reservation number should be displayed",
     "test_type": "validation",
@@ -12788,10 +12788,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:09.996885"
+    "added_at": "2025-10-30T11:25:30.890529"
   },
   {
-    "id": "-5680366970952662542",
+    "id": "-6349927489519432284",
     "name": "User sees other user's number of reservations for last month-negative-successful",
     "description": "USer should not see other user's reservation",
     "test_type": "validation",
@@ -12812,10 +12812,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.012011"
+    "added_at": "2025-10-30T11:25:30.903269"
   },
   {
-    "id": "5040174345932604863",
+    "id": "-9080898179780300727",
     "name": "An userid that does not exist is inserted-negative-successful",
     "description": "Insert an userId that does not exist in the db",
     "test_type": "validation",
@@ -12836,10 +12836,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.032055"
+    "added_at": "2025-10-30T11:25:30.916180"
   },
   {
-    "id": "4576208189157730873",
+    "id": "-4508313262109178555",
     "name": "User that is not logged in sees any info and reservation from last month-negative-successful",
     "description": "User that is not logged in should not see any statistics",
     "test_type": "validation",
@@ -12860,10 +12860,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.066316"
+    "added_at": "2025-10-30T11:25:30.928871"
   },
   {
-    "id": "-6587063363072420569",
+    "id": "-2137736060920427477",
     "name": "User can see no. of reservations for other users-negative-successful",
     "description": "User should not see other user's number of reservations",
     "test_type": "validation",
@@ -12884,10 +12884,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.110550"
+    "added_at": "2025-10-30T11:25:30.943122"
   },
   {
-    "id": "8995753849121509919",
+    "id": "-576499483731932024",
     "name": "Start date is after end date-negative-successful",
     "description": "Start date should not be after the end date",
     "test_type": "validation",
@@ -12908,10 +12908,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.388928"
+    "added_at": "2025-10-30T11:25:30.957058"
   },
   {
-    "id": "-2990482833619610123",
+    "id": "4711860395208523739",
     "name": "User id does not exist in the database-negative-successful",
     "description": "A user that does not exist in the database should not be able to see anything",
     "test_type": "validation",
@@ -12932,10 +12932,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.644827"
+    "added_at": "2025-10-30T11:25:30.970928"
   },
   {
-    "id": "-8998966344453126757",
+    "id": "-8507803973540632379",
     "name": "Bad format of data-negative-successful",
     "description": "Bad format of data should display an error",
     "test_type": "validation",
@@ -12956,10 +12956,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.684644"
+    "added_at": "2025-10-30T11:25:30.985388"
   },
   {
-    "id": "5142447709350874790",
+    "id": "6849323638885628505",
     "name": "User can request data-negative-successful",
     "description": "User should not be able to request data",
     "test_type": "validation",
@@ -12980,10 +12980,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.713724"
+    "added_at": "2025-10-30T11:25:30.997653"
   },
   {
-    "id": "9092886558368028039",
+    "id": "4159373141285307896",
     "name": "There is no reservation in that selected date-positive-successful",
     "description": "There is no reservation in that selected month and year, so the file should be empty",
     "test_type": "edge_case",
@@ -13004,10 +13004,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.748180"
+    "added_at": "2025-10-30T11:25:31.011758"
   },
   {
-    "id": "1426469992225056961",
+    "id": "1741727032383847247",
     "name": "Year param is not entered-negative-successful",
     "description": "Testing that not entering anything at the year field causes an error",
     "test_type": "validation",
@@ -13028,10 +13028,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.799643"
+    "added_at": "2025-10-30T11:25:31.025652"
   },
   {
-    "id": "-2827735742901040471",
+    "id": "-4938001342600932518",
     "name": "Month param is not entered-negative-successful",
     "description": "Testing to see if not filling the month param returns an error",
     "test_type": "validation",
@@ -13052,10 +13052,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.843961"
+    "added_at": "2025-10-30T11:25:31.040693"
   },
   {
-    "id": "-3857535639275308532",
+    "id": "-4358529737540810735",
     "name": "Bad format of year param(eg: 'labubu')-negative-successful",
     "description": "Testing to see if entering a bad format for the year field returns an error",
     "test_type": "validation",
@@ -13076,10 +13076,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.876676"
+    "added_at": "2025-10-30T11:25:31.054688"
   },
   {
-    "id": "4376390087641000974",
+    "id": "-8308424291092130215",
     "name": "Bad format of month param(eg: 'null')-negative-successful",
     "description": "Testing to see if entering a bad format in the month field returns a bad error",
     "test_type": "validation",
@@ -13100,10 +13100,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.911768"
+    "added_at": "2025-10-30T11:25:31.069636"
   },
   {
-    "id": "-5101131838306963294",
+    "id": "1844723980681878978",
     "name": "Wrong name of month param(eg: 'noveNber')-negative-successful",
     "description": "Testing to see if entering a bad format in the month field returns a bad error",
     "test_type": "validation",
@@ -13124,10 +13124,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.936862"
+    "added_at": "2025-10-30T11:25:31.085351"
   },
   {
-    "id": "9212678545346203617",
+    "id": "4678573827204482558",
     "name": "Month name is case sensitive-negative-unsuccessful",
     "description": "Testing if month name is case sensitive(should not be)",
     "test_type": "validation",
@@ -13148,10 +13148,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.960399"
+    "added_at": "2025-10-30T11:25:31.104668"
   },
   {
-    "id": "-4327619915109059182",
+    "id": "-8126535806610575103",
     "name": "Someone not logged in can export data-negative-successful",
     "description": "Someone who is not logged in should not export data",
     "test_type": "validation",
@@ -13172,10 +13172,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:10.980636"
+    "added_at": "2025-10-30T11:25:31.119339"
   },
   {
-    "id": "7613646872500089843",
+    "id": "-3244644655503371338",
     "name": "User can call this endpoint-negative-successful",
     "description": "An user should not be able see any reservations, not even his",
     "test_type": "validation",
@@ -13196,10 +13196,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.003438"
+    "added_at": "2025-10-30T11:25:31.133428"
   },
   {
-    "id": "-7774922108968117815",
+    "id": "5503431339694673007",
     "name": "An userId that does not exist is entered as parameter-negative-successful",
     "description": "Admin tries to see reservation that belong to a user that does not exist in the db",
     "test_type": "validation",
@@ -13220,10 +13220,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.024495"
+    "added_at": "2025-10-30T11:25:31.148681"
   },
   {
-    "id": "4027311297401827308",
+    "id": "7433346236202639948",
     "name": "Bad format for dates are entered-negative-successful",
     "description": "Checking if bad formats for date are allowed",
     "test_type": "validation",
@@ -13244,10 +13244,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.044907"
+    "added_at": "2025-10-30T11:25:31.165322"
   },
   {
-    "id": "-3064204969089316770",
+    "id": "3148227765379126847",
     "name": "Someone who is not logged in tries to see data about reservations-negative-successful",
     "description": "Someone who is not logged in tries to see data about reservations",
     "test_type": "validation",
@@ -13268,10 +13268,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.066556"
+    "added_at": "2025-10-30T11:25:31.179497"
   },
   {
-    "id": "-6596218261104385980",
+    "id": "-1595594178553521750",
     "name": "Verify Unit test scenarios (Positive & Negative)-positive-successful",
     "description": "Confirm unit tests include both valid/ invalid cases",
     "test_type": "validation",
@@ -13310,10 +13310,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.087026"
+    "added_at": "2025-10-30T11:25:31.193157"
   },
   {
-    "id": "-8565380990524364424",
+    "id": "-953493846325280211",
     "name": "Loggin in using another type of account-negative-successful",
     "description": "Trying to call Microsoft login with another type of account(non-Microsoft account, eg yahoo or gmail)",
     "test_type": "validation",
@@ -13334,10 +13334,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.109323"
+    "added_at": "2025-10-30T11:25:31.207241"
   },
   {
-    "id": "-1674833241490600677",
+    "id": "6139616827259643905",
     "name": "Logging in as user and trying to call an endpoint only an admin can call-negative-successful",
     "description": "Testing that , being logged in as user using Microsoft login method, there is no admin method that the user can call(eg. seeing all users)",
     "test_type": "validation",
@@ -13358,10 +13358,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.130284"
+    "added_at": "2025-10-30T11:25:31.222107"
   },
   {
-    "id": "-8310167968796575371",
+    "id": "4024684422316193259",
     "name": "Logging in with an account that does not exist-negative-successful",
     "description": "Trying to log in with an account that does not exist in the database",
     "test_type": "validation",
@@ -13382,10 +13382,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.148946"
+    "added_at": "2025-10-30T11:25:31.235643"
   },
   {
-    "id": "2461468653334511545",
+    "id": "8358286403886490384",
     "name": "Logging in with another type of Microsoft Account-negative-successful",
     "description": "Users having a non-HTEC Microsoft account should not be able to log in",
     "test_type": "validation",
@@ -13406,10 +13406,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.176209"
+    "added_at": "2025-10-30T11:25:31.250350"
   },
   {
-    "id": "-1284677335792657834",
+    "id": "7898955519715776719",
     "name": "User can call this endpoint-negative-successful",
     "description": "User should not be able to call this method",
     "test_type": "validation",
@@ -13430,10 +13430,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.202812"
+    "added_at": "2025-10-30T11:25:31.263942"
   },
   {
-    "id": "8725025948025073161",
+    "id": "-7844574012178659826",
     "name": "Someone not logged in can call this endpoint-negative-successful",
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "test_type": "validation",
@@ -13454,10 +13454,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.223737"
+    "added_at": "2025-10-30T11:25:31.278745"
   },
   {
-    "id": "1284089870410227782",
+    "id": "-1303257939904012168",
     "name": "Size field is 0-negative-successful",
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "test_type": "validation",
@@ -13478,10 +13478,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.239335"
+    "added_at": "2025-10-30T11:25:31.292460"
   },
   {
-    "id": "7602263034293639677",
+    "id": "6357612853932384267",
     "name": "Page field is 0-negative-successful",
     "description": "Page field should not be 0(index starts at 1)",
     "test_type": "validation",
@@ -13502,10 +13502,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.261489"
+    "added_at": "2025-10-30T11:25:31.305769"
   },
   {
-    "id": "7845322509520129907",
+    "id": "605605842590752697",
     "name": "Size field is empty-negative-successful",
     "description": "Size should not be left unfilled",
     "test_type": "validation",
@@ -13526,10 +13526,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.308665"
+    "added_at": "2025-10-30T11:25:31.319578"
   },
   {
-    "id": "-6618731108532218155",
+    "id": "-1803907801364984903",
     "name": "Page field is empty-negative-successful",
     "description": "Page field should not be left unfilled",
     "test_type": "validation",
@@ -13550,10 +13550,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.325652"
+    "added_at": "2025-10-30T11:25:31.332441"
   },
   {
-    "id": "7818514846231577692",
+    "id": "-2658118960292731065",
     "name": "User can call this endpoint-negative-successful",
     "description": "User should not be able to call this method",
     "test_type": "validation",
@@ -13574,10 +13574,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.340142"
+    "added_at": "2025-10-30T11:25:31.346591"
   },
   {
-    "id": "-1620556362898876001",
+    "id": "4499163994843349222",
     "name": "Someone not logged in can call this endpoint-negative-successful",
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "test_type": "validation",
@@ -13598,10 +13598,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.355072"
+    "added_at": "2025-10-30T11:25:31.362233"
   },
   {
-    "id": "5650602165883814279",
+    "id": "-932948115379345018",
     "name": "Size field is 0-negative-successful",
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "test_type": "validation",
@@ -13622,10 +13622,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.374300"
+    "added_at": "2025-10-30T11:25:31.377377"
   },
   {
-    "id": "8242585137460167134",
+    "id": "6086690575783636262",
     "name": "Page field is 0-negative-successful",
     "description": "Page field should not be 0(index starts at 1)",
     "test_type": "validation",
@@ -13646,10 +13646,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.394895"
+    "added_at": "2025-10-30T11:25:31.391466"
   },
   {
-    "id": "3637248461928703622",
+    "id": "712036797071517822",
     "name": "Size field is empty-negative-successful",
     "description": "Size should not be left unfilled",
     "test_type": "validation",
@@ -13670,10 +13670,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.415992"
+    "added_at": "2025-10-30T11:25:31.405528"
   },
   {
-    "id": "586839957563920275",
+    "id": "-778814465990457181",
     "name": "Page field is empty-negative-successful",
     "description": "Page field should not be left unfilled",
     "test_type": "validation",
@@ -13694,10 +13694,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.444335"
+    "added_at": "2025-10-30T11:25:31.420647"
   },
   {
-    "id": "8653777463049866163",
+    "id": "-5671282676840988681",
     "name": "Someone not logged in can call this endpoint-negative-successful",
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "test_type": "validation",
@@ -13718,10 +13718,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.470443"
+    "added_at": "2025-10-30T11:25:31.435782"
   },
   {
-    "id": "6080668192811315202",
+    "id": "3715177805596600257",
     "name": "Size field is 0-negative-successful",
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "test_type": "validation",
@@ -13742,10 +13742,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.485987"
+    "added_at": "2025-10-30T11:25:31.450645"
   },
   {
-    "id": "7231007388077121494",
+    "id": "5163096902007848539",
     "name": "Page field is 0-negative-successful",
     "description": "Page field should not be 0(index starts at 1)",
     "test_type": "validation",
@@ -13766,10 +13766,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.511504"
+    "added_at": "2025-10-30T11:25:31.464907"
   },
   {
-    "id": "-5935727657227162925",
+    "id": "905363139512666462",
     "name": "Size field is empty-negative-successful",
     "description": "Size should not be left unfilled",
     "test_type": "validation",
@@ -13790,10 +13790,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.535843"
+    "added_at": "2025-10-30T11:25:31.480607"
   },
   {
-    "id": "6803292685615617532",
+    "id": "-3420330640752632372",
     "name": "Page field is empty-negative-successful",
     "description": "Page field should not be left unfilled",
     "test_type": "validation",
@@ -13814,10 +13814,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.552841"
+    "added_at": "2025-10-30T11:25:31.495647"
   },
   {
-    "id": "-7986563930611592996",
+    "id": "5394145024010672012",
     "name": "User can call this endpoint for other user-negative-successful",
     "description": "User should not be able to see other user's reservations",
     "test_type": "validation",
@@ -13838,10 +13838,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.576442"
+    "added_at": "2025-10-30T11:25:31.510547"
   },
   {
-    "id": "-639885603653825432",
+    "id": "-8178447865526100403",
     "name": "TimeFilter field is not selected(neither past or future)-negative",
     "description": "TimeFilter should be set to show reservations from past or future",
     "test_type": "validation",
@@ -13862,10 +13862,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.601887"
+    "added_at": "2025-10-30T11:25:31.526779"
   },
   {
-    "id": "2661463583418830051",
+    "id": "-6438855634269506159",
     "name": "An userId that does not exist in the database is entered-negative",
     "description": "Admin searches reservations for a user that does not exist",
     "test_type": "validation",
@@ -13886,10 +13886,10 @@
     "expected_status": 404,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.629524"
+    "added_at": "2025-10-30T11:25:31.544383"
   },
   {
-    "id": "-5985919601648125561",
+    "id": "-8074688070648324455",
     "name": "User can call this endpoint-negative-successful",
     "description": "User should not be able to call this method",
     "test_type": "validation",
@@ -13910,10 +13910,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.652890"
+    "added_at": "2025-10-30T11:25:31.559445"
   },
   {
-    "id": "-8492369940138650653",
+    "id": "-1880841782237934761",
     "name": "Someone not logged in can call this endpoint-negative-successful",
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "test_type": "validation",
@@ -13934,10 +13934,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.671746"
+    "added_at": "2025-10-30T11:25:31.575244"
   },
   {
-    "id": "-1047023016190142099",
+    "id": "-4791590391169637086",
     "name": "Size field is 0-negative-successful",
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "test_type": "validation",
@@ -13958,10 +13958,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.694961"
+    "added_at": "2025-10-30T11:25:31.591082"
   },
   {
-    "id": "-3750261296347950726",
+    "id": "6865434663563075859",
     "name": "Page field is 0-negative-successful",
     "description": "Page field should not be 0(index starts at 1)",
     "test_type": "validation",
@@ -13982,10 +13982,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.721238"
+    "added_at": "2025-10-30T11:25:31.606928"
   },
   {
-    "id": "1571865801992452826",
+    "id": "-4812686196613234125",
     "name": "Size field is empty-negative-successful",
     "description": "Size should not be left unfilled",
     "test_type": "validation",
@@ -14006,10 +14006,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.741881"
+    "added_at": "2025-10-30T11:25:31.622621"
   },
   {
-    "id": "2673653147034147854",
+    "id": "4404115222378716834",
     "name": "Page field is empty-negative-successful",
     "description": "Page field should not be left unfilled",
     "test_type": "validation",
@@ -14030,10 +14030,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.771889"
+    "added_at": "2025-10-30T11:25:31.638767"
   },
   {
-    "id": "1041880042299464059",
+    "id": "7671091395328858419",
     "name": "User can call this endpoint-negative-successful",
     "description": "User should not be able to call this method",
     "test_type": "validation",
@@ -14054,10 +14054,10 @@
     "expected_status": 403,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.800015"
+    "added_at": "2025-10-30T11:25:31.654320"
   },
   {
-    "id": "3579008636930292025",
+    "id": "4155002432483691963",
     "name": "Someone not logged in can call this endpoint-negative-successful",
     "description": "Someone who is not logged in should not be able to call this endpoint",
     "test_type": "validation",
@@ -14078,10 +14078,10 @@
     "expected_status": 401,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.823857"
+    "added_at": "2025-10-30T11:25:31.669454"
   },
   {
-    "id": "2169298928853222231",
+    "id": "5514201469328703992",
     "name": "Size field is 0-negative-successful",
     "description": "If size is 0, there should be a message that warns the user that the size cannot be 0",
     "test_type": "validation",
@@ -14102,10 +14102,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.852170"
+    "added_at": "2025-10-30T11:25:31.684567"
   },
   {
-    "id": "3638620831078307338",
+    "id": "-3408035731330071035",
     "name": "Page field is 0-negative-successful",
     "description": "Page field should not be 0(index starts at 1)",
     "test_type": "validation",
@@ -14126,10 +14126,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.874784"
+    "added_at": "2025-10-30T11:25:31.701161"
   },
   {
-    "id": "-4256891322875509939",
+    "id": "-2156364316812916592",
     "name": "Size field is empty-negative-successful",
     "description": "Size should not be left unfilled",
     "test_type": "validation",
@@ -14150,10 +14150,10 @@
     "expected_status": 422,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.894965"
+    "added_at": "2025-10-30T11:25:31.716357"
   },
   {
-    "id": "-6296268416468639189",
+    "id": "1534910584061785880",
     "name": "Page field is empty-negative-successful",
     "description": "Page field should not be left unfilled",
     "test_type": "validation",
@@ -14174,10 +14174,10 @@
     "expected_status": 400,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.924120"
+    "added_at": "2025-10-30T11:25:31.732120"
   },
   {
-    "id": "6447322070676211354",
+    "id": "1085593247106434084",
     "name": "passwords are generated according to the regex-user-positive-unsuccessful",
     "description": "All password must respect the regex from the frontend-at least 8 characters, one uppercase letter, one lowercase letter, one special character and one number",
     "test_type": "happy_path",
@@ -14198,10 +14198,10 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.949097"
+    "added_at": "2025-10-30T11:25:31.746835"
   },
   {
-    "id": "7800081886432288755",
+    "id": "-4471353383652857480",
     "name": "Licence plates are generated according to the regex-user-positive",
     "description": "Licence plate should respect the regex-at most 10 characters, alphanumeric characters, can only contain '-' as special characters and only uppercase letters",
     "test_type": "happy_path",
@@ -14222,6 +14222,6 @@
     "expected_status": 200,
     "parameters": [],
     "tags": [],
-    "added_at": "2025-10-28T11:26:11.973969"
+    "added_at": "2025-10-30T11:25:31.763980"
   }
 ]

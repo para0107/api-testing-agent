@@ -1,1 +1,1 @@
-{"dimension": 384, "index_type": "IVF", "nlist": 10, "nprobe": 10, "metric": "cosine"}
+{"dimension": 384, "index_type": "Flat", "nlist": 10, "nprobe": 10, "metric": "cosine"}

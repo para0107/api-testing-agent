@@ -35,7 +35,7 @@ class RAGConfig:
 
     # Retrieval settings
     top_k: int = 10  # Number of results to retrieve
-    similarity_threshold: float = 0.7
+    similarity_threshold: float = 0.3
     rerank: bool = True
     rerank_model: str = "cross-encoder/ms-marco-MiniLM-L-12-v2"
 

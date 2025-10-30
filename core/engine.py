@@ -132,24 +132,78 @@ class CoreEngine:
         """Retrieve relevant context from RAG system"""
         logger.info("Retrieving context from RAG system")
 
-        # Generate embeddings for API specification
-        embeddings = await self.rag_system.generate_embeddings(api_spec)
+        # ✅ FIX: Create search text from endpoints
+        endpoints = api_spec.get('endpoints', [])
+        if not endpoints:
+            logger.warning("No endpoints in API spec for RAG search")
+            return {
+                'similar_tests': [],
+                'edge_cases': [],
+                'validation_patterns': []
+            }
 
-        # Retrieve similar test cases
-        similar_tests = await self.rag_system.retrieve_similar_tests(embeddings)
+        # Build search query from endpoints
+        search_parts = []
+        for endpoint in endpoints[:5]:  # Use first 5 endpoints
+            method = endpoint.get('method', 'GET')
+            path = endpoint.get('path', endpoint.get('endpoint', ''))
+            search_parts.append(f"{method} {path}")
 
-        # Retrieve edge cases
-        edge_cases = await self.rag_system.retrieve_edge_cases(embeddings)
+        search_text = " ".join(search_parts)
+        logger.info(f"RAG search text: {search_text[:200]}...")
 
-        # Retrieve validation patterns
-        validation_patterns = await self.rag_system.retrieve_validation_patterns(embeddings)
+        # Generate embedding from search text
+        embedding = await self.rag_system.embedding_manager.embed_text(search_text)
+        logger.info("Generated embeddings for RAG search")
 
-        return {
-            'similar_tests': similar_tests,
-            'edge_cases': edge_cases,
-            'validation_patterns': validation_patterns,
-            'embeddings': embeddings
-        }
+        # Search with proper k value
+        k = 10  # Retrieve top 10 matches
+
+        # Retrieve from each index
+        try:
+            similar_tests = self.rag_system.vector_store.search('test_patterns', embedding, k=k)
+            edge_cases = self.rag_system.vector_store.search('edge_cases', embedding, k=k)
+            validation_patterns = self.rag_system.vector_store.search('validation_rules', embedding, k=k)
+
+            # Convert to format expected by agents: list of (score, metadata) tuples
+            similar_tests_formatted = self._format_search_results(similar_tests)
+            edge_cases_formatted = self._format_search_results(edge_cases)
+            validation_patterns_formatted = self._format_search_results(validation_patterns)
+
+            logger.info(f"RAG retrieval complete: {len(similar_tests_formatted)} similar tests, "
+                        f"{len(edge_cases_formatted)} edge cases, {len(validation_patterns_formatted)} validation patterns")
+
+            if len(similar_tests_formatted) == 0:
+                logger.warning("No similar tests found in RAG")
+            if len(edge_cases_formatted) == 0:
+                logger.warning("No edge cases found in RAG")
+            if len(validation_patterns_formatted) == 0:
+                logger.warning("No validation patterns found in RAG")
+
+            return {
+                'similar_tests': similar_tests_formatted,
+                'edge_cases': edge_cases_formatted,
+                'validation_patterns': validation_patterns_formatted
+            }
+
+        except Exception as e:
+            logger.error(f"RAG retrieval failed: {e}")
+            return {
+                'similar_tests': [],
+                'edge_cases': [],
+                'validation_patterns': []
+            }
+
+    def _format_search_results(self, search_results) -> List[tuple]:
+        """Format vector store search results to (distance, metadata) tuples"""
+        ids, distances, metadata_list = search_results
+
+        results = []
+        for dist, meta in zip(distances, metadata_list):
+            if meta:  # Only include non-empty metadata
+                results.append((dist, meta))
+
+        return results
 
     async def _generate_tests(self, api_spec: Dict[str, Any], context: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Generate test cases using LLM"""
