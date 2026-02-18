@@ -11,8 +11,13 @@ import asyncio
 import json
 
 from config import settings
-from core.engine import CoreEngine
+from input_processing import InputProcessor
 from llm import LlamaOrchestrator
+from rag import RAGSystem
+from reinforcement_learning import RLOptimizer
+from test_execution.executor import TestExecutor
+from feedback.feedback_loop import FeedbackLoop
+from output.report_generator import ReportGenerator
 from utils.validators import is_valid_test_case, is_valid_api_spec
 
 logger = logging.getLogger(__name__)
@@ -33,7 +38,14 @@ class TestGenerationPipeline:
     def __init__(self):
         logger.info("Initializing Test Generation Pipeline")
 
-        self.engine = CoreEngine()
+        # Own all components directly — CoreEngine has been removed
+        self.input_processor = InputProcessor()
+        self.rag_system = RAGSystem()
+        self.rl_optimizer = RLOptimizer()
+        self.test_executor = TestExecutor()
+        self.feedback_loop = FeedbackLoop()
+        self.report_generator = ReportGenerator()
+
         self.stages = self._define_stages()
         self.stage_results = {}
         self.pipeline_metrics = {}
@@ -152,7 +164,7 @@ class TestGenerationPipeline:
         logger.info("Analyzing API code")
 
         # Use InputProcessor to parse code
-        parsed_data = self.engine.input_processor.parse_code(
+        parsed_data = self.input_processor.parse_code(
             request['code_files'],
             request['language']
         )
@@ -175,14 +187,14 @@ class TestGenerationPipeline:
             wrapped_data = parsed_data
 
         # Build specification
-        api_spec = self.engine.input_processor.build_specification(wrapped_data)
+        api_spec = self.input_processor.build_specification(wrapped_data)
 
         # Extract validation rules
-        validation_rules = self.engine.input_processor.extract_validation_rules(wrapped_data)
+        validation_rules = self.input_processor.extract_validation_rules(wrapped_data)
         api_spec['validation_rules'] = validation_rules
 
         # Extract business logic
-        business_logic = self.engine.input_processor.extract_business_logic(wrapped_data)
+        business_logic = self.input_processor.extract_business_logic(wrapped_data)
         api_spec['business_logic'] = business_logic
 
         # Log what was extracted
@@ -238,12 +250,12 @@ class TestGenerationPipeline:
             logger.info(f"RAG search text: {search_text[:150]}...")
 
             # Generate embeddings
-            embeddings = await self.engine.rag_system.generate_embeddings(search_text)
+            embeddings = await self.rag_system.generate_embeddings(search_text)
             logger.info("Generated embeddings for RAG search")
 
             # Retrieve similar tests
             try:
-                similar_tests = await self.engine.rag_system.retrieve_similar_tests(embeddings, k=10)
+                similar_tests = await self.rag_system.retrieve_similar_tests(embeddings, k=10)
                 if similar_tests:
                     context['similar_tests'] = similar_tests
                     logger.info(f"Retrieved {len(similar_tests)} similar test patterns from RAG")
@@ -254,7 +266,7 @@ class TestGenerationPipeline:
 
             # Retrieve edge cases
             try:
-                edge_cases = await self.engine.rag_system.retrieve_edge_cases(embeddings, k=10)
+                edge_cases = await self.rag_system.retrieve_edge_cases(embeddings, k=10)
                 if edge_cases:
                     context['edge_cases'] = edge_cases
                     logger.info(f"Retrieved {len(edge_cases)} edge cases from RAG")
@@ -265,7 +277,7 @@ class TestGenerationPipeline:
 
             # Retrieve validation patterns
             try:
-                validation_patterns = await self.engine.rag_system.retrieve_validation_patterns(embeddings, k=10)
+                validation_patterns = await self.rag_system.retrieve_validation_patterns(embeddings, k=10)
                 if validation_patterns:
                     context['validation_patterns'] = validation_patterns
                     logger.info(f"Retrieved {len(validation_patterns)} validation patterns from RAG")
@@ -306,14 +318,11 @@ class TestGenerationPipeline:
             logger.info("Checking LM Studio connection...")
             if not await orchestrator.client.check_connection():
                 raise RuntimeError(
-                    "Cannot connect to LM Studio!\n"
-                    "Please ensure:\n"
-                    "  1. LM Studio is installed and running\n"
-                    "  2. A model is loaded (qwen2.5-7b-instruct recommended)\n"
-                    "  3. Server is started on http://127.0.0.1:1234\n"
-                    "  4. Check LM Studio logs for errors"
+                    "Cannot connect to the LLM API. "
+                    "Check that GROQ_API_KEY is set correctly in your .env file "
+                    "and that the base URL in config is reachable."
                 )
-            logger.info("LM Studio connection successful")
+            logger.info("LLM API connection successful")
 
             # Generate tests - Returns dict with: analysis, test_cases, edge_cases, test_data
             result = await orchestrator.generate_test_suite(
@@ -370,10 +379,10 @@ class TestGenerationPipeline:
 
         try:
             # Create state for RL
-            state = self.engine.rl_optimizer.create_state(test_cases, api_spec)
+            state = self.rl_optimizer.create_state(test_cases, api_spec)
 
             # Optimize test selection and ordering
-            optimized_result = self.engine.rl_optimizer.optimize(state, test_cases)
+            optimized_result = self.rl_optimizer.optimize(state, test_cases)
 
             # Handle both coroutine and direct return
             if asyncio.iscoroutine(optimized_result):
@@ -412,11 +421,11 @@ class TestGenerationPipeline:
 
         # Set authentication if provided
         if request.get('auth_token'):
-            self.engine.test_executor.auth_token = request['auth_token']
+            self.test_executor.auth_token = request['auth_token']
 
         # Set SSL verification
         if not request.get('use_ssl', False):
-            self.engine.test_executor.ssl_verify = False
+            self.test_executor.ssl_verify = False
 
         # Execute tests
         logger.info(f"Executing {len(test_cases)} test cases...")
@@ -425,7 +434,7 @@ class TestGenerationPipeline:
         for idx, test in enumerate(test_cases, 1):
             try:
                 logger.info(f"Executing test {idx}/{len(test_cases)}: {test.get('name', 'unknown')}")
-                result = await self.engine.test_executor.execute_test(
+                result = await self.test_executor.execute_test(
                     test,
                     request['endpoint_url']
                 )
@@ -453,7 +462,7 @@ class TestGenerationPipeline:
 
         # Update RAG system
         try:
-            await self.engine.feedback_loop.update_rag(execution_results)
+            await self.feedback_loop.update_rag(execution_results)
             logger.info("RAG system updated with new patterns")
         except Exception as e:
             logger.warning(f"RAG update failed: {e}")
@@ -462,12 +471,12 @@ class TestGenerationPipeline:
         try:
             # Calculate reward and update RL
             for result in execution_results:
-                state = self.engine.rl_optimizer.create_state(
+                state = self.rl_optimizer.create_state(
                     [result['test']],
                     self.stage_results.get('analysis', {})
                 )
                 reward = 1.0 if result.get('passed') else -0.5
-                self.engine.rl_optimizer.update_from_feedback(
+                self.rl_optimizer.update_from_feedback(
                     state, None, reward, state, True
                 )
             logger.info("RL model updated with execution feedback")
@@ -482,7 +491,7 @@ class TestGenerationPipeline:
 
         # Generate report using ReportWriterAgent
         try:
-            report = await self.engine.report_generator.generate(
+            report = await self.report_generator.generate(
                 execution_results,
                 self.stage_results.get('analysis', {})
             )

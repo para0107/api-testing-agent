@@ -35,19 +35,15 @@ class ReportWriterAgent(BaseAgent):
         Returns:
             Formatted test report
         """
-        # Generate summary
         summary = self._generate_summary(execution_results)
 
-        # Generate detailed test cases
         test_cases = []
         for result in execution_results:
             test_case = await self._generate_test_case_report(result)
             test_cases.append(test_case)
 
-        # Generate recommendations
         recommendations = await self._generate_recommendations(execution_results)
 
-        # Compile final report
         report = {
             'title': f"API Test Report - {session.get('id', 'Unknown Session')}",
             'generated_at': datetime.now().isoformat(),
@@ -69,7 +65,6 @@ class ReportWriterAgent(BaseAgent):
         passed = sum(1 for r in execution_results if r.get('passed', False))
         failed = total - passed
 
-        # Group by test type
         by_type = {}
         for result in execution_results:
             test_type = result.get('test_type', 'unknown')
@@ -81,7 +76,6 @@ class ReportWriterAgent(BaseAgent):
             else:
                 by_type[test_type]['failed'] += 1
 
-        # Find critical failures
         critical_failures = [
             r for r in execution_results
             if not r.get('passed', False) and
@@ -100,30 +94,18 @@ class ReportWriterAgent(BaseAgent):
 
     async def _generate_test_case_report(self, result: Dict[str, Any]) -> Dict[str, Any]:
         """Generate report for individual test case"""
-
-        # QASE-style format
         test_report = {
             'title': result.get('name', 'Unnamed Test'),
             'status': 'PASSED' if result.get('passed', False) else 'FAILED',
             'severity': self._determine_severity(result),
             'priority': self._determine_priority(result),
             'test_type': result.get('test_type', 'unknown'),
-
-            # Preconditions
             'preconditions': await self._generate_preconditions(result),
-
-            # Steps
             'steps': await self._generate_steps(result),
-
-            # Expected vs Actual
             'expected_result': result.get('expected', 'N/A'),
             'actual_result': result.get('actual', 'N/A'),
-
-            # Additional details
             'execution_time': result.get('execution_time', 0),
             'error': result.get('error') if not result.get('passed', False) else None,
-
-            # Attachments
             'attachments': {
                 'request': result.get('request_data'),
                 'response': result.get('response_data'),
@@ -131,7 +113,6 @@ class ReportWriterAgent(BaseAgent):
             }
         }
 
-        # Add description if test failed
         if not result.get('passed', False):
             test_report['failure_analysis'] = await self._analyze_failure(result)
 
@@ -141,18 +122,14 @@ class ReportWriterAgent(BaseAgent):
         """Generate test preconditions"""
         preconditions = []
 
-        # API availability
         preconditions.append(f"API endpoint {result.get('endpoint', 'N/A')} is available")
 
-        # Authentication
         if result.get('test_type') != 'authentication':
             preconditions.append("Valid authentication token is available")
 
-        # Test data
         if result.get('test_data'):
             preconditions.append("Test data is prepared and valid")
 
-        # Dependencies
         if result.get('dependencies'):
             for dep in result['dependencies']:
                 preconditions.append(f"Service {dep} is available")
@@ -163,26 +140,22 @@ class ReportWriterAgent(BaseAgent):
         """Generate test steps"""
         steps = []
 
-        # Setup step
         steps.append({
             'action': 'Setup test environment',
             'expected': 'Environment is ready'
         })
 
-        # Prepare data step
         if result.get('test_data'):
             steps.append({
                 'action': f"Prepare test data: {self._format_test_data(result['test_data'])}",
                 'expected': 'Test data is valid'
             })
 
-        # Execute request step
         steps.append({
             'action': f"Send {result.get('method', 'HTTP')} request to {result.get('endpoint', 'endpoint')}",
             'expected': f"Receive response with status {result.get('expected_status', '200')}"
         })
 
-        # Validation steps
         if result.get('assertions'):
             for assertion in result['assertions']:
                 steps.append({
@@ -190,114 +163,112 @@ class ReportWriterAgent(BaseAgent):
                     'expected': 'Assertion passes'
                 })
 
-                # Cleanup step
-            steps.append({
-                'action': 'Clean up test data',
-                'expected': 'Test environment is reset'
-            })
+        # BUG FIX: cleanup step was inside the assertions `if` block — moved to always execute
+        steps.append({
+            'action': 'Clean up test data',
+            'expected': 'Test environment is reset'
+        })
 
-            return steps
+        return steps
 
-        async def _analyze_failure(self, result: Dict[str, Any]) -> str:
-            """Analyze test failure and generate description"""
-            prompt = f"""Analyze the following test failure and provide a brief explanation:
+    async def _analyze_failure(self, result: Dict[str, Any]) -> str:
+        """Analyze test failure and generate description"""
+        prompt = f"""Analyze the following test failure and provide a brief explanation:
 
-            Test: {result.get('name')}
-            Type: {result.get('test_type')}
-            Expected: {result.get('expected')}
-            Actual: {result.get('actual')}
-            Error: {result.get('error')}
+        Test: {result.get('name')}
+        Type: {result.get('test_type')}
+        Expected: {result.get('expected')}
+        Actual: {result.get('actual')}
+        Error: {result.get('error')}
 
-            Provide a concise analysis of:
-            1. Why the test failed
-            2. Potential root cause
-            3. Severity of the issue
-            4. Recommended action
+        Provide a concise analysis of:
+        1. Why the test failed
+        2. Potential root cause
+        3. Severity of the issue
+        4. Recommended action
 
-            Keep the response under 100 words."""
+        Keep the response under 100 words."""
 
-            analysis = await self.generate_with_retry(prompt)
-            return analysis
+        analysis = await self.generate_with_retry(prompt)
+        return analysis
 
-        async def _generate_recommendations(self, execution_results: List[Dict[str, Any]]) -> List[str]:
-            """Generate recommendations based on test results"""
-            # Analyze patterns
-            failures = [r for r in execution_results if not r.get('passed', False)]
+    async def _generate_recommendations(self, execution_results: List[Dict[str, Any]]) -> List[str]:
+        """Generate recommendations based on test results"""
+        failures = [r for r in execution_results if not r.get('passed', False)]
 
-            if not failures:
-                return ["All tests passed. Continue monitoring for regressions."]
+        if not failures:
+            return ["All tests passed. Continue monitoring for regressions."]
 
-            # Group failures
-            failure_types = {}
-            for failure in failures:
-                test_type = failure.get('test_type', 'unknown')
-                if test_type not in failure_types:
-                    failure_types[test_type] = []
-                failure_types[test_type].append(failure)
+        failure_types = {}
+        for failure in failures:
+            test_type = failure.get('test_type', 'unknown')
+            if test_type not in failure_types:
+                failure_types[test_type] = []
+            failure_types[test_type].append(failure)
 
-            prompt = f"""Based on the following test failures, provide actionable recommendations:
+        prompt = f"""Based on the following test failures, provide actionable recommendations:
 
-            Failure Summary:
-            {self._format_failure_summary(failure_types)}
+        Failure Summary:
+        {self._format_failure_summary(failure_types)}
 
-            Generate 3-5 specific recommendations for:
-            1. Critical issues that need immediate attention
-            2. Patterns indicating systematic problems
-            3. Areas needing additional test coverage
-            4. Performance or security concerns
+        Generate 3-5 specific recommendations for:
+        1. Critical issues that need immediate attention
+        2. Patterns indicating systematic problems
+        3. Areas needing additional test coverage
+        4. Performance or security concerns
 
-            Return as a JSON array of strings."""
+        Return as a JSON array of strings."""
 
-            recommendations = await self.generate_json_with_retry(prompt)
+        recommendations = await self.generate_json_with_retry(prompt)
 
-            if isinstance(recommendations, dict):
-                recommendations = recommendations.get('recommendations', [])
+        if isinstance(recommendations, dict):
+            recommendations = recommendations.get('recommendations', [])
 
-            return recommendations
+        return recommendations
 
-        def _determine_severity(self, result: Dict[str, Any]) -> str:
-            """Determine test severity"""
-            test_type = result.get('test_type', '')
+    def _determine_severity(self, result: Dict[str, Any]) -> str:
+        """Determine test severity"""
+        test_type = result.get('test_type', '')
 
-            if test_type in ['authentication', 'security_edge_case']:
-                return 'critical'
-            elif test_type in ['validation', 'error_handling']:
-                return 'major'
-            elif test_type in ['boundary', 'edge_case']:
-                return 'normal'
+        if test_type in ['authentication', 'security_edge_case']:
+            return 'critical'
+        elif test_type in ['validation', 'error_handling']:
+            return 'major'
+        elif test_type in ['boundary', 'edge_case']:
+            return 'normal'
+        else:
+            return 'minor'
+
+    def _determine_priority(self, result: Dict[str, Any]) -> str:
+        """Determine test priority"""
+        if not result.get('passed', False):
+            severity = self._determine_severity(result)
+            if severity == 'critical':
+                return 'high'
+            elif severity == 'major':
+                return 'medium'
             else:
-                return 'minor'
+                return 'low'
+        return 'low'
 
-        def _determine_priority(self, result: Dict[str, Any]) -> str:
-            """Determine test priority"""
-            if not result.get('passed', False):
-                severity = self._determine_severity(result)
-                if severity == 'critical':
-                    return 'high'
-                elif severity == 'major':
-                    return 'medium'
-                else:
-                    return 'low'
-            return 'low'
+    def _format_test_data(self, test_data: Any) -> str:
+        """Format test data for display"""
+        if isinstance(test_data, dict):
+            return ', '.join([f"{k}={v}" for k, v in list(test_data.items())[:3]])
+        return str(test_data)[:100]
 
-        def _format_test_data(self, test_data: Any) -> str:
-            """Format test data for display"""
-            if isinstance(test_data, dict):
-                return ', '.join([f"{k}={v}" for k, v in list(test_data.items())[:3]])
-            return str(test_data)[:100]
+    def _format_failure_summary(self, failure_types: Dict[str, List]) -> str:
+        """Format failure summary for prompt"""
+        summary = []
+        for test_type, failures in failure_types.items():
+            summary.append(f"- {test_type}: {len(failures)} failures")
+            for failure in failures[:2]:
+                summary.append(f"  * {failure.get('name', 'Test')}: {failure.get('error', 'Unknown error')}")
+        return '\n'.join(summary)
 
-        def _format_failure_summary(self, failure_types: Dict[str, List]) -> str:
-            """Format failure summary for prompt"""
-            summary = []
-            for test_type, failures in failure_types.items():
-                summary.append(f"- {test_type}: {len(failures)} failures")
-                for failure in failures[:2]:  # Show first 2 examples
-                    summary.append(f"  * {failure.get('name', 'Test')}: {failure.get('error', 'Unknown error')}")
-            return '\n'.join(summary)
-
-        def _calculate_total_duration(self, results: List[Dict[str, Any]]) -> float:
-            """Calculate total test duration"""
-            total = 0
-            for result in results:
-                total += result.get('execution_time', 0)
-            return round(total, 2)
+    def _calculate_total_duration(self, results: List[Dict[str, Any]]) -> float:
+        """Calculate total test duration"""
+        total = 0
+        for result in results:
+            total += result.get('execution_time', 0)
+        return round(total, 2)

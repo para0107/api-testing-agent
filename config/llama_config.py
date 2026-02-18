@@ -13,9 +13,9 @@ class LlamaConfig:
     """Configuration for qwen 2.5-7B-instruct via LM Studio"""
 
     # Connection settings
-    base_url: str = os.getenv("LLAMA_BASE_URL", "http://127.0.0.1:1234/v1")
-    api_key: str = os.getenv("LLAMA_API_KEY", "not-needed")
-    model_name: str = os.getenv("LLAMA_MODEL", "qwen2.5-7B-instruct")
+    base_url: str = os.getenv("LLAMA_BASE_URL", "https://api.groq.com/openai/v1")
+    api_key: str = os.getenv("GROQ_API_KEY", "")
+    model_name: str = os.getenv("LLAMA_MODEL", "llama-3.3-70b-versatile")
 
     # Model parameters - OPTIMIZED FOR 3B MODEL
     temperature: float = 0.7
@@ -38,12 +38,12 @@ class LlamaConfig:
     # Retry settings
     max_retries: int = 3
     retry_delay: float = 1.0
-    timeout: int = 180 # INCREASED from 60
+    timeout: int = 60
 
     # Response settings
     stream: bool = False
     # CRITICAL FIX: Remove "\n\n\n" that causes premature stopping
-    stop_sequences: list = field(default_factory=lambda: ["<|end|>", "<|endoftext|>", "|im_end|"])
+    stop_sequences: list = field(default_factory=lambda: [])
 
     def __post_init__(self):
         """Debug: Check what agent_temperatures actually is"""
